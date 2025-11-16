@@ -25,6 +25,7 @@ const Predicas = () => {
     };
     loadPredicas();
   },[]); 
+
   
   if (loading) return <Loading />;
   if (!predicas.length) return <p className="text-center mt-10 text-gray-600">No hay prédicas disponibles.</p>;
