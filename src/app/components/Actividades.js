@@ -25,14 +25,14 @@ const Actividades = () => {
   if (!actividades.length) return <p className="text-center mt-10 text-gray-600">No hay actividades disponibles.</p>;
 
   return (
-    <div className="bg-[#000000] min-h-screen py-10 px-6">
-      <h3 className="text-3xl text-left pl-30 m-5 font-bold">Actividades</h3>
+    <div className="min-h-screen py-10 px-6">
+      <h3 className="text-3xl max-w-4xl mx-auto text-left mb-8 font-bold">Actividades</h3>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
         {actividades.map((actividad) => (
         <Link key={actividad._id} href={`/categoriasActividades/${actividad._id}`}>
           <div
-            className="relative cursor-pointer bg-black rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 active:scale-95 overflow-hidden flex flex-col items-center text-center"
+            className="relative cursor-pointer rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 active:scale-95 overflow-hidden flex flex-col items-center text-center"
           >
             <Image
               src={actividad.Portada}
@@ -58,9 +58,3 @@ const Actividades = () => {
 };
 
 export default Actividades;
-
-{/*<Link 
-            key={actividad._id}
-            href={`/actindividual?id=${actividad._id}`}
-            className="relative cursor-pointer bg-black rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 active:scale-95 overflow-hidden flex flex-col items-center text-center"
-          > */}

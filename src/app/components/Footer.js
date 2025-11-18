@@ -12,7 +12,7 @@ const Footer = () => {
         <h2 className="text-3xl font-bold mb-6">La Casa del Alfarero</h2>
 
         {/*redes sociales */}
-        <div className="flex justify-center flex-wrap gap-8 mb-8">
+        <div className="flex justify-center flex-wrap gap-8 mb-15 mt-15">
           {redes.map((red) => ( //recorre el objeto y hace todo clickeable 
             <a
               key={red.nombre}
@@ -33,7 +33,7 @@ const Footer = () => {
           ))}
         </div>
 
-        <p className="text-lg mt-4">© Copyright 2025</p>
+        <p className="text-lg mt-4 text-gray-400">© Copyright 2025</p>
       </div>
     </footer>
   );
