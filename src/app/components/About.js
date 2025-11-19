@@ -1,7 +1,9 @@
+'use client';
+
 import Image from "next/image"
-import { useAppContext } from "@/app/context/AppContext"
 
 const About = () => {
+
   return (
     <div className="relative min-h-screen flex items-center justify-center px-5 md:px-10 py-5">
 

@@ -3,10 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { useAppContext } from "@/app/context/AppContext";
 
 const Navbar = () => {
-  const { searchTerm, setSearchTerm } = useAppContext();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -37,13 +35,6 @@ const Navbar = () => {
               menuOpen ? "block absolute top-[72px] left-0 z-10" : "hidden"
             } lg:flex lg:items-center lg:gap-6 lg:ml-auto lg:mt-0 bg-black rounded-b-xl p-4 lg:p-0 shadow-lg`}
           >
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="🔍 Buscar..."
-              className="w-full mr-15 lg:w-64 p-2 rounded-md border border-gray-700 bg-gray-900 text-white placeholder-gray-400 mb-3 lg:mb-0"
-            />
 
             <ul className="flex flex-col lg:flex-row gap-2 lg:gap-10 text-gray-300 px-2 lg:px-0 items-stretch lg:items-center">
               

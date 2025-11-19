@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 const AppContext = createContext();
@@ -10,6 +10,33 @@ export const AppProvider = ({ children }) => {
   const [actividades, setActividades] = useState([]); //estas son las que necesito del back
   const [predicas, setPredicas] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); //busqueda
+  const [modal, setModal] = useState({ open: false, mensaje: "", error: false });
+  const [loading, setLoading] = useState(false);
+
+  const enviarContacto = async (formData) => {
+    setLoading(true);
+    try {
+        const res = await fetch(`${API_URL}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setModal({ open: true, mensaje: "Formulario enviado correctamente!", error: false });
+        return true;
+      } else {
+        setModal({ open: true, mensaje: "Hubo un error al enviar el mensaje.", error: true });
+        return false;
+      }
+    } catch (err) {
+      console.error("Error enviando al backend:", err);
+      setModal({ open: true, mensaje: "Hubo un error al enviar el mensaje.", error: true });
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
    // ACTIVIDADES
   const fetchActividades = async () => { //fetch es una fucncion asincronica
@@ -55,7 +82,11 @@ export const AppProvider = ({ children }) => {
         actividades,
         fetchActividades,
         predicas,
-        fetchPredicas
+        fetchPredicas,
+        enviarContacto, 
+        loading, 
+        modal, 
+        setModal,
       }}
     >
       {children}

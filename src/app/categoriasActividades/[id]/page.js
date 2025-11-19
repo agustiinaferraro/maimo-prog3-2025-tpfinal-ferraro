@@ -78,17 +78,17 @@ const Page = () => {
         ))}
       </div>
 
-      {/* Botones de navegación de actividades abajo */}
+      {/* botones para navegar en miniatura */}
       <div className="flex justify-center gap-4 mt-6">
         <button
           onClick={prevActividad}
-          className="cursor-pointer bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 text-2xl"
+          className="cursor-pointer bg-gray-800 text-white px-4 py-2 rounded text-2xl transform transition-transform duration-200 hover:bg-gray-700 hover:scale-105 active:scale-95"
         >
           ‹
         </button>
         <button
           onClick={nextActividad}
-          className="cursor-pointer bg-black text-white px-4 py-2 rounded hover:bg-gray-800 text-2xl"
+          className="cursor-pointer bg-black text-white px-4 py-2 rounded text-2xl transform transition-transform duration-200 hover:bg-gray-800 hover:scale-105 active:scale-95"
         >
           ›
         </button>
@@ -98,27 +98,28 @@ const Page = () => {
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
           <button
             onClick={closeLightbox}
-            className="cursor-pointer absolute top-5 right-5 text-white text-3xl font-bold z-50"
+            className="cursor-pointer absolute top-5 right-5 text-white text-3xl font-bold z-50 transform transition-transform duration-200 hover:scale-110 active:scale-90"
           >
             ×
           </button>
 
           <button
             onClick={prevImage}
-            className="cursor-pointer absolute left-5 text-white text-3xl font-bold z-50"
+            className="m-2 cursor-pointer absolute left-5 text-white text-5xl font-bold z-50 transform transition-transform duration-200 hover:scale-110 active:scale-90"
           >
             ‹
           </button>
 
           <div className="relative">
-            <Image
-              src={actividad.ImagenesActividades[currentIndex]}
-              width={800}
-              height={800}
-              alt={`${actividad.ActividadNombre} - imagen ${currentIndex + 1}`}
-              className="max-h-[90vh] object-contain rounded-lg"
-              unoptimized
-            />
+         <Image
+          src={actividad.ImagenesActividades[currentIndex]}
+          width={800}      
+          height={800}     
+          alt={`${actividad.ActividadNombre} - imagen ${currentIndex + 1}`}
+          className="max-h-[90vh] object-contain rounded-lg mx-auto"
+          style={{ maxWidth: '60vw' }} // para ancho e el celu
+          unoptimized
+        />
             <span className="absolute bottom-2 right-1/2 translate-x-1/2 text-white text-lg">
               {currentIndex + 1} / {actividad.ImagenesActividades.length}
             </span>
@@ -126,7 +127,7 @@ const Page = () => {
 
           <button
             onClick={nextImage}
-            className="cursor-pointer absolute right-5 text-white text-3xl font-bold z-50"
+            className="m-2 cursor-pointer absolute right-5 text-white text-5xl font-bold z-50 transform transition-transform duration-200 hover:scale-110 active:scale-90"
           >
             ›
           </button>
