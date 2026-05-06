@@ -14,7 +14,7 @@ const HomeContainer = () => {
         <About />
         <Actindividual />
         <Actividades />
-        <Predicas />
+        <Predicas isCarousel={true} />
       </div>
     );
   } catch (error) {
