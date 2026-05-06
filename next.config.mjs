@@ -14,6 +14,11 @@ const nextConfig = {
         port: "4000",
         pathname: "/img/**",
       },
+      {
+        protocol: "https",
+        hostname: "prog3-tp-finalback-ferraroagustina.vercel.app",
+        pathname: "/img/**",
+      },
     ],
   },
 };
