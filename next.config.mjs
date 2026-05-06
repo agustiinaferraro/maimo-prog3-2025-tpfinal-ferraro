@@ -20,6 +20,7 @@ const nextConfig = {
         pathname: "/img/**",
       },
     ],
+    qualities: [75],
   },
 };
 
