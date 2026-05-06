@@ -35,3 +35,12 @@ body::before {
   pointer-events: none;
   z-index: -1; /* Queda detrás del contenido */
 }
+
+/* Ocultar barra de scroll para carrusel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
