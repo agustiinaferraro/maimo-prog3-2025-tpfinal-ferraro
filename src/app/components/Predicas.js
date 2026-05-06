@@ -5,7 +5,7 @@ import { useAppContext } from "@/app/context/AppContext";
 import Image from "next/image";
 import Loading from "./Loading";
 
-const Predicas = () => {
+const Predicas = ({ isCarousel = false }) => {
   const { predicas, fetchPredicas } = useAppContext();
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
@@ -34,38 +34,73 @@ const Predicas = () => {
   return (
     <div className="py-10 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h3 className="text-3xl font-bold">Prédicas</h3>
-          <a
-            href="/predicas"
-            className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
-          >
-            Ver más
-          </a>
-        </div>
+        <h3 className="text-3xl font-bold mb-8">Prédicas</h3>
 
-        <div className="relative group">
-          <button
-            onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 -ml-4"
-            aria-label="Anterior"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-          </button>
+        {isCarousel ? (
+          <>
+            <div className="relative group">
+              <button
+                onClick={() => scroll('left')}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                aria-label="Anterior"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
 
-          <div
-            ref={scrollRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
+              <div
+                ref={scrollRef}
+                className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4 px-12"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {predicas.map((predica) => (
+                  <div
+                    key={predica._id}
+                    className="min-w-[300px] md:min-w-[350px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden p-8 flex flex-col items-center text-center bg-black/10 backdrop-blur-md border border-white/20"
+                  >
+                    <h3 className="text-xl font-semibold mb-4 line-clamp-2">{predica.title}</h3>
+
+                    <a
+                      href={predica.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Ver en YouTube
+                    </a>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => scroll('right')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                aria-label="Siguiente"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="flex justify-center mt-8">
+              <a
+                href="/predicas"
+                className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
+              >
+                Ver más
+              </a>
+            </div>
+          </>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
             {predicas.map((predica) => (
               <div
                 key={predica._id}
-                className="min-w-[300px] md:min-w-[350px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden p-8 flex flex-col items-center text-center bg-black/10 backdrop-blur-md border border-white/20"
+                className="rounded-2xl shadow-xl overflow-hidden p-10 flex flex-col items-center text-center bg-black/10 backdrop-blur-md border border-white/20"
               >
-                <h3 className="text-xl font-semibold mb-4 line-clamp-2">{predica.title}</h3>
+                <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
 
                 <a
                   href={predica.link}
@@ -78,17 +113,7 @@ const Predicas = () => {
               </div>
             ))}
           </div>
-
-          <button
-            onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 -mr-4"
-            aria-label="Siguiente"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
