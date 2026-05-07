@@ -88,7 +88,7 @@ const Predicas = ({ isCarousel = false }) => {
             <div className="flex justify-end mt-8">
               <a
                 href="/predicas"
-                className="cursor-pointer px-6 py-2 bg-white text-black rounded-lg hover:scale-110 active:scale-90 transition-all duration-200"
+                className="cursor-pointer px-6 py-2 bg-white text-black rounded-lg hover:scale-110 hover:brightness-125 active:scale-90 active:brightness-75 transition-all duration-200"
               >
                 Ver más
               </a>
