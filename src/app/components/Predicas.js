@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useAppContext } from "@/app/context/AppContext";
-import Image from "next/image";
 import Loading from "./Loading";
 
 const Predicas = ({ isCarousel = false }) => {
@@ -34,14 +33,22 @@ const Predicas = ({ isCarousel = false }) => {
   return (
     <div className="py-10 px-6">
       <div className="max-w-6xl mx-auto">
-        <h3 className="text-3xl font-bold mb-8">Prédicas</h3>
-
         {isCarousel ? (
           <>
-            <div className="relative group">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-3xl font-bold">Prédicas</h3>
+              <a
+                href="/predicas"
+                className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
+              >
+                Ver más
+              </a>
+            </div>
+
+            <div className="flex items-center gap-4">
               <button
                 onClick={() => scroll('left')}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                className="flex-shrink-0 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Anterior"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -51,7 +58,7 @@ const Predicas = ({ isCarousel = false }) => {
 
               <div
                 ref={scrollRef}
-                className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4 px-12"
+                className="flex-1 flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {predicas.map((predica) => (
@@ -75,7 +82,7 @@ const Predicas = ({ isCarousel = false }) => {
 
               <button
                 onClick={() => scroll('right')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                className="flex-shrink-0 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Siguiente"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -83,36 +90,30 @@ const Predicas = ({ isCarousel = false }) => {
                 </svg>
               </button>
             </div>
-
-            <div className="flex justify-center mt-8">
-              <a
-                href="/predicas"
-                className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
-              >
-                Ver más
-              </a>
-            </div>
           </>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-            {predicas.map((predica) => (
-              <div
-                key={predica._id}
-                className="rounded-2xl shadow-xl overflow-hidden p-10 flex flex-col items-center text-center bg-black/10 backdrop-blur-md border border-white/20"
-              >
-                <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
-
-                <a
-                  href={predica.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+          <>
+            <h3 className="text-3xl font-bold mb-8">Prédicas</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+              {predicas.map((predica) => (
+                <div
+                  key={predica._id}
+                  className="rounded-2xl shadow-xl overflow-hidden p-10 flex flex-col items-center text-center bg-black/10 backdrop-blur-md border border-white/20"
                 >
-                  Ver en YouTube
-                </a>
-              </div>
-            ))}
-          </div>
+                  <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
+
+                  <a
+                    href={predica.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                  >
+                    Ver en YouTube
+                  </a>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
