@@ -35,20 +35,14 @@ const Predicas = ({ isCarousel = false }) => {
       <div className="max-w-4xl mx-auto">
         {isCarousel ? (
           <>
-            <div className="flex justify-between items-center mb-6">
+            <div className="mb-6">
               <h3 className="text-3xl font-bold">Prédicas</h3>
-              <a
-                href="/predicas"
-                className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
-              >
-                Ver más
-              </a>
             </div>
 
             <div className="flex items-center gap-4">
               <button
                 onClick={() => scroll('left')}
-                className="flex-shrink-0 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Anterior"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -72,7 +66,7 @@ const Predicas = ({ isCarousel = false }) => {
                       href={predica.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="cursor-pointer text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
                     >
                       Ver en YouTube
                     </a>
@@ -82,13 +76,22 @@ const Predicas = ({ isCarousel = false }) => {
 
               <button
                 onClick={() => scroll('right')}
-                className="flex-shrink-0 text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Siguiente"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </button>
+            </div>
+
+            <div className="flex justify-center mt-8">
+              <a
+                href="/predicas"
+                className="cursor-pointer px-6 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                Ver más
+              </a>
             </div>
           </>
         ) : (
@@ -102,14 +105,14 @@ const Predicas = ({ isCarousel = false }) => {
                 >
                   <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
 
-                  <a
-                    href={predica.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Ver en YouTube
-                  </a>
+                    <a
+                      href={predica.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-pointer text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Ver en YouTube
+                    </a>
                 </div>
               ))}
             </div>
