@@ -32,7 +32,7 @@ const Predicas = ({ isCarousel = false }) => {
 
   return (
     <div className="py-10 px-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {isCarousel ? (
           <>
             <div className="flex justify-between items-center mb-6">
