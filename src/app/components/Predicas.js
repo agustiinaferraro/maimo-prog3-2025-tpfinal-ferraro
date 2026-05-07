@@ -85,7 +85,7 @@ const Predicas = ({ isCarousel = false }) => {
               </button>
             </div>
 
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-start mt-8">
               <a
                 href="/predicas"
                 className="cursor-pointer px-6 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
