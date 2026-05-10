@@ -2,7 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useAppContext } from "@/app/context/AppContext";
+import Image from "next/image";
 import Loading from "./Loading";
+
+const getYoutubeId = (url) => {
+  if (!url) return null;
+  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+};
 
 const Predicas = ({ isCarousel = false }) => {
   const { predicas, fetchPredicas } = useAppContext();
@@ -58,18 +65,36 @@ const Predicas = ({ isCarousel = false }) => {
                 {predicas.map((predica) => (
                   <div
                     key={predica._id}
-                    className="min-w-[300px] md:min-w-[350px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden p-8 flex flex-col items-center text-center bg-black/10 backdrop-blur-md border border-white/20"
+                    className="min-w-[220px] sm:min-w-[260px] md:min-w-[300px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
                   >
-                    <h3 className="text-xl font-semibold mb-4 line-clamp-2">{predica.title}</h3>
-
-                    <a
-                      href={predica.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cursor-pointer text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
-                    >
-                      Ver en YouTube
-                    </a>
+                    {getYoutubeId(predica.link) && (
+                      <div className="relative w-full aspect-video">
+                        <img
+                          src={`https://img.youtube.com/vi/${getYoutubeId(predica.link)}/hqdefault.jpg`}
+                          alt={predica.title}
+                          className="w-full h-full object-cover"
+                          onError={(e) => { e.target.style.display = 'none' }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center opacity-90">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    <div className="p-6 flex flex-col items-center text-center flex-1">
+                      <h3 className="text-lg font-semibold mb-3 line-clamp-2">{predica.title}</h3>
+                      <a
+                        href={predica.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer text-black bg-gray-200 mt-auto px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm"
+                      >
+                        Ver en YouTube
+                      </a>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -101,18 +126,36 @@ const Predicas = ({ isCarousel = false }) => {
               {predicas.map((predica) => (
                 <div
                   key={predica._id}
-                  className="rounded-2xl shadow-xl overflow-hidden p-10 flex flex-col items-center text-center bg-black/10 backdrop-blur-md border border-white/20"
+                  className="rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
                 >
-                  <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
-
+                  {getYoutubeId(predica.link) && (
+                    <div className="relative w-full aspect-video">
+                      <img
+                        src={`https://img.youtube.com/vi/${getYoutubeId(predica.link)}/hqdefault.jpg`}
+                        alt={predica.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.target.style.display = 'none' }}
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center opacity-90">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="p-8 flex flex-col items-center text-center flex-1">
+                    <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
                     <a
                       href={predica.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="cursor-pointer text-black bg-gray-200 mt-3 px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="cursor-pointer text-black bg-gray-200 mt-auto px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
                     >
                       Ver en YouTube
                     </a>
+                  </div>
                 </div>
               ))}
             </div>
