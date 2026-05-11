@@ -6,7 +6,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Calendario = () => {
   const [imgSrc, setImgSrc] = useState("/img/calendario.jpeg");
-  const [driveLink, setDriveLink] = useState("https://drive.google.com/drive/folders/1aNBdgeJWUk-JDmTto3Y_nukO9yIji4Kt");
 
   useEffect(() => {
     fetch(`${API_URL}/calendario-image`)
@@ -19,7 +18,7 @@ const Calendario = () => {
   return (
     <div className="flex items-center justify-center min-h-[50vh]">
       <div className="mx-auto max-w-[90vw] sm:max-w-[70vw] md:max-w-[50vw] m-5">
-        <a href={driveLink} target="_blank" rel="noopener noreferrer">
+        <a href={imgSrc} target="_blank" rel="noopener noreferrer">
           <img
             src={imgSrc}
             alt="Calendario"
