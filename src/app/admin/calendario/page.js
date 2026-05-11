@@ -33,17 +33,19 @@ export default function AdminCalendario() {
         body: formData,
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setMessage("Imagen subida correctamente");
-        setPassword("");
-        setFile(null);
-      } else {
-        setError(data.message || "Error al subir la imagen");
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        let msg = "Error al subir la imagen";
+        try { const d = JSON.parse(text); msg = d.message || msg; } catch {}
+        setError(msg);
+        return;
       }
-    } catch {
-      setError("Error de conexión con el servidor");
+
+      setMessage("Imagen subida correctamente");
+      setPassword("");
+      setFile(null);
+    } catch (e) {
+      setError("Error: " + e.message);
     } finally {
       setLoading(false);
     }
