@@ -30,7 +30,7 @@ const Navbar = () => {
             />
           </Link>
 
-          <form onSubmit={handleSearch} className="hidden lg:flex items-center max-w-xs mx-4">
+          <form onSubmit={handleSearch} className="hidden lg:flex items-center w-36 lg:w-44 mx-3">
             <input
               type="text"
               value={searchQuery}
@@ -52,7 +52,7 @@ const Navbar = () => {
               menuOpen ? "block absolute top-[72px] left-0 z-10" : "hidden"
             } lg:flex lg:items-center lg:gap-6 lg:ml-auto lg:mt-0 bg-black rounded-b-xl p-4 lg:p-0 shadow-lg`}
           >
-            <ul className="flex flex-col lg:flex-row gap-2 lg:gap-10 text-gray-300 px-2 lg:px-0 items-stretch lg:items-center">
+            <ul className="flex flex-col lg:flex-row gap-2 lg:gap-14 text-gray-300 px-2 lg:px-0 items-stretch lg:items-center">
               
               <li className="w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center py-2 border-b border-gray-700 lg:border-none">
                 <Link href="/nosotros" className="block w-full text-center lg:inline-block lg:w-auto">
