@@ -1,9 +1,28 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+function compressImage(file, maxWidth = 1200, quality = 0.8) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement("canvas");
+      let w = img.width, h = img.height;
+      if (w > maxWidth) { h = h * maxWidth / w; w = maxWidth; }
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+      canvas.toBlob((blob) => resolve(blob), "image/jpeg", quality);
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
 
 export default function AdminCalendario() {
   const [password, setPassword] = useState("");
@@ -11,6 +30,7 @@ export default function AdminCalendario() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const fileRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,11 +43,12 @@ export default function AdminCalendario() {
     }
 
     setLoading(true);
-    const formData = new FormData();
-    formData.append("password", password);
-    formData.append("image", file);
-
     try {
+      const compressed = await compressImage(file);
+      const formData = new FormData();
+      formData.append("password", password);
+      formData.append("image", compressed, "calendario.jpg");
+
       const res = await fetch(`${API_URL}/calendario-upload`, {
         method: "POST",
         body: formData,
@@ -44,6 +65,7 @@ export default function AdminCalendario() {
       setMessage("Imagen subida correctamente");
       setPassword("");
       setFile(null);
+      if (fileRef.current) fileRef.current.value = "";
     } catch (e) {
       setError("Error: " + e.message);
     } finally {
@@ -79,6 +101,7 @@ export default function AdminCalendario() {
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-700">Imagen del calendario</label>
           <input
+            ref={fileRef}
             type="file"
             accept="image/*"
             onChange={(e) => setFile(e.target.files[0])}
