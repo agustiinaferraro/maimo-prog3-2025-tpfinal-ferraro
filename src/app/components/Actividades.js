@@ -37,8 +37,9 @@ const Actividades = ({ isCarousel = false }) => {
   if (isCarousel) {
     const total = actividades.length;
     const angleStep = 360 / total;
-    const cardWidth = 260;
-    const radius = Math.max(total * cardWidth / (Math.PI * 2) * 1.1, 200);
+    const cardWidth = 300;
+    const cardHeight = 200;
+    const radius = Math.max(total * cardWidth / (Math.PI * 2) * 1.15, 220);
 
     return (
       <div className="py-10 px-4 sm:px-6">
@@ -47,8 +48,8 @@ const Actividades = ({ isCarousel = false }) => {
             <h3 className="text-3xl font-bold">Actividades</h3>
           </div>
           <div
-            className="relative mx-auto"
-            style={{ perspective: '1200px', height: '280px' }}
+            className="relative mx-auto w-full"
+            style={{ perspective: '1400px', height: '320px' }}
           >
             <div
               className="absolute inset-0"
@@ -66,16 +67,16 @@ const Actividades = ({ isCarousel = false }) => {
                     className="absolute backface-hidden"
                     style={{
                       width: `${cardWidth}px`,
-                      height: '200px',
+                      height: `${cardHeight}px`,
                       left: '50%',
                       top: '50%',
                       marginLeft: `${-cardWidth / 2}px`,
-                      marginTop: '-100px',
+                      marginTop: `${-cardHeight / 2}px`,
                       transform: `rotateY(${angle}deg) translateZ(${radius}px)`
                     }}
                   >
                     <Link href={`/categoriasActividades/${actividad._id}`}>
-                      <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+                      <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-110 active:scale-90">
                         <Image
                           src={actividad.Portada}
                           alt={actividad.ActividadNombre}
@@ -83,7 +84,7 @@ const Actividades = ({ isCarousel = false }) => {
                           className="object-cover"
                           unoptimized
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/45">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/45 hover:bg-black/30 transition-colors duration-300">
                           <h3 className="text-xl sm:text-2xl font-semibold text-white text-center px-4 lowercase [&::first-letter]:uppercase">
                             {actividad.ActividadNombre}
                           </h3>
