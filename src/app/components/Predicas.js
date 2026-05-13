@@ -15,7 +15,7 @@ const Thumbnail = ({ link, title }) => {
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="relative w-full h-56 sm:h-64 bg-gray-800">
+    <div className="relative w-full h-60 sm:h-68 bg-gray-800">
       {videoId && !failed && (
         <img
           src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
@@ -24,8 +24,11 @@ const Thumbnail = ({ link, title }) => {
           onError={() => setFailed(true)}
         />
       )}
+      {videoId && !failed && (
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      )}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90">
+        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-1">
             <path d="M8 5v14l11-7z" />
           </svg>
@@ -92,11 +95,11 @@ const Predicas = ({ isCarousel = false }) => {
                     href={predica.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-[190px] sm:w-[230px] md:w-[280px] snap-start flex-shrink-0 rounded-xl shadow-md overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                    className="w-[190px] sm:w-[230px] md:w-[280px] snap-start flex-shrink-0 rounded-xl shadow-md overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer origin-top"
                   >
                     <Thumbnail link={predica.link} title={predica.title} />
-                    <div className="p-3 flex flex-col items-center justify-center text-center flex-1">
-                      <h3 className="text-xs sm:text-sm font-semibold line-clamp-2 leading-tight">{predica.title}</h3>
+                    <div className="p-3 flex flex-col justify-center flex-1">
+                      <h3 className="text-xs sm:text-sm font-semibold line-clamp-2 leading-tight text-left">{predica.title}</h3>
                     </div>
                   </a>
                 ))}
@@ -132,11 +135,11 @@ const Predicas = ({ isCarousel = false }) => {
                   href={predica.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-xl shadow-md overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                  className="rounded-xl shadow-md overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer origin-top"
                 >
                   <Thumbnail link={predica.link} title={predica.title} />
-                  <div className="p-3 flex flex-col items-center justify-center text-center flex-1">
-                    <h3 className="text-sm sm:text-base font-semibold leading-tight">{predica.title}</h3>
+                  <div className="p-3 flex flex-col justify-center flex-1">
+                    <h3 className="text-sm sm:text-base font-semibold leading-tight text-left">{predica.title}</h3>
                   </div>
                 </a>
               ))}
