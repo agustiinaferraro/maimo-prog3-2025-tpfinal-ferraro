@@ -15,20 +15,25 @@ const Thumbnail = ({ link, title }) => {
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="relative w-full h-72 sm:h-80 bg-gray-800 overflow-hidden rounded-t-xl">
-      {videoId && !failed && (
+    <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
+      {videoId && (
         <img
           src={`https://img.youtube.com/vi/${videoId}/0.jpg`}
           alt={title}
-          className="w-full h-full object-cover"
+          className={`w-full h-full object-cover transition-opacity duration-300 ${failed ? 'opacity-0' : 'opacity-100'}`}
           onError={() => setFailed(true)}
         />
       )}
-      {videoId && !failed && (
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      {(!videoId || failed) && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555" className="w-16 h-16">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
       )}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity">
+        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-1">
             <path d="M8 5v14l11-7z" />
           </svg>
@@ -99,7 +104,7 @@ const Predicas = ({ isCarousel = false }) => {
                     >
                       <Thumbnail link={predica.link} title={predica.title} />
                       <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                        <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left [&::first-letter]:uppercase">{predica.title}</h3>
+                        <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
                       </div>
                     </a>
                   </div>
@@ -140,7 +145,7 @@ const Predicas = ({ isCarousel = false }) => {
                 >
                   <Thumbnail link={predica.link} title={predica.title} />
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                    <h3 className="text-sm sm:text-base font-normal leading-tight text-left [&::first-letter]:uppercase">{predica.title}</h3>
+                    <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
                   </div>
                 </a>
               ))}
