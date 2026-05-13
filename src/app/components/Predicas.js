@@ -87,23 +87,18 @@ const Predicas = ({ isCarousel = false }) => {
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {predicas.map((predica) => (
-                  <div
+                  <a
                     key={predica._id}
-                    className="min-w-[180px] sm:min-w-[220px] md:min-w-[260px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
+                    href={predica.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-w-[180px] sm:min-w-[220px] md:min-w-[260px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                   >
                     <Thumbnail link={predica.link} title={predica.title} />
-                    <div className="p-4 flex flex-col items-center text-center flex-1">
-                      <h3 className="text-sm font-semibold mb-2 line-clamp-2">{predica.title}</h3>
-                      <a
-                        href={predica.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cursor-pointer text-black bg-gray-200 mt-auto px-3 py-1.5 rounded-lg hover:bg-gray-300 transition-colors text-xs"
-                      >
-                        Ver en YouTube
-                      </a>
+                    <div className="p-4 flex flex-col items-center justify-center text-center flex-1">
+                      <h3 className="text-sm font-semibold line-clamp-2">{predica.title}</h3>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
 
@@ -132,23 +127,18 @@ const Predicas = ({ isCarousel = false }) => {
             <h3 className="text-3xl font-bold mb-8">Prédicas</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {predicas.map((predica) => (
-                <div
+                <a
                   key={predica._id}
-                  className="rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
+                  href={predica.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                 >
                   <Thumbnail link={predica.link} title={predica.title} />
-                  <div className="p-5 flex flex-col items-center text-center flex-1">
-                    <h3 className="text-base font-semibold mb-3">{predica.title}</h3>
-                    <a
-                      href={predica.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cursor-pointer text-black bg-gray-200 mt-auto px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm"
-                    >
-                      Ver en YouTube
-                    </a>
+                  <div className="p-5 flex flex-col items-center justify-center text-center flex-1">
+                    <h3 className="text-base font-semibold">{predica.title}</h3>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </>
