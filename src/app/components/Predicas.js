@@ -25,8 +25,8 @@ const Thumbnail = ({ link, title }) => {
         />
       )}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center opacity-90">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1">
+        <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center opacity-90">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4 ml-0.5">
             <path d="M8 5v14l11-7z" />
           </svg>
         </div>
@@ -83,22 +83,22 @@ const Predicas = ({ isCarousel = false }) => {
 
               <div
                 ref={scrollRef}
-                className="flex-1 flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+                className="flex-1 flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {predicas.map((predica) => (
                   <div
                     key={predica._id}
-                    className="min-w-[220px] sm:min-w-[260px] md:min-w-[300px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
+                    className="min-w-[180px] sm:min-w-[220px] md:min-w-[260px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
                   >
                     <Thumbnail link={predica.link} title={predica.title} />
-                    <div className="p-6 flex flex-col items-center text-center flex-1">
-                      <h3 className="text-lg font-semibold mb-3 line-clamp-2">{predica.title}</h3>
+                    <div className="p-4 flex flex-col items-center text-center flex-1">
+                      <h3 className="text-sm font-semibold mb-2 line-clamp-2">{predica.title}</h3>
                       <a
                         href={predica.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="cursor-pointer text-black bg-gray-200 mt-auto px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm"
+                        className="cursor-pointer text-black bg-gray-200 mt-auto px-3 py-1.5 rounded-lg hover:bg-gray-300 transition-colors text-xs"
                       >
                         Ver en YouTube
                       </a>
@@ -130,20 +130,20 @@ const Predicas = ({ isCarousel = false }) => {
         ) : (
           <>
             <h3 className="text-3xl font-bold mb-8">Prédicas</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {predicas.map((predica) => (
                 <div
                   key={predica._id}
                   className="rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
                 >
                   <Thumbnail link={predica.link} title={predica.title} />
-                  <div className="p-8 flex flex-col items-center text-center flex-1">
-                    <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
+                  <div className="p-5 flex flex-col items-center text-center flex-1">
+                    <h3 className="text-base font-semibold mb-3">{predica.title}</h3>
                     <a
                       href={predica.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="cursor-pointer text-black bg-gray-200 mt-auto px-5 py-3 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="cursor-pointer text-black bg-gray-200 mt-auto px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm"
                     >
                       Ver en YouTube
                     </a>
