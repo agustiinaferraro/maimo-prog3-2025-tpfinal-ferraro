@@ -6,13 +6,11 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Calendario = () => {
   const [imgSrc, setImgSrc] = useState("/img/calendario.jpeg");
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetch(`${API_URL}/calendario-image`)
-      .then((res) => {
-        if (res.ok) setImgSrc(`${API_URL}/calendario-image?t=${Date.now()}`);
-      })
-      .catch(() => {});
+    const ts = Date.now();
+    setImgSrc(`${API_URL}/calendario-image?t=${ts}`);
   }, []);
 
   return (
@@ -22,6 +20,8 @@ const Calendario = () => {
           <img
             src={imgSrc}
             alt="Calendario"
+            onLoad={() => setLoaded(true)}
+            onError={() => !loaded && setImgSrc("/img/calendario.jpeg")}
             className="w-full h-auto object-cover transition-transform duration-200 transform hover:scale-105 active:scale-95 rounded-lg"
           />
         </a>
