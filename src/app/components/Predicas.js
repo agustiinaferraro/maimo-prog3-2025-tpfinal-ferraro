@@ -74,7 +74,14 @@ const Predicas = ({ isCarousel = false }) => {
       <div className="max-w-7xl mx-auto">
         {isCarousel ? (
           <>
-            <div className="mb-6">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-1.5 h-8 bg-red-500 rounded-full" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-red-500">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
               <h3 className="text-3xl font-bold">Prédicas</h3>
             </div>
 
@@ -133,7 +140,16 @@ const Predicas = ({ isCarousel = false }) => {
           </>
         ) : (
           <>
-            <h3 className="text-3xl font-bold mb-8">Prédicas</h3>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-1.5 h-8 bg-red-500 rounded-full" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-red-500">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+              <h3 className="text-3xl font-bold">Prédicas</h3>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {predicas.map((predica) => (
                 <a
