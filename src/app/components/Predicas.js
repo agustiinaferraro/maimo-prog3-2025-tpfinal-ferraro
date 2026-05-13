@@ -38,8 +38,8 @@ const Predicas = ({ isCarousel = false }) => {
   if (!predicas.length) return <p className="text-center mt-10 text-gray-600">No hay prédicas disponibles.</p>;
 
   return (
-    <div className="py-10 px-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="py-10 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
         {isCarousel ? (
           <>
             <div className="mb-6">
