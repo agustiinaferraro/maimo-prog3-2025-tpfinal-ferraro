@@ -15,7 +15,7 @@ const Thumbnail = ({ link, title }) => {
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="relative w-full h-40 sm:h-48 bg-gray-800">
+    <div className="relative w-full h-56 sm:h-64 bg-gray-800">
       {videoId && !failed && (
         <img
           src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
@@ -25,8 +25,8 @@ const Thumbnail = ({ link, title }) => {
         />
       )}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center opacity-90">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4 ml-0.5">
+        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-1">
             <path d="M8 5v14l11-7z" />
           </svg>
         </div>
