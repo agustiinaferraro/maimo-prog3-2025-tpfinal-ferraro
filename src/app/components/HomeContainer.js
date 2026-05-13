@@ -13,7 +13,7 @@ const HomeContainer = () => {
         <Hero />
         <About />
         <Actindividual />
-        <Actividades />
+        <Actividades isCarousel={true} />
         <Predicas isCarousel={true} />
       </div>
     );
