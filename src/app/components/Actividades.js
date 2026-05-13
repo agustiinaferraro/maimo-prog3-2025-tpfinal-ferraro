@@ -8,48 +8,38 @@ import Link from "next/link";
 
 const Actividades = ({ isCarousel = false }) => {
   const { actividades, fetchActividades } = useAppContext();
-  const [loading, setLoading ] = useState(true);
-  const scrollRef = useRef(null);
-  const intervalRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-      const loadData = async () => {
-          if (!actividades.length) {
-              await fetchActividades();
-          }
-          setLoading(false);
-      };
-      loadData();
+    const loadData = async () => {
+      if (!actividades.length) {
+        await fetchActividades();
+      }
+      setLoading(false);
+    };
+    loadData();
   }, [actividades, fetchActividades]);
 
   useEffect(() => {
     if (!isCarousel || !actividades.length) return;
 
-    intervalRef.current = setInterval(() => {
-      if (!scrollRef.current) return;
-      const container = scrollRef.current;
-      const cardWidth = container.children[0]?.offsetWidth || 0;
-      const gap = 24;
-      const scrollAmount = cardWidth + gap;
-      const maxScroll = container.scrollWidth - container.clientWidth;
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % actividades.length);
+    }, 4000);
 
-      if (container.scrollLeft >= maxScroll - 20) {
-        container.scrollTo({ left: 0, behavior: 'instant' });
-      } else {
-        container.scrollTo({
-          left: container.scrollLeft + scrollAmount,
-          behavior: 'smooth'
-        });
-      }
-    }, 3000);
-
-    return () => clearInterval(intervalRef.current);
+    return () => clearInterval(interval);
   }, [isCarousel, actividades.length]);
 
   if (loading) return <Loading />;
   if (!actividades.length) return <p className="text-center mt-10 text-gray-600">No hay actividades disponibles.</p>;
 
   if (isCarousel) {
+    const total = actividades.length;
+    const angleStep = 360 / total;
+    const cardWidth = 260;
+    const radius = Math.max(total * cardWidth / (Math.PI * 2) * 1.1, 200);
+
     return (
       <div className="py-10 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
@@ -57,34 +47,53 @@ const Actividades = ({ isCarousel = false }) => {
             <h3 className="text-3xl font-bold">Actividades</h3>
           </div>
           <div
-            ref={scrollRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            className="relative mx-auto"
+            style={{ perspective: '1200px', height: '280px' }}
           >
-            {[...actividades, ...actividades].map((actividad, index) => (
-              <div key={`${actividad._id}-${index}`} className="snap-start flex-shrink-0 py-1">
-                <Link
-                  href={`/categoriasActividades/${actividad._id}`}
-                  className="w-[260px] sm:w-[300px] md:w-[360px] rounded-xl shadow-md overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer block"
-                >
-                  <div className="relative w-full h-40 sm:h-48">
-                    <Image
-                      src={actividad.Portada}
-                      alt={actividad.ActividadNombre}
-                      fill
-                      className="object-cover"
-                      unoptimized
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            <div
+              className="absolute inset-0"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: `rotateY(${-currentIndex * angleStep}deg)`,
+                transition: 'transform 1.2s ease-in-out'
+              }}
+            >
+              {actividades.map((actividad, i) => {
+                const angle = i * angleStep;
+                return (
+                  <div
+                    key={actividad._id}
+                    className="absolute backface-hidden"
+                    style={{
+                      width: `${cardWidth}px`,
+                      height: '200px',
+                      left: '50%',
+                      top: '50%',
+                      marginLeft: `${-cardWidth / 2}px`,
+                      marginTop: '-100px',
+                      transform: `rotateY(${angle}deg) translateZ(${radius}px)`
+                    }}
+                  >
+                    <Link href={`/categoriasActividades/${actividad._id}`}>
+                      <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+                        <Image
+                          src={actividad.Portada}
+                          alt={actividad.ActividadNombre}
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/45">
+                          <h3 className="text-xl sm:text-2xl font-semibold text-white text-center px-4 lowercase [&::first-letter]:uppercase">
+                            {actividad.ActividadNombre}
+                          </h3>
+                        </div>
+                      </div>
+                    </Link>
                   </div>
-                  <div className="p-3 flex flex-col justify-center flex-1">
-                    <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">
-                      {actividad.ActividadNombre}
-                    </h3>
-                  </div>
-                </Link>
-              </div>
-            ))}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -111,7 +120,7 @@ const Actividades = ({ isCarousel = false }) => {
             />
 
             <div className="absolute inset-0 flex items-center justify-center bg-black/45">
-              <h3 className="text-2xl font-semibold text-white text-center px-4">
+              <h3 className="text-2xl font-semibold text-white text-center px-4 lowercase [&::first-letter]:uppercase">
                 {actividad.ActividadNombre}
               </h3>
             </div>
