@@ -74,7 +74,7 @@ const Predicas = ({ isCarousel = false }) => {
       <div className="max-w-7xl mx-auto">
         {isCarousel ? (
           <>
-            <div className="flex items-center gap-4 mb-6">
+            <div className="inline-flex items-center gap-3 pr-6 py-3 pl-4 bg-white/5 border border-white/10 border-l-0 rounded-r-xl shadow-md mb-6">
               <div className="w-1.5 h-8 bg-red-500 rounded-full" />
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-red-500">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
@@ -140,7 +140,7 @@ const Predicas = ({ isCarousel = false }) => {
           </>
         ) : (
           <>
-            <div className="flex items-center gap-4 mb-8">
+            <div className="inline-flex items-center gap-3 pr-6 py-3 pl-4 bg-white/5 border border-white/10 border-l-0 rounded-r-xl shadow-md mb-8">
               <div className="w-1.5 h-8 bg-red-500 rounded-full" />
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-red-500">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
