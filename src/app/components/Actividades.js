@@ -54,7 +54,7 @@ const Actividades = ({ isCarousel = false }) => {
             </svg>
             <div className="flex flex-col items-start">
               <h3 className="text-3xl font-bold text-white">Actividades</h3>
-              <div className="h-1.5 bg-white rounded-full w-full mt-1.5" />
+              <div className="h-1.5 bg-white rounded-full w-full mt-3" />
             </div>
           </div>
           <div
@@ -124,7 +124,7 @@ const Actividades = ({ isCarousel = false }) => {
           </svg>
           <div className="flex flex-col items-start">
             <h3 className="text-3xl font-bold text-white">Actividades</h3>
-            <div className="h-1.5 bg-white rounded-full w-full mt-1.5" />
+            <div className="h-1.5 bg-white rounded-full w-full mt-3" />
           </div>
         </div>
       </div>
