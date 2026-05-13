@@ -71,7 +71,7 @@ const Predicas = ({ isCarousel = false }) => {
 
   return (
     <div className="py-10 px-4 sm:px-6">
-      <div className="-ml-4 sm:-ml-6 flex items-center justify-end gap-3 pr-6 h-14 bg-white border border-gray-200 border-l-0 rounded-r-xl shadow-md mb-6 max-w-sm sm:max-w-md">
+      <div className="-ml-4 sm:-ml-6 inline-flex items-center gap-3 pr-6 py-3 pl-4 sm:pl-6 bg-white border border-gray-200 border-l-0 rounded-r-xl shadow-md mb-6">
         <div className="w-1.5 h-8 bg-amber-500 rounded-full" />
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-amber-500">
           <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
