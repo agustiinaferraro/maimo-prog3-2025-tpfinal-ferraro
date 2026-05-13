@@ -10,7 +10,7 @@ const Calendario = () => {
   useEffect(() => {
     fetch(`${API_URL}/calendario-image`)
       .then((res) => {
-        if (res.ok) setImgSrc(`${API_URL}/calendario-image`);
+        if (res.ok) setImgSrc(`${API_URL}/calendario-image?t=${Date.now()}`);
       })
       .catch(() => {});
   }, []);
