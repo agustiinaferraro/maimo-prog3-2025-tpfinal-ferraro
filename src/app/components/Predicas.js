@@ -25,8 +25,8 @@ const Thumbnail = ({ link, title }) => {
         />
       )}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center opacity-90">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4 ml-0.5">
+        <div className="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center opacity-90">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-2.5 h-2.5 ml-0.5">
             <path d="M8 5v14l11-7z" />
           </svg>
         </div>
@@ -92,11 +92,11 @@ const Predicas = ({ isCarousel = false }) => {
                     href={predica.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-w-[180px] sm:min-w-[220px] md:min-w-[260px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                    className="min-w-[140px] sm:min-w-[170px] md:min-w-[200px] snap-start flex-shrink-0 rounded-lg shadow overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                   >
                     <Thumbnail link={predica.link} title={predica.title} />
-                    <div className="p-4 flex flex-col items-center justify-center text-center flex-1">
-                      <h3 className="text-sm font-semibold line-clamp-2">{predica.title}</h3>
+                    <div className="p-2 flex flex-col items-center justify-center text-center flex-1">
+                      <h3 className="text-[10px] sm:text-xs font-semibold line-clamp-2">{predica.title}</h3>
                     </div>
                   </a>
                 ))}
@@ -125,18 +125,18 @@ const Predicas = ({ isCarousel = false }) => {
         ) : (
           <>
             <h3 className="text-3xl font-bold mb-8">Prédicas</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {predicas.map((predica) => (
                 <a
                   key={predica._id}
                   href={predica.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                  className="rounded-lg shadow overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                 >
                   <Thumbnail link={predica.link} title={predica.title} />
-                  <div className="p-5 flex flex-col items-center justify-center text-center flex-1">
-                    <h3 className="text-base font-semibold">{predica.title}</h3>
+                  <div className="p-2 flex flex-col items-center justify-center text-center flex-1">
+                    <h3 className="text-xs sm:text-sm font-semibold">{predica.title}</h3>
                   </div>
                 </a>
               ))}
