@@ -2,13 +2,37 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useAppContext } from "@/app/context/AppContext";
-import Image from "next/image";
 import Loading from "./Loading";
 
 const getYoutubeId = (url) => {
   if (!url) return null;
   const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return match ? match[1] : null;
+};
+
+const Thumbnail = ({ link, title }) => {
+  const videoId = getYoutubeId(link);
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div className="relative w-full aspect-video bg-gray-800">
+      {videoId && !failed && (
+        <img
+          src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+          alt={title}
+          className="w-full h-full object-cover"
+          onError={() => setFailed(true)}
+        />
+      )}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center opacity-90">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const Predicas = ({ isCarousel = false }) => {
@@ -49,7 +73,7 @@ const Predicas = ({ isCarousel = false }) => {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => scroll('left')}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Anterior"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -67,23 +91,7 @@ const Predicas = ({ isCarousel = false }) => {
                     key={predica._id}
                     className="min-w-[220px] sm:min-w-[260px] md:min-w-[300px] snap-start flex-shrink-0 rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
                   >
-                    {getYoutubeId(predica.link) && (
-                      <div className="relative w-full aspect-video">
-                        <img
-                          src={`https://img.youtube.com/vi/${getYoutubeId(predica.link)}/hqdefault.jpg`}
-                          alt={predica.title}
-                          className="w-full h-full object-cover"
-                          onError={(e) => { e.target.style.display = 'none' }}
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center opacity-90">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                    <Thumbnail link={predica.link} title={predica.title} />
                     <div className="p-6 flex flex-col items-center text-center flex-1">
                       <h3 className="text-lg font-semibold mb-3 line-clamp-2">{predica.title}</h3>
                       <a
@@ -101,7 +109,7 @@ const Predicas = ({ isCarousel = false }) => {
 
               <button
                 onClick={() => scroll('right')}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 active:text-gray-500 hover:scale-125 active:scale-90 transition-all duration-200"
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Siguiente"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -128,23 +136,7 @@ const Predicas = ({ isCarousel = false }) => {
                   key={predica._id}
                   className="rounded-2xl shadow-xl overflow-hidden flex flex-col bg-black/10 backdrop-blur-md border border-white/20"
                 >
-                  {getYoutubeId(predica.link) && (
-                    <div className="relative w-full aspect-video">
-                      <img
-                        src={`https://img.youtube.com/vi/${getYoutubeId(predica.link)}/hqdefault.jpg`}
-                        alt={predica.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => { e.target.style.display = 'none' }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center opacity-90">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  <Thumbnail link={predica.link} title={predica.title} />
                   <div className="p-8 flex flex-col items-center text-center flex-1">
                     <h3 className="text-xl font-semibold mb-4">{predica.title}</h3>
                     <a
