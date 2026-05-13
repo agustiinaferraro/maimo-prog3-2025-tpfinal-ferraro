@@ -43,7 +43,7 @@ const Actividades = ({ isCarousel = false }) => {
 
     return (
       <div className="py-10 px-4 sm:px-6">
-        <div className="-ml-4 sm:-ml-6 inline-flex items-center gap-3 pr-6 py-3 pl-4 sm:pl-6 bg-white border border-gray-200 border-l-0 rounded-r-xl shadow-md mb-8">
+        <div className="flex items-center gap-3 pb-3 mb-8 border-b-2 border-amber-500">
           <div className="w-1.5 h-8 bg-amber-500 rounded-full" />
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-amber-500">
             <rect x="3" y="4" width="18" height="18" rx="2" />
@@ -110,7 +110,7 @@ const Actividades = ({ isCarousel = false }) => {
 
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6">
-      <div className="-ml-4 sm:-ml-6 inline-flex items-center gap-3 pr-6 py-3 pl-4 sm:pl-6 bg-white border border-gray-200 border-l-0 rounded-r-xl shadow-md mb-8">
+      <div className="flex items-center gap-3 pb-3 mb-8 border-b-2 border-amber-500">
         <div className="w-1.5 h-8 bg-amber-500 rounded-full" />
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-amber-500">
           <rect x="3" y="4" width="18" height="18" rx="2" />
