@@ -35,53 +35,50 @@ const Actindividual = () => {
   };
 
   return (
-    <div className="py-10 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl min-h-[450px] lg:min-h-[550px]">
+    <div className="w-full py-10">
+      <div className="flex flex-col lg:flex-row">
+        <div className="w-full lg:w-1/2 flex items-center px-4 sm:px-6 lg:pl-10 lg:pr-12 py-12">
+          <div>
+            <h3 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+              {actividad.ActividadNombre}
+            </h3>
+            <p className="text-gray-200 text-xl leading-relaxed mb-8">
+              {actividad.Descripcion}
+            </p>
+            <Link href="/calendario">
+              <button className="cursor-pointer px-6 py-3 bg-amber-500 text-black font-semibold rounded-lg hover:scale-105 active:scale-95 transition-transform duration-200">
+                Ver Calendario
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="w-full lg:w-1/2">
           <Image
             key={currentIndex}
             src={actividad.Portada}
-            fill
-            className="object-cover"
+            width={800}
+            height={500}
+            alt={actividad.ActividadNombre}
             unoptimized
+            className="w-full h-80 lg:h-[500px] object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-
-          <div className="relative z-10 h-full min-h-[450px] lg:min-h-[550px] flex flex-col justify-end lg:justify-center p-8 lg:p-12">
-            <div className="lg:w-3/5">
-              <h3 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
-                {actividad.ActividadNombre}
-              </h3>
-              <p className="text-gray-200 text-xl leading-relaxed mb-8">
-                {actividad.Descripcion}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <Link href="/calendario">
-                  <button className="cursor-pointer px-6 py-3 bg-amber-500 text-black font-semibold rounded-lg hover:scale-105 active:scale-95 transition-transform duration-200">
-                    Ver Calendario
-                  </button>
-                </Link>
-
-                <div className="flex items-center gap-3 text-white">
-                  <button
-                    onClick={handlePrev}
-                    className="cursor-pointer text-3xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
-                  >
-                    ←
-                  </button>
-                  <span className="text-white/60 text-base font-medium">
-                    {currentIndex + 1} / {actividades.length}
-                  </span>
-                  <button
-                    onClick={handleNext}
-                    className="cursor-pointer text-3xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
-                  >
-                    →
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div className="flex justify-center items-center gap-4 py-4 text-white">
+            <button
+              onClick={handlePrev}
+              className="cursor-pointer text-3xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
+            >
+              ←
+            </button>
+            <span className="text-white/60 text-base font-medium">
+              {currentIndex + 1} / {actividades.length}
+            </span>
+            <button
+              onClick={handleNext}
+              className="cursor-pointer text-3xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
+            >
+              →
+            </button>
           </div>
         </div>
       </div>
