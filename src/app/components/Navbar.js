@@ -30,13 +30,13 @@ const Navbar = () => {
             />
           </Link>
 
-          <form onSubmit={handleSearch} className="hidden lg:flex items-center w-36 lg:w-44 mx-3">
+          <form onSubmit={handleSearch} className="hidden lg:flex items-center w-48 lg:w-56 mx-3">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar..."
-              className="w-full px-3 py-1.5 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-sm"
+              className="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-base"
             />
           </form>
 

@@ -33,7 +33,7 @@ const Footer = () => {
           ))}
         </div>
 
-        <p className="text-lg mt-4 text-gray-400">Iglesia Casa del Alfarero, Munro</p>
+        <p className="text-lg mt-4 text-gray-400">&copy; Iglesia Casa del Alfarero, Munro</p>
       </div>
     </footer>
   );
