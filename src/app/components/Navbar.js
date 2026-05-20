@@ -34,9 +34,17 @@ const Navbar = () => {
   };
 
   const debounceRef = useRef(null);
+  const prevSearchRef = useRef("");
 
   useEffect(() => {
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim()) {
+      if (prevSearchRef.current.trim() && window.location.pathname === "/buscar") {
+        router.back();
+      }
+      prevSearchRef.current = "";
+      return;
+    }
+    prevSearchRef.current = searchQuery;
     const params = new URLSearchParams(window.location.search);
     if (params.get("q") === searchQuery) return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
