@@ -17,6 +17,19 @@ const Navbar = () => {
   }, []);
 
   const navigateToSearch = (q) => {
+    const directPages = {
+      inicio: "/",
+      home: "/",
+      nosotros: "/nosotros",
+      actividades: "/#actividades",
+      predicas: "/#predicas",
+      predica: "/#predicas",
+      contactanos: "/contactanos",
+      contacto: "/contactanos",
+      calendario: "/calendario",
+    };
+    const direct = directPages[q.toLowerCase()];
+    if (direct) { router.push(direct); return; }
     router.push(`/buscar?q=${encodeURIComponent(q)}`);
   };
 
