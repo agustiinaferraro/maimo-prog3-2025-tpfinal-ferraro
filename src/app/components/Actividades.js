@@ -37,9 +37,9 @@ const Actividades = ({ isCarousel = false }) => {
   if (isCarousel) {
     const total = actividades.length;
     const angleStep = 360 / total;
-    const cardWidth = 300;
-    const cardHeight = 200;
-    const radius = Math.max(total * cardWidth / (Math.PI * 2) * 1.15, 220);
+    const cardWidth = 400;
+    const cardHeight = 260;
+    const radius = Math.max(total * cardWidth / (Math.PI * 2) * 1.2, 260);
 
     return (
       <div className="py-10 px-4 sm:px-6">
@@ -52,14 +52,11 @@ const Actividades = ({ isCarousel = false }) => {
               <line x1="8" y1="2" x2="8" y2="6" />
               <line x1="16" y1="2" x2="16" y2="6" />
             </svg>
-            <div className="flex flex-col items-start">
-              <h3 className="text-3xl font-bold text-white">Actividades</h3>
-              <div className="h-1.5 bg-white rounded-full w-full mt-3" />
-            </div>
+            <h3 className="text-4xl sm:text-5xl font-bold text-white">Actividades</h3>
           </div>
           <div
             className="relative mx-auto w-full"
-            style={{ perspective: '1400px', height: '320px' }}
+            style={{ perspective: '1800px', height: '400px' }}
           >
             <div
               className="absolute inset-0"
@@ -122,10 +119,7 @@ const Actividades = ({ isCarousel = false }) => {
             <line x1="8" y1="2" x2="8" y2="6" />
             <line x1="16" y1="2" x2="16" y2="6" />
           </svg>
-          <div className="flex flex-col items-start">
-            <h3 className="text-3xl font-bold text-white">Actividades</h3>
-            <div className="h-1.5 bg-white rounded-full w-full mt-3" />
-          </div>
+          <h3 className="text-4xl sm:text-5xl font-bold text-white">Actividades</h3>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
