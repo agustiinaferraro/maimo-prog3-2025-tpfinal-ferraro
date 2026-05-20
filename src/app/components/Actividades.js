@@ -83,16 +83,14 @@ const Actividades = ({ isCarousel = false }) => {
                     }}
                   >
                     <Link href={`/categoriasActividades/${actividad._id}`}>
-                      <div className="group relative w-full h-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-110 active:scale-90">
-                        <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-125">
-                          <Image
-                            src={actividad.Portada}
-                            alt={actividad.ActividadNombre}
-                            fill
-                            className="object-cover"
-                            unoptimized
-                          />
-                        </div>
+                      <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-110 active:scale-90">
+                        <Image
+                          src={actividad.Portada}
+                          alt={actividad.ActividadNombre}
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
                         <div className="absolute inset-0 flex items-center justify-center bg-black/45 hover:bg-black/30 transition-colors duration-300">
                           <h3 className="text-xl sm:text-2xl font-semibold text-white text-center px-4 lowercase [&::first-letter]:uppercase">
                             {actividad.ActividadNombre}
@@ -128,18 +126,16 @@ const Actividades = ({ isCarousel = false }) => {
         {actividades.map((actividad) => (
         <Link key={actividad._id} href={`/categoriasActividades/${actividad._id}`}>
           <div
-            className="group relative cursor-pointer rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 active:scale-95 overflow-hidden flex flex-col items-center text-center"
+            className="relative cursor-pointer rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 active:scale-95 overflow-hidden flex flex-col items-center text-center"
           >
-            <div className="w-full h-120 overflow-hidden">
-              <Image
-                src={actividad.Portada}
-                alt={actividad.ActividadNombre}
-                width={500}
-                height={800}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-125"
-                unoptimized
-              />
-            </div>
+            <Image
+              src={actividad.Portada}
+              alt={actividad.ActividadNombre}
+              width={500}
+              height={800}
+              className="w-full h-120 object-cover"
+              unoptimized
+            />
 
             <div className="absolute inset-0 flex items-center justify-center bg-black/45">
               <h3 className="text-2xl font-semibold text-white text-center px-4 lowercase [&::first-letter]:uppercase">

@@ -17,14 +17,12 @@ const Thumbnail = ({ link, title }) => {
   return (
     <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
       {videoId && (
-        <div className="w-full h-full overflow-hidden">
-          <img
-            src={`https://img.youtube.com/vi/${videoId}/0.jpg`}
-            alt={title}
-            className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-125 ${failed ? 'opacity-0' : 'opacity-100'}`}
-            onError={() => setFailed(true)}
-          />
-        </div>
+        <img
+          src={`https://img.youtube.com/vi/${videoId}/0.jpg`}
+          alt={title}
+          className={`w-full h-full object-cover transition-opacity duration-300 ${failed ? 'opacity-0' : 'opacity-100'}`}
+          onError={() => setFailed(true)}
+        />
       )}
       {(!videoId || failed) && (
         <div className="absolute inset-0 flex items-center justify-center">
@@ -110,7 +108,7 @@ const Predicas = ({ isCarousel = false }) => {
                       href={predica.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group w-[190px] sm:w-[230px] md:w-[280px] rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                      className="w-[190px] sm:w-[230px] md:w-[280px] rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                     >
                       <Thumbnail link={predica.link} title={predica.title} />
                       <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
@@ -150,7 +148,7 @@ const Predicas = ({ isCarousel = false }) => {
                   href={predica.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                  className="rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                 >
                   <Thumbnail link={predica.link} title={predica.title} />
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">

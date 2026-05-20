@@ -56,7 +56,6 @@ const About = () => {
                 />
               </div>
             </div>
-            </div>
 
             <div className="absolute bottom-0 w-full bg-linear-to-t from-black to-black/0 border-gray-500 rounded-b-lg text-white p-4 pt-30 flex flex-col md:flex-row md:items-center md:justify-between gap-2 transition-all duration-300">
               <p className="text-center md:text-left text-base md:text-lg">
