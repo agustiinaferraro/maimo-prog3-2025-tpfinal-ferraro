@@ -15,6 +15,12 @@ const Navbar = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
+    }
+  };
+
   return (
     <>
       <div className="fixed top-0 left-0 w-full z-20 bg-black">
@@ -45,7 +51,7 @@ const Navbar = () => {
             <ul className="flex flex-col lg:flex-row gap-2 lg:gap-14 text-gray-300 px-2 lg:px-0 items-stretch lg:items-center">
 
               <li className="hidden lg:flex items-center">
-                <form onSubmit={handleSearch} className="relative">
+                <div className="relative">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400">
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -54,10 +60,11 @@ const Navbar = () => {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder="Buscar..."
                     className="w-48 lg:w-56 pl-10 pr-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-base"
                   />
-                </form>
+                </div>
               </li>
 
               <li className="w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center py-2 border-b border-gray-700 lg:border-none">
@@ -91,8 +98,8 @@ const Navbar = () => {
               </li>
 
               <li className="lg:hidden w-full">
-                <form onSubmit={handleSearch} className="relative border-t border-gray-700 pt-3 mt-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400">
+                <div className="relative border-t border-gray-700 pt-3 mt-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" style={{ top: 'calc(50% + 6px)' }}>
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                   </svg>
@@ -100,10 +107,11 @@ const Navbar = () => {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder="Buscar..."
                     className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-sm"
                   />
-                </form>
+                </div>
               </li>
 
               <li className="lg:hidden w-full hover:text-white transition-colors duration-200 flex items-center py-2">
