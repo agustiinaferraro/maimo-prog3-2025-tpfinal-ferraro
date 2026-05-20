@@ -1,8 +1,30 @@
 'use client';
 
 import Image from "next/image"
+import { useAppContext } from "../context/AppContext";
+import { useEffect, useState } from "react";
 
 const About = () => {
+  const { actividades, fetchActividades } = useAppContext();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    if (!actividades.length) {
+      fetchActividades();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!actividades.length) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % actividades.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [actividades.length]);
+
+  const currentImage = actividades.length > 0
+    ? actividades[currentImageIndex]?.Portada
+    : "/img/iglesia.jpeg";
 
   return (
     <div className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 py-10">
@@ -17,19 +39,21 @@ const About = () => {
         />
       </div>
 
-      <div className="relative flex flex-col md:flex-row items-center md:items-start gap-10 w-full max-w-7xl mx-auto px-4 sm:px-6 text-white">
+      <div className="relative flex flex-col md:flex-row items-center md:items-start gap-10 w-full max-w-7xl mx-auto text-white">
 
         {/* Foto */}
         <div className="flex-1 w-full max-w-[600px] min-w-[280px]">
           <div className="relative overflow-hidden rounded-lg border-x border-b border-gray-500 transition-all duration-300 hover:border-gray-300 hover:scale-[1.02]">
-
-            <Image 
-              src="/img/iglesia.jpeg"
-              alt="Iglesia"
-              width={600}
-              height={400}
-              className="w-full h-auto md:h-[350px] object-cover transition-transform duration-300 hover:scale-105 active:scale-95 rounded-t-lg"
-            />
+            <div className="relative w-full aspect-[3/2] md:h-[350px]">
+              <Image
+                key={currentImageIndex}
+                src={currentImage}
+                alt="Iglesia"
+                fill
+                className="object-cover rounded-t-lg"
+                unoptimized
+              />
+            </div>
 
             <div className="absolute bottom-0 w-full bg-linear-to-t from-black to-black/0 border-gray-500 rounded-b-lg text-white p-4 pt-30 flex flex-col md:flex-row md:items-center md:justify-between gap-2 transition-all duration-300">
               <p className="text-center md:text-left text-base md:text-lg">
@@ -40,7 +64,7 @@ const About = () => {
                 href="https://share.google/bZM8f8HgvADwaE4Ql" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-amber-50 transition-transform duration-300 hover:scale-105 active:scale-95"
+                className="flex items-center gap-1 text-white transition-transform duration-300 hover:scale-105 active:scale-95"
               >
                 <span>📍</span> <span className="text-base md:text-lg">Ver en mapa</span>
               </a>
