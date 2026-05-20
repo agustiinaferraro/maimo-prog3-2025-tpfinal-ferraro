@@ -27,7 +27,7 @@ const About = () => {
     : "/img/iglesia.jpeg";
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 py-10">
+    <div className="relative flex items-center justify-center px-4 sm:px-6 py-6 md:py-10">
 
       {/* Fondo */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-transparent from-black/40 via-black/80 to-black/90">
