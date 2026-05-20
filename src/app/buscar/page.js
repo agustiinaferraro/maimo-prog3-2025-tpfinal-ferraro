@@ -22,6 +22,18 @@ const SearchResults = () => {
     if (!query) { setResults([]); return; }
     const q = query.toLowerCase();
     const found = [];
+
+    if (q === "predica" || q === "predicas") {
+      predicas.forEach((p) => {
+        found.push({ title: p.title, href: p.link, type: "Prédica" });
+      });
+    }
+    if (q === "actividad" || q === "actividades") {
+      actividades.forEach((a) => {
+        found.push({ title: a.ActividadNombre, href: `/categoriasActividades/${a._id}`, type: "Actividad" });
+      });
+    }
+
     actividades.forEach((a) => {
       if (a.ActividadNombre?.toLowerCase().includes(q))
         found.push({ title: a.ActividadNombre, href: `/categoriasActividades/${a._id}`, type: "Actividad" });
