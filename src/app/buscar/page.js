@@ -24,6 +24,23 @@ const SearchResults = () => {
   let results = [];
   if (query) {
     const q = query.toLowerCase();
+
+    const pages = [
+      { title: "Inicio", href: "/", keywords: ["iglesia casa del alfarero", "inicio", "home", "bienvenidos"], headings: ["Iglesia Casa del Alfarero", "Prédicas", "Actividades", "Sobre Nosotros"] },
+      { title: "Nosotros", href: "/nosotros", keywords: ["nosotros", "quienes somos", "historia", "iglesia"], headings: ["Sobre Nosotros", "Nuestra Historia", "Misión", "Visión"] },
+      { title: "Actividades", href: "/actividades", keywords: ["actividades", "eventos", "reuniones"], headings: ["Actividades", "Próximos Eventos"] },
+      { title: "Prédicas", href: "/predicas", keywords: ["predicas", "predicaciones", "sermones", "mensajes"], headings: ["Prédicas"] },
+      { title: "Contactanos", href: "/contactanos", keywords: ["contacto", "contactanos", "mensaje", "ubicacion", "direccion"], headings: ["Contactanos", "Ubicación", "Envíanos un mensaje"] },
+      { title: "Calendario", href: "/calendario", keywords: ["calendario", "eventos", "fechas", "agenda"], headings: ["Calendario"] },
+    ];
+
+    pages.forEach((p) => {
+      const matchHeadings = p.headings.some((h) => h.toLowerCase().includes(q));
+      const matchKeywords = p.keywords.some((k) => k.includes(q));
+      if (matchHeadings || matchKeywords)
+        results.push({ title: p.title, href: p.href, type: "Página" });
+    });
+
     if (q === "predica" || q === "predicas") {
       predicas.forEach((p) => {
         results.push({ title: p.title, href: p.link, type: "Prédica" });
