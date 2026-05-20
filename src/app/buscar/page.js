@@ -41,9 +41,11 @@ const SearchResults = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 px-6">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen py-10 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
         <BackButton />
+      </div>
+      <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Buscar</h1>
         <form onSubmit={handleSearch} className="mb-8">
           <input

@@ -54,9 +54,11 @@ const Contacto = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 px-6">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen py-10 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
         <BackButton />
+      </div>
+      <div className="max-w-2xl mx-auto">
         <h2 className="text-2xl font-semibold mb-6 text-center">Contacto</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Campos */}
