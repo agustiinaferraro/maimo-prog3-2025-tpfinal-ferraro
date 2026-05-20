@@ -30,16 +30,6 @@ const Navbar = () => {
             />
           </Link>
 
-          <form onSubmit={handleSearch} className="hidden lg:flex items-center w-48 lg:w-56 mx-3">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar..."
-              className="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-base"
-            />
-          </form>
-
           <button
             className="lg:hidden text-white ml-auto text-3xl"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -84,14 +74,34 @@ const Navbar = () => {
                 </Link>
               </li>
 
-              <li className="lg:hidden w-full">
-                <form onSubmit={handleSearch} className="flex items-center border-t border-gray-700 pt-3 mt-3">
+              <li className="hidden lg:flex items-center">
+                <form onSubmit={handleSearch} className="relative">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Buscar..."
-                    className="w-full px-3 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-sm"
+                    className="w-48 lg:w-56 pl-10 pr-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-base"
+                  />
+                </form>
+              </li>
+
+              <li className="lg:hidden w-full">
+                <form onSubmit={handleSearch} className="relative border-t border-gray-700 pt-3 mt-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Buscar..."
+                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-sm"
                   />
                 </form>
               </li>
