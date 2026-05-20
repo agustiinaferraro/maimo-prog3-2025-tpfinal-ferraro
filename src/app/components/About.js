@@ -39,7 +39,7 @@ const About = () => {
         />
       </div>
 
-      <div className="relative flex flex-col md:flex-row items-center md:items-start gap-10 w-full max-w-7xl mx-auto text-white">
+      <div className="relative flex flex-col md:flex-row items-center md:items-center gap-10 w-full max-w-7xl mx-auto text-white">
 
         {/* Foto */}
         <div className="flex-1 w-full max-w-[600px] min-w-[280px]">
