@@ -43,14 +43,14 @@ const About = () => {
 
         {/* Foto */}
         <div className="flex-1 w-full max-w-[600px] min-w-[280px]">
-          <div className="relative overflow-hidden rounded-lg border-x border-b border-gray-500 transition-all duration-300 hover:border-gray-300 hover:scale-[1.02]">
+          <div className="relative overflow-hidden rounded-lg border-x border-b border-gray-500 transition-all duration-300 hover:border-gray-300">
             <div className="relative w-full aspect-[3/2] md:h-[350px]">
               <Image
                 key={currentImageIndex}
                 src={currentImage}
                 alt="Iglesia"
                 fill
-                className="object-cover rounded-t-lg"
+                className="object-cover rounded-t-lg transition-transform duration-300 hover:scale-110"
                 unoptimized
               />
             </div>
