@@ -3,8 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -14,10 +16,14 @@ const Navbar = () => {
     if (q) setSearchQuery(q);
   }, []);
 
+  const navigateToSearch = (q) => {
+    router.push(`/buscar?q=${encodeURIComponent(q)}`);
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/buscar?q=${encodeURIComponent(searchQuery.trim())}`;
+      navigateToSearch(searchQuery.trim());
     }
   };
 
@@ -35,7 +41,7 @@ const Navbar = () => {
     if (params.get("q") === searchQuery) return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      window.location.href = `/buscar?q=${encodeURIComponent(searchQuery.trim())}`;
+      navigateToSearch(searchQuery.trim());
     }, 400);
     return () => clearTimeout(debounceRef.current);
   }, [searchQuery]);
