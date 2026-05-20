@@ -14,6 +14,19 @@ const Navbar = () => {
     if (q) setSearchQuery(q);
   }, []);
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      window.location.href = `/buscar?q=${encodeURIComponent(searchQuery.trim())}`;
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
+    }
+  };
+
   const debounceRef = useRef(null);
 
   useEffect(() => {
