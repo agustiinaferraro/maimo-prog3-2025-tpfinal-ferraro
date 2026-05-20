@@ -43,16 +43,19 @@ const About = () => {
 
         {/* Foto */}
         <div className="flex-1 w-full max-w-[600px] min-w-[280px]">
-          <div className="relative overflow-hidden rounded-lg border-x border-b border-gray-500 transition-all duration-300 hover:border-gray-300">
-            <div className="relative w-full overflow-hidden aspect-[3/2] md:h-[350px] rounded-t-lg group">
-              <Image
-                key={currentImageIndex}
-                src={currentImage}
-                alt="Iglesia"
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                unoptimized
-              />
+          <div className="group relative overflow-hidden rounded-lg border-x border-b border-gray-500 transition-all duration-300 hover:border-gray-300 hover:scale-105">
+            <div className="relative w-full overflow-hidden aspect-[3/2] md:h-[350px] rounded-t-lg">
+              <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-125">
+                <Image
+                  key={currentImageIndex}
+                  src={currentImage}
+                  alt="Iglesia"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+            </div>
             </div>
 
             <div className="absolute bottom-0 w-full bg-linear-to-t from-black to-black/0 border-gray-500 rounded-b-lg text-white p-4 pt-30 flex flex-col md:flex-row md:items-center md:justify-between gap-2 transition-all duration-300">
