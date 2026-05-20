@@ -1,19 +1,38 @@
 'use client'
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useAppContext } from "@/app/context/AppContext";
 import Link from "next/link";
 import BackButton from "../components/BackButton";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const SearchResults = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
-  const { actividades, predicas, fetchActividades, fetchPredicas } = useAppContext();
+  const [predicas, setPredicas] = useState([]);
+  const [actividades, setActividades] = useState([]);
 
   useEffect(() => {
-    if (!actividades.length) fetchActividades();
-    if (!predicas.length) fetchPredicas();
+    const fetchData = async () => {
+      try {
+        const [predRes, actRes] = await Promise.all([
+          fetch(`${API_URL}/predicas`),
+          fetch(`${API_URL}/actividades`),
+        ]);
+        if (predRes.ok) {
+          const data = await predRes.json();
+          setPredicas(Array.isArray(data) ? data : []);
+        }
+        if (actRes.ok) {
+          const data = await actRes.json();
+          setActividades(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        console.error("Error fetching data for search:", err);
+      }
+    };
+    fetchData();
   }, []);
 
   let results = [];
