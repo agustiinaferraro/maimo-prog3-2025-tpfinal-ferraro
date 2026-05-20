@@ -2,37 +2,23 @@
 
 import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useAppContext } from "@/app/context/AppContext";
 import Link from "next/link";
 import BackButton from "../components/BackButton";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const SearchResults = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
-  const [predicas, setPredicas] = useState([]);
-  const [actividades, setActividades] = useState([]);
+  const { actividades, predicas, fetchActividades, fetchPredicas } = useAppContext();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [predRes, actRes] = await Promise.all([
-          fetch(`${API_URL}/predicas`),
-          fetch(`${API_URL}/actividades`),
-        ]);
-        if (predRes.ok) {
-          const data = await predRes.json();
-          setPredicas(Array.isArray(data) ? data : []);
-        }
-        if (actRes.ok) {
-          const data = await actRes.json();
-          setActividades(Array.isArray(data) ? data : []);
-        }
-      } catch (err) {
-        console.error("Error fetching data for search:", err);
-      }
+    const load = async () => {
+      if (!actividades.length) await fetchActividades();
+      if (!predicas.length) await fetchPredicas();
+      setLoading(false);
     };
-    fetchData();
+    load();
   }, []);
 
   let results = [];
@@ -64,26 +50,31 @@ const SearchResults = () => {
         <BackButton />
       </div>
       <div className="max-w-2xl mx-auto">
-        {query && (
+        {query && !loading && (
           <p className="text-gray-400 mb-4">
             {results.length > 0
               ? `Se encontraron ${results.length} resultado(s) para "${query}"`
               : `Sin resultados para "${query}"`}
           </p>
         )}
-        <div className="flex flex-col gap-4">
-          {results.map((r, i) => (
-            <Link
-              key={i}
-              href={r.href}
-              className="p-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors"
-              {...(r.type === "Prédica" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            >
-              <span className="text-xs text-gray-400 uppercase">{r.type}</span>
-              <p className="text-white font-medium mt-1">{r.title}</p>
-            </Link>
-          ))}
-        </div>
+        {loading && query && (
+          <p className="text-gray-400 mb-4">Buscando...</p>
+        )}
+        {results.length > 0 && (
+          <div className="flex flex-col gap-4">
+            {results.map((r, i) => (
+              <Link
+                key={i}
+                href={r.href}
+                className="p-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors"
+                {...(r.type === "Prédica" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                <span className="text-xs text-gray-400 uppercase">{r.type}</span>
+                <p className="text-white font-medium mt-1">{r.title}</p>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

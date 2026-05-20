@@ -3,10 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -16,14 +14,10 @@ const Navbar = () => {
     if (q) setSearchQuery(q);
   }, []);
 
-  const navigateToSearch = (q) => {
-    router.push(`/buscar?q=${encodeURIComponent(q)}`);
-  };
-
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigateToSearch(searchQuery.trim());
+      window.location.href = `/buscar?q=${encodeURIComponent(searchQuery.trim())}`;
     }
   };
 
@@ -33,26 +27,13 @@ const Navbar = () => {
     }
   };
 
-  const debounceRef = useRef(null);
-  const prevSearchRef = useRef("");
-
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      if (prevSearchRef.current.trim() && window.location.pathname === "/buscar") {
-        router.back();
-      }
-      prevSearchRef.current = "";
-      return;
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setSearchQuery(val);
+    if (!val.trim() && window.location.pathname === "/buscar") {
+      window.location.href = "/";
     }
-    prevSearchRef.current = searchQuery;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("q") === searchQuery) return;
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      navigateToSearch(searchQuery.trim());
-    }, 400);
-    return () => clearTimeout(debounceRef.current);
-  }, [searchQuery]);
+  };
 
   return (
     <>
@@ -92,7 +73,7 @@ const Navbar = () => {
                   <input
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={handleChange}
                     onKeyDown={handleKeyDown}
                     placeholder="Buscar..."
                     className="w-48 lg:w-56 pl-10 pr-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-base"
@@ -139,7 +120,7 @@ const Navbar = () => {
                   <input
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={handleChange}
                     onKeyDown={handleKeyDown}
                     placeholder="Buscar..."
                     className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40 text-sm"
