@@ -11,10 +11,15 @@ const SearchResults = () => {
   const query = searchParams.get("q") || "";
   const { actividades, predicas, fetchActividades, fetchPredicas } = useAppContext();
   const [results, setResults] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!actividades.length) fetchActividades();
-    if (!predicas.length) fetchPredicas();
+    const loadData = async () => {
+      if (!actividades.length) await fetchActividades();
+      if (!predicas.length) await fetchPredicas();
+      setLoaded(true);
+    };
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -50,7 +55,7 @@ const SearchResults = () => {
         <BackButton />
       </div>
       <div className="max-w-2xl mx-auto">
-        {query && (
+        {query && loaded && (
           <p className="text-gray-400 mb-4">
             {results.length > 0
               ? `Se encontraron ${results.length} resultado(s) para "${query}"`
