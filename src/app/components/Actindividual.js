@@ -22,6 +22,8 @@ const Actindividual = () => {
   if (loading) return <Loading />;
   if (!actividades.length) return <p>La actividad no esta disponible</p>;
 
+  const actividad = actividades[currentIndex];
+
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % actividades.length);
   };
@@ -33,64 +35,48 @@ const Actindividual = () => {
   };
 
   return (
-    <div className="py-10 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-1.5 h-8 bg-white rounded-full" />
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-white">
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-          </svg>
-          <h3 className="text-4xl sm:text-5xl font-bold text-white">Actividades</h3>
+    <div className="mb-20">
+      <div className="flex flex-col lg:flex-row justify-center items-center lg:items-start">
+        <div className="w-85 lg:w-140 lg:pr-20 order-2 lg:order-1 mt-10 lg:mt-0">
+          <div className="h-auto lg:h-80 mb-6">
+            <h3 className="text-3xl text-left font-bold">{actividad.ActividadNombre}</h3>
+            <h4 className="pt-2 pb-8 font-extralight">Actividades</h4>
+            <p>{actividad.Descripcion}</p>
+          </div>
+          <Link href="/calendario" className="w-full">
+            <button className="cursor-pointer bg-green-400 p-2 pl-4 pr-4 text-black rounded-lg transition-transform duration-300 hover:scale-105 active:scale-95">
+              Ver Calendario
+            </button>
+          </Link>
         </div>
 
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl min-h-[400px] lg:min-h-[500px]">
+        <div className="order-1 lg:order-2">
           <Image
-            key={currentIndex}
-            src={actividades[currentIndex].Portada}
-            fill
-            className="object-cover transition-opacity duration-500"
+            src={actividad.Portada}
+            width={420}
+            height={400}
+            alt={actividad.ActividadNombre}
             unoptimized
+            className="h-80 w-85 object-cover object-[50%_20%] rounded-lg"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+          <div className="pt-10 flex justify-center">
+            <button
+              className="font-bold text-2xl cursor-pointer pr-10 transition-transform duration-300 hover:scale-105 active:scale-95"
+              onClick={handlePrev}
+            >
+              ←
+            </button>
 
-          <div className="relative z-10 h-full min-h-[400px] lg:min-h-[500px] flex flex-col justify-end lg:justify-center p-8 lg:p-12">
-            <div className="lg:w-1/2">
-              <h4 className="text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
-                {actividades[currentIndex].ActividadNombre}
-              </h4>
-              <p className="text-gray-200 text-lg leading-relaxed mb-6 line-clamp-3 lg:line-clamp-none">
-                {actividades[currentIndex].Descripcion}
-              </p>
+            <p className="text-gray-300 font-extralight">
+              {currentIndex + 1} / {actividades.length}
+            </p>
 
-              <div className="flex flex-wrap items-center gap-4">
-                <Link href="/calendario">
-                  <button className="cursor-pointer px-6 py-3 bg-amber-500 text-black font-semibold rounded-lg hover:scale-105 active:scale-95 transition-transform duration-200">
-                    Ver Calendario
-                  </button>
-                </Link>
-
-                <div className="flex items-center gap-3 text-white">
-                  <button
-                    onClick={handlePrev}
-                    className="cursor-pointer text-2xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
-                  >
-                    ←
-                  </button>
-                  <span className="text-white/60 text-sm font-medium">
-                    {currentIndex + 1} / {actividades.length}
-                  </span>
-                  <button
-                    onClick={handleNext}
-                    className="cursor-pointer text-2xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
-                  >
-                    →
-                  </button>
-                </div>
-              </div>
-            </div>
+            <button
+              className="font-bold text-2xl cursor-pointer pl-10 transition-transform duration-300 hover:scale-105 active:scale-95"
+              onClick={handleNext}
+            >
+              →
+            </button>
           </div>
         </div>
       </div>
