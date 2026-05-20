@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,6 +20,17 @@ const Navbar = () => {
       handleSearch(e);
     }
   };
+
+  const debounceRef = useRef(null);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) return;
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      window.location.href = `/buscar?q=${encodeURIComponent(searchQuery.trim())}`;
+    }, 400);
+    return () => clearTimeout(debounceRef.current);
+  }, [searchQuery]);
 
   return (
     <>

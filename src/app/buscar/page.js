@@ -9,7 +9,6 @@ import BackButton from "../components/BackButton";
 const SearchResults = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
-  const [input, setInput] = useState(query);
   const { actividades, predicas, fetchActividades, fetchPredicas } = useAppContext();
   const [results, setResults] = useState([]);
 
@@ -45,29 +44,12 @@ const SearchResults = () => {
     setResults(found);
   }, [query, actividades, predicas]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (input.trim()) {
-      window.location.href = `/buscar?q=${encodeURIComponent(input.trim())}`;
-    }
-  };
-
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <BackButton />
       </div>
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Buscar</h1>
-        <form onSubmit={handleSearch} className="mb-8">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="¿Qué estás buscando?"
-            className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-white/40"
-          />
-        </form>
         {query && (
           <p className="text-gray-400 mb-4">
             {results.length > 0
