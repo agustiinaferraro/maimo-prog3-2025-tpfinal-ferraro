@@ -28,8 +28,8 @@ const SearchResults = () => {
     const pages = [
       { title: "Inicio", href: "/", keywords: ["iglesia casa del alfarero", "inicio", "home", "bienvenidos"], headings: ["Iglesia Casa del Alfarero", "Prédicas", "Actividades", "Sobre Nosotros"] },
       { title: "Nosotros", href: "/nosotros", keywords: ["nosotros", "quienes somos", "historia", "iglesia"], headings: ["Sobre Nosotros", "Nuestra Historia", "Misión", "Visión"] },
-      { title: "Actividades", href: "/actividades", keywords: ["actividades", "eventos", "reuniones"], headings: ["Actividades", "Próximos Eventos"] },
-      { title: "Prédicas", href: "/predicas", keywords: ["predicas", "predicaciones", "sermones", "mensajes"], headings: ["Prédicas"] },
+      { title: "Actividades", href: "/#actividades", keywords: ["actividades", "eventos", "reuniones"], headings: ["Actividades", "Próximos Eventos"] },
+      { title: "Prédicas", href: "/#predicas", keywords: ["predicas", "predicaciones", "sermones", "mensajes"], headings: ["Prédicas"] },
       { title: "Contactanos", href: "/contactanos", keywords: ["contacto", "contactanos", "mensaje", "ubicacion", "direccion"], headings: ["Contactanos", "Ubicación", "Envíanos un mensaje"] },
       { title: "Calendario", href: "/calendario", keywords: ["calendario", "eventos", "fechas", "agenda"], headings: ["Calendario"] },
     ];
