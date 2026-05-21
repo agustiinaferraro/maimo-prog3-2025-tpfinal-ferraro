@@ -1,12 +1,13 @@
 'use client'
 
 import { Suspense, useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useAppContext } from "@/app/context/AppContext";
 import Link from "next/link";
 import BackButton from "../components/BackButton";
 
 const SearchResults = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const { actividades, predicas, fetchActividades, fetchPredicas } = useAppContext();
@@ -59,6 +60,23 @@ const SearchResults = () => {
       if (p.title?.toLowerCase().includes(q))
         results.push({ title: p.title, href: p.link, type: "Prédica" });
     });
+  }
+
+  const onlyPage = results.length === 1 && results[0].type === "Página";
+
+  useEffect(() => {
+    if (onlyPage) router.replace(results[0].href);
+  }, [onlyPage]);
+
+  if (onlyPage) {
+    return (
+      <div className="min-h-screen py-10 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto"><BackButton /></div>
+        <div className="max-w-2xl mx-auto">
+          <p className="text-gray-400 mb-4">Redirigiendo a {results[0].title}...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

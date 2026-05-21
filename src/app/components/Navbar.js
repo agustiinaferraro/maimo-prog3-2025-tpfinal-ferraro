@@ -28,8 +28,12 @@ const Navbar = () => {
       contacto: "/contactanos",
       calendario: "/calendario",
     };
-    const direct = directPages[q.toLowerCase()];
-    if (direct) { router.push(direct); return; }
+    const val = q.toLowerCase();
+    if (directPages[val]) { router.push(directPages[val]); return; }
+    if (val.length >= 3) {
+      const matched = [...new Set(Object.keys(directPages).filter((k) => k.startsWith(val)).map((k) => directPages[k]))];
+      if (matched.length === 1) { router.push(matched[0]); return; }
+    }
     router.push(`/buscar?q=${encodeURIComponent(q)}`);
   };
 
