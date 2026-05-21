@@ -12,9 +12,9 @@ const HomeContainer = () => {
       <div>
         <Hero />
         <About />
-        <div id="actividades"><Actindividual /></div>
+        <div id="actividades" className="scroll-mt-[72px]"><Actindividual /></div>
         <Actividades isCarousel={true} />
-        <div id="predicas"><Predicas isCarousel={true} /></div>
+        <div id="predicas" className="scroll-mt-[72px]"><Predicas isCarousel={true} /></div>
       </div>
     );
   } catch (error) {
