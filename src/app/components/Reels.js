@@ -21,6 +21,7 @@ const Reels = ({ isCarousel = false }) => {
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
   const autoRef = useRef(null);
+  const videoRefs = useRef([]);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -41,6 +42,22 @@ const Reels = ({ isCarousel = false }) => {
     };
     fetchAll();
   }, []);
+
+  useEffect(() => {
+    if (loading) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const vid = entry.target;
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+    videoRefs.current.forEach((vid) => { if (vid) obs.observe(vid); });
+    return () => obs.disconnect();
+  }, [loading, reelData]);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -72,13 +89,13 @@ const Reels = ({ isCarousel = false }) => {
   const videoClass =
     "w-full h-full object-cover transition-all duration-300 group-hover:scale-125";
 
-  const renderVideo = (reel) => {
+  const renderVideo = (reel, idx) => {
     if (reel.video) {
       return (
         <video
+          ref={(el) => { videoRefs.current[idx] = el; }}
           src={reel.video}
           muted
-          autoPlay
           loop
           playsInline
           className={videoClass}
@@ -139,7 +156,7 @@ const Reels = ({ isCarousel = false }) => {
                     >
                       <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
                         <div className="w-full h-full overflow-hidden">
-                          {renderVideo(reel)}
+                          {renderVideo(reel, i)}
                         </div>
                         {!reel.video && !reel.thumbnail && (
                           <div className="absolute inset-0 flex items-center justify-center">
@@ -201,7 +218,7 @@ const Reels = ({ isCarousel = false }) => {
                 >
                   <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
                     <div className="w-full h-full overflow-hidden">
-                      {renderVideo(reel)}
+                      {renderVideo(reel, i)}
                     </div>
                     {!reel.video && !reel.thumbnail && (
                       <div className="absolute inset-0 flex items-center justify-center">
