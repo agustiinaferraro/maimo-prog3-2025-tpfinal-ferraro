@@ -24,6 +24,7 @@ const Navbar = () => {
       actividades: "/#actividades",
       predicas: "/#predicas",
       predica: "/#predicas",
+      reels: "/reels",
       contactanos: "/contactanos",
       contacto: "/contactanos",
       calendario: "/calendario",
@@ -129,6 +130,12 @@ const Navbar = () => {
               <li className="w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center py-2">
                 <Link href="/predicas" className="block w-full text-center lg:inline-block lg:w-auto">
                   Prédicas
+                </Link>
+              </li>
+
+              <li className="w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center py-2">
+                <Link href="/reels" className="block w-full text-center lg:inline-block lg:w-auto">
+                  Reels
                 </Link>
               </li>
 
