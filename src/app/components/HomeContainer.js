@@ -15,7 +15,7 @@ const HomeContainer = () => {
         <About />
         <div id="actividades" className="scroll-mt-[72px]"><Actindividual /></div>
         <Actividades isCarousel={true} />
-        <Reels isCarousel={true} />
+        <div id="reels" className="scroll-mt-[72px]"><Reels isCarousel={true} /></div>
         <div id="predicas" className="scroll-mt-[72px]"><Predicas isCarousel={true} /></div>
       </div>
     );

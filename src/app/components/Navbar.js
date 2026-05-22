@@ -24,7 +24,7 @@ const Navbar = () => {
       actividades: "/#actividades",
       predicas: "/#predicas",
       predica: "/#predicas",
-      reels: "/reels",
+      reels: "/#reels",
       contactanos: "/contactanos",
       contacto: "/contactanos",
       calendario: "/calendario",

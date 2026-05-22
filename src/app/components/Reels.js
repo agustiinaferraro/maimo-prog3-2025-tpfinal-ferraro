@@ -14,49 +14,32 @@ const REELS = [
   { link: "https://www.instagram.com/p/C6optX3LsYa/" },
 ];
 
-const ReelThumbnail = ({ link }) => {
-  const reelId = link.match(/\/p\/([^/]+)/)?.[1];
-  const [failed, setFailed] = useState(false);
-  const thumbSrc = `/api/reel-thumbnail?url=${encodeURIComponent(link)}`;
-
-  return (
-    <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
-      <div className="w-full h-full overflow-hidden">
-        <img
-          src={thumbSrc}
-          alt="Reel"
-          className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-125 ${failed ? 'opacity-0' : 'opacity-100'}`}
-          onError={() => setFailed(true)}
-        />
-      </div>
-      {failed && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
-            <rect x="2" y="2" width="20" height="20" rx="5" />
-            <circle cx="12" cy="12" r="3" fill="#555" />
-            <rect x="9" y="9" width="6" height="6" rx="1" />
-          </svg>
-        </div>
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-10 h-10 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-5 h-5">
-            <rect x="2" y="2" width="20" height="20" rx="5" />
-            <polygon points="10,8 16,12 10,16" fill="white" />
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
-};
+const INSTAGRAM_URL = "https://www.instagram.com/lacasad.elfareromunro/";
 
 const Reels = ({ isCarousel = false }) => {
+  const [reelData, setReelData] = useState([]);
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
+  const autoRef = useRef(null);
 
   useEffect(() => {
-    setLoading(false);
+    const fetchAll = async () => {
+      const results = await Promise.allSettled(
+        REELS.map((r) =>
+          fetch(`/api/reel-thumbnail?url=${encodeURIComponent(r.link)}`).then((res) =>
+            res.ok ? res.json() : null
+          )
+        )
+      );
+      const data = results.map((r, i) => ({
+        ...REELS[i],
+        video: r.status === "fulfilled" && r.value?.video ? r.value.video : null,
+        thumbnail: r.status === "fulfilled" && r.value?.thumbnail ? r.value.thumbnail : null,
+      }));
+      setReelData(data);
+      setLoading(false);
+    };
+    fetchAll();
   }, []);
 
   const scroll = (direction) => {
@@ -69,8 +52,50 @@ const Reels = ({ isCarousel = false }) => {
     }
   };
 
+  useEffect(() => {
+    if (!isCarousel || loading) return;
+    autoRef.current = setInterval(() => {
+      if (scrollRef.current) {
+        const cardW = scrollRef.current.querySelector("div")?.offsetWidth || 280;
+        scrollRef.current.scrollBy({ left: cardW + 16, behavior: "smooth" });
+        if (scrollRef.current.scrollLeft + scrollRef.current.offsetWidth >= scrollRef.current.scrollWidth - cardW) {
+          setTimeout(() => { scrollRef.current.scrollLeft = 0; }, 600);
+        }
+      }
+    }, 4000);
+    return () => clearInterval(autoRef.current);
+  }, [isCarousel, loading]);
+
   if (loading) return <Loading />;
-  if (!REELS.length) return null;
+  if (!reelData.length) return null;
+
+  const videoClass =
+    "w-full h-full object-cover transition-all duration-300 group-hover:scale-125";
+
+  const renderVideo = (reel) => {
+    if (reel.video) {
+      return (
+        <video
+          src={reel.video}
+          muted
+          autoPlay
+          loop
+          playsInline
+          className={videoClass}
+        />
+      );
+    }
+    if (reel.thumbnail) {
+      return (
+        <img
+          src={reel.thumbnail}
+          alt="Reel"
+          className={videoClass}
+        />
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="py-10 px-4 sm:px-6">
@@ -104,15 +129,37 @@ const Reels = ({ isCarousel = false }) => {
                 className="flex-1 flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                {REELS.map((reel, i) => (
+                {reelData.map((reel, i) => (
                   <div key={i} className="snap-start flex-shrink-0 py-2">
                     <a
-                      href={reel.link}
+                      href={INSTAGRAM_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group w-[190px] sm:w-[230px] md:w-[280px] rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                     >
-                      <ReelThumbnail link={reel.link} />
+                      <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
+                        <div className="w-full h-full overflow-hidden">
+                          {renderVideo(reel)}
+                        </div>
+                        {!reel.video && !reel.thumbnail && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
+                              <rect x="2" y="2" width="20" height="20" rx="5" />
+                              <circle cx="12" cy="12" r="3" fill="#555" />
+                              <rect x="9" y="9" width="6" height="6" rx="1" />
+                            </svg>
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10 bg-gradient-to-tr from-purple-600 to-pink-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-5 h-5">
+                              <rect x="2" y="2" width="20" height="20" rx="5" />
+                              <polygon points="10,8 16,12 10,16" fill="white" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
                       <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                         <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">Reel</h3>
                       </div>
@@ -144,15 +191,37 @@ const Reels = ({ isCarousel = false }) => {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {REELS.map((reel, i) => (
+              {reelData.map((reel, i) => (
                 <a
                   key={i}
-                  href={reel.link}
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                 >
-                  <ReelThumbnail link={reel.link} />
+                  <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
+                    <div className="w-full h-full overflow-hidden">
+                      {renderVideo(reel)}
+                    </div>
+                    {!reel.video && !reel.thumbnail && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
+                          <rect x="2" y="2" width="20" height="20" rx="5" />
+                          <circle cx="12" cy="12" r="3" fill="#555" />
+                          <rect x="9" y="9" width="6" height="6" rx="1" />
+                        </svg>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10 bg-gradient-to-tr from-purple-600 to-pink-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-5 h-5">
+                          <rect x="2" y="2" width="20" height="20" rx="5" />
+                          <polygon points="10,8 16,12 10,16" fill="white" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                     <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">Reel</h3>
                   </div>
