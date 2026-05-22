@@ -19,6 +19,7 @@ const INSTAGRAM_URL = "https://www.instagram.com/lacasad.elfareromunro/";
 const Reels = ({ isCarousel = false }) => {
   const [reelData, setReelData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hoverIdx, setHoverIdx] = useState(null);
   const scrollRef = useRef(null);
   const autoRef = useRef(null);
   const videoRefs = useRef([]);
@@ -44,32 +45,6 @@ const Reels = ({ isCarousel = false }) => {
   }, []);
 
   useEffect(() => {
-    if (loading) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const vid = entry.target;
-        if (entry.isIntersecting) {
-          vid.play().catch(() => {});
-        } else {
-          vid.pause();
-        }
-      });
-    }, { threshold: 0.3 });
-    videoRefs.current.forEach((vid) => { if (vid) obs.observe(vid); });
-    return () => obs.disconnect();
-  }, [loading, reelData]);
-
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.offsetWidth * 0.8;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  useEffect(() => {
     if (!isCarousel || loading) return;
     autoRef.current = setInterval(() => {
       if (scrollRef.current) {
@@ -83,36 +58,73 @@ const Reels = ({ isCarousel = false }) => {
     return () => clearInterval(autoRef.current);
   }, [isCarousel, loading]);
 
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.offsetWidth * 0.8;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleMouseEnter = (i) => {
+    setHoverIdx(i);
+    const vid = videoRefs.current[i];
+    if (vid) vid.play().catch(() => {});
+  };
+
+  const handleMouseLeave = (i) => {
+    setHoverIdx(null);
+    const vid = videoRefs.current[i];
+    if (vid) { vid.pause(); vid.currentTime = 0; }
+  };
+
   if (loading) return <Loading />;
   if (!reelData.length) return null;
 
-  const videoClass =
-    "w-full h-full object-cover transition-all duration-300 group-hover:scale-125";
+  const renderMedia = (reel, i) => {
+    const showVideo = hoverIdx === i && reel.video;
+    const showThumb = !showVideo && reel.thumbnail;
 
-  const renderVideo = (reel, idx) => {
-    if (reel.video) {
-      return (
-        <video
-          ref={(el) => { videoRefs.current[idx] = el; }}
-          src={reel.video}
-          muted
-          loop
-          playsInline
-          className={videoClass}
-        />
-      );
-    }
-    if (reel.thumbnail) {
-      return (
-        <img
-          src={reel.thumbnail}
-          alt="Reel"
-          className={videoClass}
-        />
-      );
-    }
-    return null;
+    return (
+      <div className="relative w-full h-full">
+        {reel.thumbnail && (
+          <img
+            src={reel.thumbnail}
+            alt=""
+            className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
+            style={{ opacity: showVideo ? 0 : 1 }}
+          />
+        )}
+        {reel.video && (
+          <video
+            ref={(el) => { videoRefs.current[i] = el; }}
+            src={reel.video}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
+            style={{ opacity: showVideo ? 1 : 0 }}
+          />
+        )}
+        {!reel.video && !reel.thumbnail && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="3" fill="#555" />
+              <rect x="9" y="9" width="6" height="6" rx="1" />
+            </svg>
+          </div>
+        )}
+      </div>
+    );
   };
+
+  const cardClasses =
+    "group rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer";
+  const imgClasses = "relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl";
 
   return (
     <div className="py-10 px-4 sm:px-6">
@@ -152,21 +164,12 @@ const Reels = ({ isCarousel = false }) => {
                       href={INSTAGRAM_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group w-[190px] sm:w-[230px] md:w-[280px] rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                      className={`${cardClasses} w-[190px] sm:w-[230px] md:w-[280px]`}
+                      onMouseEnter={() => handleMouseEnter(i)}
+                      onMouseLeave={() => handleMouseLeave(i)}
                     >
-                      <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
-                        <div className="w-full h-full overflow-hidden">
-                          {renderVideo(reel, i)}
-                        </div>
-                        {!reel.video && !reel.thumbnail && (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
-                              <rect x="2" y="2" width="20" height="20" rx="5" />
-                              <circle cx="12" cy="12" r="3" fill="#555" />
-                              <rect x="9" y="9" width="6" height="6" rx="1" />
-                            </svg>
-                          </div>
-                        )}
+                      <div className={imgClasses}>
+                        {renderMedia(reel, i)}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-10 h-10 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10 bg-gradient-to-tr from-purple-600 to-pink-500">
@@ -214,21 +217,12 @@ const Reels = ({ isCarousel = false }) => {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                  className={cardClasses}
+                  onMouseEnter={() => handleMouseEnter(i)}
+                  onMouseLeave={() => handleMouseLeave(i)}
                 >
-                  <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
-                    <div className="w-full h-full overflow-hidden">
-                      {renderVideo(reel, i)}
-                    </div>
-                    {!reel.video && !reel.thumbnail && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
-                          <rect x="2" y="2" width="20" height="20" rx="5" />
-                          <circle cx="12" cy="12" r="3" fill="#555" />
-                          <rect x="9" y="9" width="6" height="6" rx="1" />
-                        </svg>
-                      </div>
-                    )}
+                  <div className={imgClasses}>
+                    {renderMedia(reel, i)}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-10 h-10 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10 bg-gradient-to-tr from-purple-600 to-pink-500">
