@@ -47,40 +47,23 @@ const Reels = ({ isCarousel = false }) => {
 
   useEffect(() => {
     if (!isCarousel || loading) return;
-    const el = scrollElRef.current;
-    if (!el) return;
-    const scroll = () => {
-      if (!scrollElRef.current) return;
-      const maxScroll = scrollElRef.current.scrollWidth / 2;
-      scrollElRef.current.scrollLeft += 0.4;
-      if (scrollElRef.current.scrollLeft >= maxScroll) scrollElRef.current.scrollLeft = 0;
-      rafRef.current = requestAnimationFrame(scroll);
-    };
-    rafRef.current = requestAnimationFrame(scroll);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+
+    rafRef.current = setInterval(() => {
+      if (scrollElRef.current) {
+        const cardW = scrollElRef.current.querySelector("a")?.offsetWidth || 280;
+        scrollElRef.current.scrollBy({ left: cardW + 16, behavior: "smooth" });
+        if (scrollElRef.current.scrollLeft + scrollElRef.current.offsetWidth >= scrollElRef.current.scrollWidth / 2) {
+          setTimeout(() => { scrollElRef.current.scrollLeft = 0; }, 600);
+        }
+      }
+    }, 5000);
+
+    return () => { if (rafRef.current) { clearInterval(rafRef.current); rafRef.current = null; } };
   }, [isCarousel, loading]);
-
-  const startAutoScroll = () => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    const el = scrollElRef.current;
-    if (!el) return;
-    const scroll = () => {
-      if (!scrollElRef.current) return;
-      const maxScroll = scrollElRef.current.scrollWidth / 2;
-      scrollElRef.current.scrollLeft += 0.4;
-      if (scrollElRef.current.scrollLeft >= maxScroll) scrollElRef.current.scrollLeft = 0;
-      rafRef.current = requestAnimationFrame(scroll);
-    };
-    rafRef.current = requestAnimationFrame(scroll);
-  };
-
-  const stopAutoScroll = () => {
-    if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
-  };
 
   const handleMouseEnter = (i) => {
     setHoverIdx(i);
-    stopAutoScroll();
+    if (rafRef.current) { clearInterval(rafRef.current); rafRef.current = null; }
     const vid = videoRefs.current[i];
     if (vid) vid.play().catch(() => {});
   };
@@ -89,7 +72,17 @@ const Reels = ({ isCarousel = false }) => {
     setHoverIdx(null);
     const vid = videoRefs.current[i];
     if (vid) { vid.pause(); vid.currentTime = 0; }
-    if (isCarousel) startAutoScroll();
+    if (isCarousel && !rafRef.current) {
+      rafRef.current = setInterval(() => {
+        if (scrollElRef.current) {
+          const cardW = scrollElRef.current.querySelector("a")?.offsetWidth || 280;
+          scrollElRef.current.scrollBy({ left: cardW + 16, behavior: "smooth" });
+          if (scrollElRef.current.scrollLeft + scrollElRef.current.offsetWidth >= scrollElRef.current.scrollWidth / 2) {
+            setTimeout(() => { scrollElRef.current.scrollLeft = 0; }, 600);
+          }
+        }
+      }, 5000);
+    }
   };
 
   if (loading) return <Loading />;
