@@ -76,16 +76,6 @@ const Reels = ({ isCarousel = false }) => {
     if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
   };
 
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.offsetWidth * 0.8;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   const handleMouseEnter = (i) => {
     setHoverIdx(i);
     stopAutoScroll();
@@ -165,23 +155,8 @@ const Reels = ({ isCarousel = false }) => {
       <div className="max-w-7xl mx-auto">
         {isCarousel ? (
           <>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => scroll('left')}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
-                aria-label="Anterior"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-              </button>
-
-              <div
-                ref={scrollRef}
-                className="flex-1 flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                {displayData.map((reel, i) => (
+            <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {displayData.map((reel, i) => (
                   <div key={i} className="flex-shrink-0 py-2">
                     <a
                       href={INSTAGRAM_URL}
@@ -194,6 +169,11 @@ const Reels = ({ isCarousel = false }) => {
                       <div className={imgClasses}>
                         {renderMedia(reel, i)}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                        <div className="absolute bottom-2 right-2 opacity-30">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4">
+                            <polygon points="8,5 19,12 8,19" />
+                          </svg>
+                        </div>
                       </div>
                       <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                         <p className="text-xs sm:text-sm font-normal leading-tight text-left line-clamp-2">
@@ -204,17 +184,6 @@ const Reels = ({ isCarousel = false }) => {
                   </div>
                 ))}
               </div>
-
-              <button
-                onClick={() => scroll('right')}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
-                aria-label="Siguiente"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </button>
-            </div>
 
             <div className="flex justify-end mt-8">
               <a
@@ -241,6 +210,11 @@ const Reels = ({ isCarousel = false }) => {
                   <div className={imgClasses}>
                     {renderMedia(reel, i)}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                    <div className="absolute bottom-2 right-2 opacity-30">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4">
+                        <polygon points="8,5 19,12 8,19" />
+                      </svg>
+                    </div>
                   </div>
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                     <p className="text-sm sm:text-base font-normal leading-tight text-left line-clamp-2">

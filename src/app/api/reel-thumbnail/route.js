@@ -18,7 +18,10 @@ export async function GET(request) {
     const videoUrl = ogVideo?.[1]?.replace(/&amp;/g, "&") || "";
     const thumbnail = ogImage?.[1]?.replace(/&amp;/g, "&") || "";
     const title = ogDesc?.[1]?.replace(/&amp;/g, "&")?.replace(/&#\d+;/g, "")?.trim() || "";
-    return Response.json({ thumbnail, video: videoUrl, title });
+    const cleaned = title.replace(/^Video\s+by\s+@\S+\s*•\s*[\d,.]+\s*(K|M)?\s*likes\s*•\s*/i, "")
+      .replace(/^@\S+\s*/, "")
+      .trim();
+    return Response.json({ thumbnail, video: videoUrl, title: cleaned });
   } catch {
     return Response.json({ error: "Failed" }, { status: 500 });
   }
