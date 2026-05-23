@@ -20,7 +20,7 @@ const Reels = ({ isCarousel = false }) => {
   const [reelData, setReelData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoverIdx, setHoverIdx] = useState(null);
-  const scrollRef = useRef(null);
+  const scrollElRef = useRef(null);
   const rafRef = useRef(null);
   const videoRefs = useRef([]);
 
@@ -46,13 +46,14 @@ const Reels = ({ isCarousel = false }) => {
   }, []);
 
   useEffect(() => {
-    if (!isCarousel || loading || !scrollRef.current) return;
+    if (!isCarousel || loading) return;
+    const el = scrollElRef.current;
+    if (!el) return;
     const scroll = () => {
-      if (!scrollRef.current) return;
-      const el = scrollRef.current;
-      const maxScroll = el.scrollWidth / 2;
-      el.scrollLeft += 0.4;
-      if (el.scrollLeft >= maxScroll) el.scrollLeft = 0;
+      if (!scrollElRef.current) return;
+      const maxScroll = scrollElRef.current.scrollWidth / 2;
+      scrollElRef.current.scrollLeft += 0.4;
+      if (scrollElRef.current.scrollLeft >= maxScroll) scrollElRef.current.scrollLeft = 0;
       rafRef.current = requestAnimationFrame(scroll);
     };
     rafRef.current = requestAnimationFrame(scroll);
@@ -61,12 +62,13 @@ const Reels = ({ isCarousel = false }) => {
 
   const startAutoScroll = () => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    const el = scrollElRef.current;
+    if (!el) return;
     const scroll = () => {
-      if (!scrollRef.current) return;
-      const el = scrollRef.current;
-      const maxScroll = el.scrollWidth / 2;
-      el.scrollLeft += 0.4;
-      if (el.scrollLeft >= maxScroll) el.scrollLeft = 0;
+      if (!scrollElRef.current) return;
+      const maxScroll = scrollElRef.current.scrollWidth / 2;
+      scrollElRef.current.scrollLeft += 0.4;
+      if (scrollElRef.current.scrollLeft >= maxScroll) scrollElRef.current.scrollLeft = 0;
       rafRef.current = requestAnimationFrame(scroll);
     };
     rafRef.current = requestAnimationFrame(scroll);
@@ -154,7 +156,8 @@ const Reels = ({ isCarousel = false }) => {
       </div>
       {isCarousel ? (
         <>
-          <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div ref={scrollElRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {displayData.map((reel, i) => (
                   <div key={i} className="flex-shrink-0 py-2">
                     <a
@@ -184,7 +187,7 @@ const Reels = ({ isCarousel = false }) => {
                 ))}
               </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-end mt-8">
+            <div className="flex justify-end mt-8">
               <a
                 href="/reels"
                 className="cursor-pointer px-6 py-2 bg-white text-black rounded-lg hover:scale-110 hover:brightness-125 active:scale-90 active:brightness-75 transition-all duration-200"
@@ -192,6 +195,7 @@ const Reels = ({ isCarousel = false }) => {
                 Ver más
               </a>
             </div>
+          </div>
           </>
         ) : (
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
