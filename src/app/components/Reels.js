@@ -21,7 +21,7 @@ const Reels = ({ isCarousel = false }) => {
   const [loading, setLoading] = useState(true);
   const [hoverIdx, setHoverIdx] = useState(null);
   const scrollRef = useRef(null);
-  const autoRef = useRef(null);
+  const rafRef = useRef(null);
   const videoRefs = useRef([]);
 
   useEffect(() => {
@@ -37,6 +37,7 @@ const Reels = ({ isCarousel = false }) => {
         ...REELS[i],
         video: r.status === "fulfilled" && r.value?.video ? r.value.video : null,
         thumbnail: r.status === "fulfilled" && r.value?.thumbnail ? r.value.thumbnail : null,
+        title: r.status === "fulfilled" && r.value?.title ? r.value.title : "",
       }));
       setReelData(data);
       setLoading(false);
@@ -45,18 +46,35 @@ const Reels = ({ isCarousel = false }) => {
   }, []);
 
   useEffect(() => {
-    if (!isCarousel || loading) return;
-    autoRef.current = setInterval(() => {
-      if (scrollRef.current) {
-        const cardW = scrollRef.current.querySelector("div")?.offsetWidth || 280;
-        scrollRef.current.scrollBy({ left: cardW + 16, behavior: "smooth" });
-        if (scrollRef.current.scrollLeft + scrollRef.current.offsetWidth >= scrollRef.current.scrollWidth - cardW) {
-          setTimeout(() => { scrollRef.current.scrollLeft = 0; }, 600);
-        }
-      }
-    }, 4000);
-    return () => clearInterval(autoRef.current);
+    if (!isCarousel || loading || !scrollRef.current) return;
+    const scroll = () => {
+      if (!scrollRef.current) return;
+      const el = scrollRef.current;
+      const maxScroll = el.scrollWidth / 2;
+      el.scrollLeft += 0.4;
+      if (el.scrollLeft >= maxScroll) el.scrollLeft = 0;
+      rafRef.current = requestAnimationFrame(scroll);
+    };
+    rafRef.current = requestAnimationFrame(scroll);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, [isCarousel, loading]);
+
+  const startAutoScroll = () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    const scroll = () => {
+      if (!scrollRef.current) return;
+      const el = scrollRef.current;
+      const maxScroll = el.scrollWidth / 2;
+      el.scrollLeft += 0.4;
+      if (el.scrollLeft >= maxScroll) el.scrollLeft = 0;
+      rafRef.current = requestAnimationFrame(scroll);
+    };
+    rafRef.current = requestAnimationFrame(scroll);
+  };
+
+  const stopAutoScroll = () => {
+    if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+  };
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -70,6 +88,7 @@ const Reels = ({ isCarousel = false }) => {
 
   const handleMouseEnter = (i) => {
     setHoverIdx(i);
+    stopAutoScroll();
     const vid = videoRefs.current[i];
     if (vid) vid.play().catch(() => {});
   };
@@ -78,13 +97,17 @@ const Reels = ({ isCarousel = false }) => {
     setHoverIdx(null);
     const vid = videoRefs.current[i];
     if (vid) { vid.pause(); vid.currentTime = 0; }
+    if (isCarousel) startAutoScroll();
   };
 
   if (loading) return <Loading />;
   if (!reelData.length) return null;
 
+  const displayData = isCarousel ? [...reelData, ...reelData] : reelData;
+
   const renderMedia = (reel, i) => {
-    const showVideo = hoverIdx === i && reel.video;
+    const realIdx = i % reelData.length;
+    const showVideo = hoverIdx === realIdx && reel.video;
     const showThumb = !showVideo && reel.thumbnail;
 
     return (
@@ -99,7 +122,7 @@ const Reels = ({ isCarousel = false }) => {
         )}
         {reel.video && (
           <video
-            ref={(el) => { videoRefs.current[i] = el; }}
+            ref={(el) => { videoRefs.current[realIdx] = el; }}
             src={reel.video}
             muted
             loop
@@ -155,33 +178,27 @@ const Reels = ({ isCarousel = false }) => {
 
               <div
                 ref={scrollRef}
-                className="flex-1 flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+                className="flex-1 flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                {reelData.map((reel, i) => (
-                  <div key={i} className="snap-start flex-shrink-0 py-2">
+                {displayData.map((reel, i) => (
+                  <div key={i} className="flex-shrink-0 py-2">
                     <a
                       href={INSTAGRAM_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`${cardClasses} w-[190px] sm:w-[230px] md:w-[280px]`}
-                      onMouseEnter={() => handleMouseEnter(i)}
-                      onMouseLeave={() => handleMouseLeave(i)}
+                      onMouseEnter={() => handleMouseEnter(i % reelData.length)}
+                      onMouseLeave={() => handleMouseLeave(i % reelData.length)}
                     >
                       <div className={imgClasses}>
                         {renderMedia(reel, i)}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-10 h-10 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10 bg-gradient-to-tr from-purple-600 to-pink-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-5 h-5">
-                              <rect x="2" y="2" width="20" height="20" rx="5" />
-                              <polygon points="10,8 16,12 10,16" fill="white" />
-                            </svg>
-                          </div>
-                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                       </div>
                       <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                        <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">Reel</h3>
+                        <p className="text-xs sm:text-sm font-normal leading-tight text-left line-clamp-2">
+                          {reel.title || "Instagram"}
+                        </p>
                       </div>
                     </a>
                   </div>
@@ -223,18 +240,12 @@ const Reels = ({ isCarousel = false }) => {
                 >
                   <div className={imgClasses}>
                     {renderMedia(reel, i)}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10 bg-gradient-to-tr from-purple-600 to-pink-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-5 h-5">
-                          <rect x="2" y="2" width="20" height="20" rx="5" />
-                          <polygon points="10,8 16,12 10,16" fill="white" />
-                        </svg>
-                      </div>
-                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   </div>
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                    <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">Reel</h3>
+                    <p className="text-sm sm:text-base font-normal leading-tight text-left line-clamp-2">
+                      {reel.title || "Instagram"}
+                    </p>
                   </div>
                 </a>
               ))}

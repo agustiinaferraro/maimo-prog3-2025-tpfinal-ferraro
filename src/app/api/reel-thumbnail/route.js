@@ -11,9 +11,14 @@ export async function GET(request) {
       || html.match(/<meta\s+content="([^"]+)"\s+property="og:image"/i);
     const ogVideo = html.match(/<meta\s+property="og:video"\s+content="([^"]+)"/i)
       || html.match(/<meta\s+content="([^"]+)"\s+property="og:video"/i);
+    const ogDesc = html.match(/<meta\s+property="og:description"\s+content="([^"]+)"/i)
+      || html.match(/<meta\s+content="([^"]+)"\s+property="og:description"/i)
+      || html.match(/<meta\s+name="description"\s+content="([^"]+)"/i)
+      || html.match(/<meta\s+content="([^"]+)"\s+name="description"/i);
     const videoUrl = ogVideo?.[1]?.replace(/&amp;/g, "&") || "";
     const thumbnail = ogImage?.[1]?.replace(/&amp;/g, "&") || "";
-    return Response.json({ thumbnail, video: videoUrl });
+    const title = ogDesc?.[1]?.replace(/&amp;/g, "&")?.replace(/&#\d+;/g, "")?.trim() || "";
+    return Response.json({ thumbnail, video: videoUrl, title });
   } catch {
     return Response.json({ error: "Failed" }, { status: 500 });
   }
