@@ -2,7 +2,7 @@ import Reels from "../components/Reels";
 import BackButton from "../components/BackButton";
 
 export const metadata = {
-  title: "Reels | Iglesia Casa del Alfarero Munro",
+  title: "Videos | Iglesia Casa del Alfarero Munro",
   description: "Videos cortos y reels de Instagram",
 };
 

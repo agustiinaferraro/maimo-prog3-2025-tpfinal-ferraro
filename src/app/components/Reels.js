@@ -140,8 +140,8 @@ const Reels = ({ isCarousel = false }) => {
   const imgClasses = "relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl";
 
   return (
-    <div className="py-10 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto mb-6">
+    <div className="py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6">
         <div className="flex items-center gap-3">
           <div className="w-1.5 h-8 bg-white rounded-full" />
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-white">
@@ -149,13 +149,12 @@ const Reels = ({ isCarousel = false }) => {
             <circle cx="12" cy="12" r="3" />
             <rect x="9" y="9" width="6" height="6" rx="1" />
           </svg>
-          <h3 className="text-4xl sm:text-5xl font-bold text-white">Reels</h3>
+          <h3 className="text-4xl sm:text-5xl font-bold text-white">Videos</h3>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto">
-        {isCarousel ? (
-          <>
-            <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      {isCarousel ? (
+        <>
+          <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {displayData.map((reel, i) => (
                   <div key={i} className="flex-shrink-0 py-2">
                     <a
@@ -185,7 +184,7 @@ const Reels = ({ isCarousel = false }) => {
                 ))}
               </div>
 
-            <div className="flex justify-end mt-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-end mt-8">
               <a
                 href="/reels"
                 className="cursor-pointer px-6 py-2 bg-white text-black rounded-lg hover:scale-110 hover:brightness-125 active:scale-90 active:brightness-75 transition-all duration-200"
@@ -195,7 +194,7 @@ const Reels = ({ isCarousel = false }) => {
             </div>
           </>
         ) : (
-          <>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {reelData.map((reel, i) => (
                 <a
@@ -224,9 +223,8 @@ const Reels = ({ isCarousel = false }) => {
                 </a>
               ))}
             </div>
-          </>
+          </div>
         )}
-      </div>
     </div>
   );
 };
