@@ -7,8 +7,6 @@ import { useEffect, useState } from "react";
 const About = () => {
   const { actividades, fetchActividades } = useAppContext();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [oldPortada, setOldPortada] = useState(null);
-  const [fadingOut, setFadingOut] = useState(false);
 
   useEffect(() => {
     if (!actividades.length) {
@@ -19,11 +17,7 @@ const About = () => {
   useEffect(() => {
     if (!actividades.length) return;
     const interval = setInterval(() => {
-      const prev = actividades[currentImageIndex]?.Portada;
-      setCurrentImageIndex((prevIdx) => (prevIdx + 1) % actividades.length);
-      setOldPortada(prev);
-      setFadingOut(true);
-      setTimeout(() => { setOldPortada(null); setFadingOut(false); }, 600);
+      setCurrentImageIndex((prev) => (prev + 1) % actividades.length);
     }, 3000);
     return () => clearInterval(interval);
   }, [actividades.length]);
@@ -52,19 +46,13 @@ const About = () => {
           <div className="group relative overflow-hidden rounded-lg border-x border-b border-gray-500 transition-all duration-300 hover:border-gray-300 hover:scale-105">
             <div className="relative w-full overflow-hidden aspect-[3/2] md:h-[350px] rounded-t-lg">
               <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-125">
-                {oldPortada && (
-                  <img
-                    src={oldPortada}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover transition-opacity duration-600"
-                    style={{ opacity: fadingOut ? 0 : 1 }}
-                  />
-                )}
-                <img
+                <Image
                   key={currentImageIndex}
                   src={currentImage}
                   alt="Iglesia"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  unoptimized
                 />
               </div>
             </div>
