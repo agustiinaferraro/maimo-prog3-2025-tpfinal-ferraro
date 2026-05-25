@@ -49,7 +49,7 @@ const Reels = ({ isCarousel = false }) => {
     if (!isCarousel || loading) return;
     rafRef.current = setInterval(() => {
       if (scrollElRef.current) {
-        scrollElRef.current.scrollLeft += 1.2;
+        scrollElRef.current.scrollLeft += 2;
         const maxScroll = scrollElRef.current.scrollWidth / 2;
         if (scrollElRef.current.scrollLeft >= maxScroll) {
           scrollElRef.current.scrollLeft = 0;
@@ -73,7 +73,7 @@ const Reels = ({ isCarousel = false }) => {
     if (isCarousel && !rafRef.current) {
       rafRef.current = setInterval(() => {
         if (scrollElRef.current) {
-          scrollElRef.current.scrollLeft += 1.2;
+          scrollElRef.current.scrollLeft += 2;
           const maxScroll = scrollElRef.current.scrollWidth / 2;
           if (scrollElRef.current.scrollLeft >= maxScroll) {
             scrollElRef.current.scrollLeft = 0;
