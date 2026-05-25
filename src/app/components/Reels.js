@@ -136,8 +136,14 @@ const Reels = ({ isCarousel = false }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6">
         <div className="flex items-center gap-3">
           <div className="w-1.5 h-8 bg-white rounded-full" />
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
-            <polygon points="8,5 19,12 8,19" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 text-white">
+            <rect x="2" y="3" width="20" height="18" rx="3" fill="currentColor" />
+            <circle cx="6" cy="7" r="1" fill="white" />
+            <circle cx="6" cy="11" r="1" fill="white" />
+            <circle cx="6" cy="15" r="1" fill="white" />
+            <circle cx="18" cy="7" r="1" fill="white" />
+            <circle cx="18" cy="11" r="1" fill="white" />
+            <circle cx="18" cy="15" r="1" fill="white" />
           </svg>
           <h3 className="text-4xl sm:text-5xl font-bold text-white">Videos</h3>
         </div>
@@ -160,14 +166,14 @@ const Reels = ({ isCarousel = false }) => {
                         {renderMedia(reel, i)}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                         <div className="absolute bottom-2 right-2 opacity-50">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth={1.5} className="w-7 h-7">
-                            <rect x="2" y="3" width="20" height="18" rx="3" />
-                            <circle cx="6" cy="7" r="1" fill="black" />
-                            <circle cx="6" cy="11" r="1" fill="black" />
-                            <circle cx="6" cy="15" r="1" fill="black" />
-                            <circle cx="18" cy="7" r="1" fill="black" />
-                            <circle cx="18" cy="11" r="1" fill="black" />
-                            <circle cx="18" cy="15" r="1" fill="black" />
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-7 h-7">
+                            <rect x="2" y="3" width="20" height="18" rx="3" fill="black" />
+                            <circle cx="6" cy="7" r="1" fill="white" />
+                            <circle cx="6" cy="11" r="1" fill="white" />
+                            <circle cx="6" cy="15" r="1" fill="white" />
+                            <circle cx="18" cy="7" r="1" fill="white" />
+                            <circle cx="18" cy="11" r="1" fill="white" />
+                            <circle cx="18" cy="15" r="1" fill="white" />
                           </svg>
                         </div>
                       </div>
@@ -209,19 +215,19 @@ const Reels = ({ isCarousel = false }) => {
                   <div className={imgClasses}>
                     {renderMedia(reel, i)}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                        <div className="absolute bottom-2 right-2 opacity-50">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth={1.5} className="w-7 h-7">
-                            <rect x="2" y="3" width="20" height="18" rx="3" />
-                            <circle cx="6" cy="7" r="1" fill="black" />
-                            <circle cx="6" cy="11" r="1" fill="black" />
-                            <circle cx="6" cy="15" r="1" fill="black" />
-                            <circle cx="18" cy="7" r="1" fill="black" />
-                            <circle cx="18" cy="11" r="1" fill="black" />
-                            <circle cx="18" cy="15" r="1" fill="black" />
-                          </svg>
-                        </div>
-                      </div>
-                      {reel.title && (
+                    <div className="absolute bottom-2 right-2 opacity-50">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-7 h-7">
+                        <rect x="2" y="3" width="20" height="18" rx="3" fill="black" />
+                        <circle cx="6" cy="7" r="1" fill="white" />
+                        <circle cx="6" cy="11" r="1" fill="white" />
+                        <circle cx="6" cy="15" r="1" fill="white" />
+                        <circle cx="18" cy="7" r="1" fill="white" />
+                        <circle cx="18" cy="11" r="1" fill="white" />
+                        <circle cx="18" cy="15" r="1" fill="white" />
+                      </svg>
+                    </div>
+                  </div>
+                  {reel.title && (
                     <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                       <p className="text-sm sm:text-base font-normal leading-tight text-left line-clamp-2">
                         {reel.title}
