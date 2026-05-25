@@ -159,16 +159,15 @@ const Reels = ({ isCarousel = false }) => {
                       <div className={imgClasses}>
                         {renderMedia(reel, i)}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                        <div className="absolute bottom-2 right-2 opacity-40">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5} className="w-5 h-5">
+                        <div className="absolute bottom-2 right-2 opacity-50">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth={1.5} className="w-7 h-7">
                             <rect x="2" y="3" width="20" height="18" rx="3" />
-                            <circle cx="6" cy="7" r="1" fill="white" />
-                            <circle cx="6" cy="11" r="1" fill="white" />
-                            <circle cx="6" cy="15" r="1" fill="white" />
-                            <circle cx="18" cy="7" r="1" fill="white" />
-                            <circle cx="18" cy="11" r="1" fill="white" />
-                            <circle cx="18" cy="15" r="1" fill="white" />
-                            <polygon points="10,8 16,12 10,16" fill="white" stroke="none" />
+                            <circle cx="6" cy="7" r="1" fill="black" />
+                            <circle cx="6" cy="11" r="1" fill="black" />
+                            <circle cx="6" cy="15" r="1" fill="black" />
+                            <circle cx="18" cy="7" r="1" fill="black" />
+                            <circle cx="18" cy="11" r="1" fill="black" />
+                            <circle cx="18" cy="15" r="1" fill="black" />
                           </svg>
                         </div>
                       </div>
@@ -210,20 +209,19 @@ const Reels = ({ isCarousel = false }) => {
                   <div className={imgClasses}>
                     {renderMedia(reel, i)}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                    <div className="absolute bottom-2 right-2 opacity-40">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5} className="w-5 h-5">
-                        <rect x="2" y="3" width="20" height="18" rx="3" />
-                        <circle cx="6" cy="7" r="1" fill="white" />
-                        <circle cx="6" cy="11" r="1" fill="white" />
-                        <circle cx="6" cy="15" r="1" fill="white" />
-                        <circle cx="18" cy="7" r="1" fill="white" />
-                        <circle cx="18" cy="11" r="1" fill="white" />
-                        <circle cx="18" cy="15" r="1" fill="white" />
-                        <polygon points="10,8 16,12 10,16" fill="white" stroke="none" />
-                      </svg>
-                    </div>
-                  </div>
-                  {reel.title && (
+                        <div className="absolute bottom-2 right-2 opacity-50">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth={1.5} className="w-7 h-7">
+                            <rect x="2" y="3" width="20" height="18" rx="3" />
+                            <circle cx="6" cy="7" r="1" fill="black" />
+                            <circle cx="6" cy="11" r="1" fill="black" />
+                            <circle cx="6" cy="15" r="1" fill="black" />
+                            <circle cx="18" cy="7" r="1" fill="black" />
+                            <circle cx="18" cy="11" r="1" fill="black" />
+                            <circle cx="18" cy="15" r="1" fill="black" />
+                          </svg>
+                        </div>
+                      </div>
+                      {reel.title && (
                     <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                       <p className="text-sm sm:text-base font-normal leading-tight text-left line-clamp-2">
                         {reel.title}
