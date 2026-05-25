@@ -47,17 +47,15 @@ const Reels = ({ isCarousel = false }) => {
 
   useEffect(() => {
     if (!isCarousel || loading) return;
-
     rafRef.current = setInterval(() => {
       if (scrollElRef.current) {
-        const cardW = scrollElRef.current.querySelector("a")?.offsetWidth || 280;
-        scrollElRef.current.scrollBy({ left: cardW + 16, behavior: "smooth" });
-        if (scrollElRef.current.scrollLeft + scrollElRef.current.offsetWidth >= scrollElRef.current.scrollWidth / 2) {
-          setTimeout(() => { scrollElRef.current.scrollLeft = 0; }, 600);
+        scrollElRef.current.scrollLeft += 1.2;
+        const maxScroll = scrollElRef.current.scrollWidth / 2;
+        if (scrollElRef.current.scrollLeft >= maxScroll) {
+          scrollElRef.current.scrollLeft = 0;
         }
       }
-    }, 5000);
-
+    }, 30);
     return () => { if (rafRef.current) { clearInterval(rafRef.current); rafRef.current = null; } };
   }, [isCarousel, loading]);
 
@@ -75,13 +73,13 @@ const Reels = ({ isCarousel = false }) => {
     if (isCarousel && !rafRef.current) {
       rafRef.current = setInterval(() => {
         if (scrollElRef.current) {
-          const cardW = scrollElRef.current.querySelector("a")?.offsetWidth || 280;
-          scrollElRef.current.scrollBy({ left: cardW + 16, behavior: "smooth" });
-          if (scrollElRef.current.scrollLeft + scrollElRef.current.offsetWidth >= scrollElRef.current.scrollWidth / 2) {
-            setTimeout(() => { scrollElRef.current.scrollLeft = 0; }, 600);
+          scrollElRef.current.scrollLeft += 1.2;
+          const maxScroll = scrollElRef.current.scrollWidth / 2;
+          if (scrollElRef.current.scrollLeft >= maxScroll) {
+            scrollElRef.current.scrollLeft = 0;
           }
         }
-      }, 5000);
+      }, 30);
     }
   };
 
