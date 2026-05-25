@@ -137,10 +137,8 @@ const Reels = ({ isCarousel = false }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6">
         <div className="flex items-center gap-3">
           <div className="w-1.5 h-8 bg-white rounded-full" />
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-white">
-            <rect x="2" y="2" width="20" height="20" rx="5" />
-            <circle cx="12" cy="12" r="3" />
-            <rect x="9" y="9" width="6" height="6" rx="1" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
+            <polygon points="8,5 19,12 8,19" />
           </svg>
           <h3 className="text-4xl sm:text-5xl font-bold text-white">Videos</h3>
         </div>
