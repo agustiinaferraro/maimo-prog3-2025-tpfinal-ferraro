@@ -168,11 +168,13 @@ const Reels = ({ isCarousel = false }) => {
                           </svg>
                         </div>
                       </div>
-                      <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                        <p className="text-xs sm:text-sm font-normal leading-tight text-left line-clamp-2">
-                          {reel.title || "Instagram"}
-                        </p>
-                      </div>
+                      {reel.title && (
+                        <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
+                          <p className="text-xs sm:text-sm font-normal leading-tight text-left line-clamp-2">
+                            {reel.title}
+                          </p>
+                        </div>
+                      )}
                     </a>
                   </div>
                 ))}
@@ -210,11 +212,13 @@ const Reels = ({ isCarousel = false }) => {
                       </svg>
                     </div>
                   </div>
-                  <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                    <p className="text-sm sm:text-base font-normal leading-tight text-left line-clamp-2">
-                      {reel.title || "Instagram"}
-                    </p>
-                  </div>
+                  {reel.title && (
+                    <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
+                      <p className="text-sm sm:text-base font-normal leading-tight text-left line-clamp-2">
+                        {reel.title}
+                      </p>
+                    </div>
+                  )}
                 </a>
               ))}
             </div>

@@ -19,7 +19,7 @@ export async function GET(request) {
     const thumbnail = ogImage?.[1]?.replace(/&amp;/g, "&") || "";
     const title = ogDesc?.[1]?.replace(/&amp;/g, "&")?.replace(/&#\d+;/g, "")?.trim() || "";
     const match = title.match(/(?:likes|views)\s*•\s*(.+)/i);
-    const cleaned = match ? match[1].trim() : title.replace(/^@\S+\s*/, "").trim();
+    const cleaned = match ? match[1].trim() : "";
     return Response.json({ thumbnail, video: videoUrl, title: cleaned });
   } catch {
     return Response.json({ error: "Failed" }, { status: 500 });
