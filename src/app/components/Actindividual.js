@@ -4,12 +4,15 @@ import Loading from "./Loading";
 import Image from "next/image";
 import Link from "next/link";
 import { useAppContext } from "../context/AppContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const Actindividual = () => {
   const { actividades, fetchActividades } = useAppContext();
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [oldPortada, setOldPortada] = useState(null);
+  const [fadingOut, setFadingOut] = useState(false);
+  const autoRef = useRef(null);
 
   useEffect(() => {
     const loadActividades = async () => {
@@ -19,31 +22,58 @@ const Actindividual = () => {
     loadActividades();
   }, []);
 
+  useEffect(() => {
+    if (loading || !actividades.length) return;
+    autoRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % actividades.length);
+    }, 5000);
+    return () => clearInterval(autoRef.current);
+  }, [loading, actividades.length]);
+
   if (loading) return <Loading />;
   if (!actividades.length) return <p>La actividad no esta disponible</p>;
 
   const actividad = actividades[currentIndex];
 
   const handleNext = () => {
+    clearInterval(autoRef.current);
     setCurrentIndex((prev) => (prev + 1) % actividades.length);
   };
 
   const handlePrev = () => {
+    clearInterval(autoRef.current);
     setCurrentIndex((prev) =>
       prev === 0 ? actividades.length - 1 : prev - 1
     );
   };
 
+  const handleNav = (fn) => {
+    const prev = actividades[currentIndex]?.Portada;
+    fn();
+    setOldPortada(prev);
+    setFadingOut(true);
+    setTimeout(() => { setOldPortada(null); setFadingOut(false); }, 600);
+  };
+
   return (
     <div className="relative w-full py-10 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
-        <Image
-          key={currentIndex}
-          src={actividad.Portada}
-          fill
-          className="object-cover blur-sm scale-110"
-          unoptimized
-        />
+        <div className="relative w-full h-full">
+          {oldPortada && (
+            <img
+              src={oldPortada}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover blur-sm scale-110 transition-opacity duration-600"
+              style={{ opacity: fadingOut ? 0 : 1 }}
+            />
+          )}
+          <img
+            key={currentIndex}
+            src={actividad.Portada}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover blur-sm scale-110 transition-opacity duration-600"
+          />
+        </div>
         <div className="absolute inset-0 bg-black/70" />
       </div>
 
@@ -65,18 +95,25 @@ const Actindividual = () => {
             </div>
 
             <div className="w-full lg:w-1/2 flex flex-col items-center py-12">
-              <Image
-                key={`card-${currentIndex}`}
-                src={actividad.Portada}
-                width={600}
-                height={400}
-                alt={actividad.ActividadNombre}
-                unoptimized
-                className="w-full h-72 lg:h-96 object-cover rounded-xl shadow-2xl"
-              />
+              <div className="relative w-full h-72 lg:h-96 rounded-xl shadow-2xl overflow-hidden">
+                {oldPortada && (
+                  <img
+                    src={oldPortada}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover transition-opacity duration-600"
+                    style={{ opacity: fadingOut ? 0 : 1 }}
+                  />
+                )}
+                <img
+                  key={currentIndex}
+                  src={actividad.Portada}
+                  alt={actividad.ActividadNombre}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="flex items-center gap-4 mt-4 text-white">
                 <button
-                  onClick={handlePrev}
+                  onClick={() => handleNav(handlePrev)}
                   className="cursor-pointer text-3xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
                 >
                   ←
@@ -85,7 +122,7 @@ const Actindividual = () => {
                   {currentIndex + 1} / {actividades.length}
                 </span>
                 <button
-                  onClick={handleNext}
+                  onClick={() => handleNav(handleNext)}
                   className="cursor-pointer text-3xl hover:scale-125 active:scale-90 transition-transform duration-200 px-2"
                 >
                   →

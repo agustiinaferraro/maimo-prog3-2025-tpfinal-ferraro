@@ -21,7 +21,7 @@ body {
   position: relative;
 }
 
-/* Overlay oscuro */
+/* Overlay oscuro animado */
 body::before {
   content: "";
   position: fixed;
@@ -32,6 +32,40 @@ body::before {
   background: rgba(0, 0, 0, 0.55);
   pointer-events: none;
   z-index: 0;
+  animation: breatheOverlay 8s ease-in-out infinite alternate;
+}
+
+@keyframes breatheOverlay {
+  0% { background: rgba(0, 0, 0, 0.6); }
+  50% { background: rgba(10, 5, 20, 0.55); }
+  100% { background: rgba(0, 0, 0, 0.5); }
+}
+
+/* Particulas flotantes */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 60%, rgba(255,255,255,0.06) 0%, transparent 100%),
+    radial-gradient(3px 3px at 50% 10%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(2px 2px at 70% 80%, rgba(255,255,255,0.07) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 30%, rgba(255,255,255,0.05) 0%, transparent 100%),
+    radial-gradient(3px 3px at 15% 90%, rgba(255,255,255,0.09) 0%, transparent 100%),
+    radial-gradient(2px 2px at 85% 50%, rgba(255,255,255,0.06) 0%, transparent 100%);
+  animation: floatParticles 20s ease-in-out infinite alternate;
+}
+
+@keyframes floatParticles {
+  0% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50% { transform: translateY(-20px) scale(1.05); opacity: 1; }
+  100% { transform: translateY(10px) scale(0.95); opacity: 0.7; }
 }
 
 /* Asegura que el contenido quede sobre el overlay */
