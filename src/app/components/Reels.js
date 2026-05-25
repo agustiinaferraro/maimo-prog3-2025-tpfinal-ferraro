@@ -14,7 +14,6 @@ const REELS = [
   { link: "https://www.instagram.com/p/C6optX3LsYa/" },
 ];
 
-const INSTAGRAM_URL = "https://www.instagram.com/lacasad.elfareromunro/";
 
 const Reels = ({ isCarousel = false }) => {
   const [reelData, setReelData] = useState([]);
@@ -150,7 +149,7 @@ const Reels = ({ isCarousel = false }) => {
               {displayData.map((reel, i) => (
                   <div key={i} className="flex-shrink-0 py-2">
                     <a
-                      href={INSTAGRAM_URL}
+                      href={reel.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`${cardClasses} w-[190px] sm:w-[230px] md:w-[280px]`}
@@ -160,9 +159,16 @@ const Reels = ({ isCarousel = false }) => {
                       <div className={imgClasses}>
                         {renderMedia(reel, i)}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                        <div className="absolute bottom-2 right-2 opacity-30">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4">
-                            <polygon points="8,5 19,12 8,19" />
+                        <div className="absolute bottom-2 right-2 opacity-40">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5} className="w-5 h-5">
+                            <rect x="2" y="3" width="20" height="18" rx="3" />
+                            <circle cx="6" cy="7" r="1" fill="white" />
+                            <circle cx="6" cy="11" r="1" fill="white" />
+                            <circle cx="6" cy="15" r="1" fill="white" />
+                            <circle cx="18" cy="7" r="1" fill="white" />
+                            <circle cx="18" cy="11" r="1" fill="white" />
+                            <circle cx="18" cy="15" r="1" fill="white" />
+                            <polygon points="10,8 16,12 10,16" fill="white" stroke="none" />
                           </svg>
                         </div>
                       </div>
@@ -194,7 +200,7 @@ const Reels = ({ isCarousel = false }) => {
               {reelData.map((reel, i) => (
                 <a
                   key={i}
-                  href={INSTAGRAM_URL}
+                  href={reel.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cardClasses}
@@ -204,9 +210,16 @@ const Reels = ({ isCarousel = false }) => {
                   <div className={imgClasses}>
                     {renderMedia(reel, i)}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                    <div className="absolute bottom-2 right-2 opacity-30">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4">
-                        <polygon points="8,5 19,12 8,19" />
+                    <div className="absolute bottom-2 right-2 opacity-40">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5} className="w-5 h-5">
+                        <rect x="2" y="3" width="20" height="18" rx="3" />
+                        <circle cx="6" cy="7" r="1" fill="white" />
+                        <circle cx="6" cy="11" r="1" fill="white" />
+                        <circle cx="6" cy="15" r="1" fill="white" />
+                        <circle cx="18" cy="7" r="1" fill="white" />
+                        <circle cx="18" cy="11" r="1" fill="white" />
+                        <circle cx="18" cy="15" r="1" fill="white" />
+                        <polygon points="10,8 16,12 10,16" fill="white" stroke="none" />
                       </svg>
                     </div>
                   </div>
