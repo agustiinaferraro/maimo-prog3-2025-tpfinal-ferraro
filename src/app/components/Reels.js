@@ -205,17 +205,6 @@ const Reels = ({ isCarousel = false }) => {
                   <div className={imgClasses}>
                     {renderMedia(reel, i)}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                    <div className="absolute bottom-2 right-2 opacity-50">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-10 h-10">
-                        <rect x="2" y="3" width="20" height="18" rx="3" fill="black" />
-                        <circle cx="6" cy="7" r="1" fill="white" />
-                        <circle cx="6" cy="11" r="1" fill="white" />
-                        <circle cx="6" cy="15" r="1" fill="white" />
-                        <circle cx="18" cy="7" r="1" fill="white" />
-                        <circle cx="18" cy="11" r="1" fill="white" />
-                        <circle cx="18" cy="15" r="1" fill="white" />
-                      </svg>
-                    </div>
                   </div>
                   {reel.title && (
                     <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
