@@ -39,7 +39,16 @@ const Reels = ({ isCarousel = false }) => {
         thumbnail: r.status === "fulfilled" && r.value?.thumbnail ? r.value.thumbnail : null,
         title: r.status === "fulfilled" && r.value?.title ? r.value.title : "",
       }));
-      setReelData(data);
+
+      const fallbacks = data.map((r) => r.thumbnail).filter(Boolean);
+      const filled = data.map((r) => ({
+        ...r,
+        thumbnail: r.thumbnail || (fallbacks.length > 0
+          ? fallbacks[Math.floor(Math.random() * fallbacks.length)]
+          : ""),
+      }));
+
+      setReelData(filled);
       setLoading(false);
     };
     fetchAll();
