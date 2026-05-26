@@ -19,7 +19,6 @@ const Reels = ({ isCarousel = false }) => {
   const [reelData, setReelData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoverIdx, setHoverIdx] = useState(null);
-  const [brokenImgs, setBrokenImgs] = useState(new Set());
   const scrollElRef = useRef(null);
   const rafRef = useRef(null);
   const videoRefs = useRef([]);
@@ -91,16 +90,14 @@ const Reels = ({ isCarousel = false }) => {
   const renderMedia = (reel, i) => {
     const realIdx = i % reelData.length;
     const showVideo = hoverIdx === realIdx && reel.video;
-    const thumbBroken = brokenImgs.has(realIdx);
-    const showThumb = !showVideo && reel.thumbnail && !thumbBroken;
+    const showThumb = !showVideo && reel.thumbnail;
 
     return (
       <div className="relative w-full h-full">
-        {reel.thumbnail && !thumbBroken && (
+        {reel.thumbnail && (
           <img
             src={reel.thumbnail}
             alt=""
-            onError={() => setBrokenImgs((prev) => new Set(prev).add(realIdx))}
             className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
             style={{ opacity: showVideo ? 0 : 1 }}
           />
@@ -117,10 +114,12 @@ const Reels = ({ isCarousel = false }) => {
             style={{ opacity: showVideo ? 1 : 0 }}
           />
         )}
-        {!showVideo && !showThumb && !reel.video && (
+        {!reel.video && !reel.thumbnail && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555" className="w-14 h-14">
-              <rect x="2" y="3" width="20" height="18" rx="3" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="3" fill="#555" />
+              <rect x="9" y="9" width="6" height="6" rx="1" />
             </svg>
           </div>
         )}
