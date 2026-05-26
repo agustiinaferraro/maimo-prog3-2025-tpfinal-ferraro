@@ -19,6 +19,7 @@ const Reels = ({ isCarousel = false }) => {
   const [reelData, setReelData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoverIdx, setHoverIdx] = useState(null);
+  const [brokenImgs, setBrokenImgs] = useState(new Set());
   const scrollElRef = useRef(null);
   const rafRef = useRef(null);
   const videoRefs = useRef([]);
@@ -90,14 +91,16 @@ const Reels = ({ isCarousel = false }) => {
   const renderMedia = (reel, i) => {
     const realIdx = i % reelData.length;
     const showVideo = hoverIdx === realIdx && reel.video;
-    const showThumb = !showVideo && reel.thumbnail;
+    const thumbBroken = brokenImgs.has(realIdx);
+    const showThumb = !showVideo && reel.thumbnail && !thumbBroken;
 
     return (
       <div className="relative w-full h-full">
-        {reel.thumbnail && (
+        {reel.thumbnail && !thumbBroken && (
           <img
             src={reel.thumbnail}
             alt=""
+            onError={() => setBrokenImgs((prev) => new Set(prev).add(realIdx))}
             className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
             style={{ opacity: showVideo ? 0 : 1 }}
           />
@@ -114,12 +117,10 @@ const Reels = ({ isCarousel = false }) => {
             style={{ opacity: showVideo ? 1 : 0 }}
           />
         )}
-        {!reel.video && !reel.thumbnail && (
+        {!showVideo && !showThumb && !reel.video && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} className="w-16 h-16">
-              <rect x="2" y="2" width="20" height="20" rx="5" />
-              <circle cx="12" cy="12" r="3" fill="#555" />
-              <rect x="9" y="9" width="6" height="6" rx="1" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555" className="w-14 h-14">
+              <rect x="2" y="3" width="20" height="18" rx="3" />
             </svg>
           </div>
         )}
@@ -136,6 +137,15 @@ const Reels = ({ isCarousel = false }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6">
         <div className="flex items-center gap-3">
           <div className="w-1.5 h-8 bg-white rounded-full" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-10 h-10">
+            <rect x="2" y="3" width="20" height="18" rx="3" fill="white" />
+            <circle cx="6" cy="7" r="1" fill="black" />
+            <circle cx="6" cy="11" r="1" fill="black" />
+            <circle cx="6" cy="15" r="1" fill="black" />
+            <circle cx="18" cy="7" r="1" fill="black" />
+            <circle cx="18" cy="11" r="1" fill="black" />
+            <circle cx="18" cy="15" r="1" fill="black" />
+          </svg>
           <h3 className="text-4xl sm:text-5xl font-bold text-white">Videos</h3>
         </div>
       </div>
@@ -156,17 +166,6 @@ const Reels = ({ isCarousel = false }) => {
                       <div className={imgClasses}>
                         {renderMedia(reel, i)}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                        <div className="absolute bottom-2 right-2 opacity-50">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-10 h-10">
-                            <rect x="2" y="3" width="20" height="18" rx="3" fill="black" />
-                            <circle cx="6" cy="7" r="1" fill="white" />
-                            <circle cx="6" cy="11" r="1" fill="white" />
-                            <circle cx="6" cy="15" r="1" fill="white" />
-                            <circle cx="18" cy="7" r="1" fill="white" />
-                            <circle cx="18" cy="11" r="1" fill="white" />
-                            <circle cx="18" cy="15" r="1" fill="white" />
-                          </svg>
-                        </div>
                       </div>
                       {reel.title && (
                         <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
