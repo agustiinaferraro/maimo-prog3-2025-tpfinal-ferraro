@@ -10,27 +10,30 @@ const getYoutubeId = (url) => {
   return match ? match[1] : null;
 };
 
+const FALLBACK_THUMB = "/img/iglesia.jpeg";
+
 const Thumbnail = ({ link, title }) => {
   const videoId = getYoutubeId(link);
   const [failed, setFailed] = useState(false);
 
   return (
     <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
-      {videoId && (
+      {videoId && !failed ? (
         <div className="w-full h-full overflow-hidden">
           <img
             src={`https://img.youtube.com/vi/${videoId}/0.jpg`}
             alt={title}
-            className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-125 ${failed ? 'opacity-0' : 'opacity-100'}`}
+            className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
             onError={() => setFailed(true)}
           />
         </div>
-      )}
-      {(!videoId || failed) && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#555" className="w-16 h-16">
-            <path d="M8 5v14l11-7z" />
-          </svg>
+      ) : (
+        <div className="w-full h-full overflow-hidden">
+          <img
+            src={FALLBACK_THUMB}
+            alt={title}
+            className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
+          />
         </div>
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

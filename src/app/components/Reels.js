@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Loading from "./Loading";
 
+const FALLBACK_THUMB = "/img/iglesia.jpeg";
+
 const REELS = [
   { link: "https://www.instagram.com/p/DXpshmEDj5C/" },
   { link: "https://www.instagram.com/p/C6Y41lOrHWh/" },
@@ -40,12 +42,9 @@ const Reels = ({ isCarousel = false }) => {
         title: r.status === "fulfilled" && r.value?.title ? r.value.title : "",
       }));
 
-      const fallbacks = data.map((r) => r.thumbnail).filter(Boolean);
       const filled = data.map((r) => ({
         ...r,
-        thumbnail: r.thumbnail || (fallbacks.length > 0
-          ? fallbacks[Math.floor(Math.random() * fallbacks.length)]
-          : ""),
+        thumbnail: r.thumbnail || FALLBACK_THUMB,
       }));
 
       setReelData(filled);
