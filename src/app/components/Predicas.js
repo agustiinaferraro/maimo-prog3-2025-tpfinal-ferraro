@@ -78,9 +78,9 @@ const Predicas = ({ isCarousel = false }) => {
 
   const goTo = (dir) => {
     if (dir === "left") {
-      setCurrentIdx((prev) => Math.max(0, prev - 1));
+      setCurrentIdx((prev) => (prev === 0 ? predicas.length - 1 : prev - 1));
     } else {
-      setCurrentIdx((prev) => Math.min(predicas.length - 1, prev + 1));
+      setCurrentIdx((prev) => (prev === predicas.length - 1 ? 0 : prev + 1));
     }
   };
 
@@ -104,8 +104,7 @@ const Predicas = ({ isCarousel = false }) => {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => goTo("left")}
-                disabled={currentIdx === 0}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200 disabled:opacity-30 disabled:cursor-default"
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Anterior"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -139,8 +138,7 @@ const Predicas = ({ isCarousel = false }) => {
 
               <button
                 onClick={() => goTo("right")}
-                disabled={currentIdx >= predicas.length - 1}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200 disabled:opacity-30 disabled:cursor-default"
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
                 aria-label="Siguiente"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
