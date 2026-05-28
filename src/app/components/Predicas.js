@@ -10,11 +10,14 @@ const getYoutubeId = (url) => {
   return match ? match[1] : null;
 };
 
-const FALLBACK_THUMB = "/img/logo-fondo-negro.jpg";
-
-const Thumbnail = ({ link, title }) => {
+const Thumbnail = ({ link, title, fallbacks }) => {
   const videoId = getYoutubeId(link);
   const [failed, setFailed] = useState(false);
+  const [fallback] = useState(() =>
+    fallbacks.length > 0
+      ? fallbacks[Math.floor(Math.random() * fallbacks.length)]
+      : "/img/logo-fondo-negro.jpg"
+  );
 
   return (
     <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
@@ -30,7 +33,7 @@ const Thumbnail = ({ link, title }) => {
       ) : (
         <div className="w-full h-full overflow-hidden">
           <img
-            src={FALLBACK_THUMB}
+            src={fallback}
             alt={title}
             className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
           />
@@ -49,31 +52,37 @@ const Thumbnail = ({ link, title }) => {
 };
 
 const Predicas = ({ isCarousel = false }) => {
-  const { predicas, fetchPredicas } = useAppContext();
+  const { predicas, fetchPredicas, actividades, fetchActividades } = useAppContext();
   const [loading, setLoading] = useState(true);
-  const scrollRef = useRef(null);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const trackRef = useRef(null);
+  const totalRef = useRef(0);
 
   useEffect(() => {
     const loadPredicas = async () => {
       await fetchPredicas();
+      if (!actividades.length) await fetchActividades();
       setLoading(false);
     };
     loadPredicas();
   }, []);
 
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const card = scrollRef.current.children[0];
-      const step = card ? card.offsetWidth + 16 : 300;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -step : step,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   if (loading) return <Loading />;
   if (!predicas.length) return <p className="text-center mt-10 text-gray-600">No hay prédicas disponibles.</p>;
+
+  const fallbacks = actividades.map((a) => a.Portada).filter(Boolean);
+
+  const cardWidth = 280;
+  const gap = 16;
+  const step = cardWidth + gap;
+
+  const goTo = (dir) => {
+    if (dir === "left") {
+      setCurrentIdx((prev) => Math.max(0, prev - 1));
+    } else {
+      setCurrentIdx((prev) => Math.min(predicas.length - 1, prev + 1));
+    }
+  };
 
   return (
     <div className="py-10 px-4 sm:px-6">
@@ -94,8 +103,9 @@ const Predicas = ({ isCarousel = false }) => {
           <>
             <div className="flex items-center gap-4">
               <button
-                onClick={() => scroll('left')}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
+                onClick={() => goTo("left")}
+                disabled={currentIdx === 0}
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200 disabled:opacity-30 disabled:cursor-default"
                 aria-label="Anterior"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -103,31 +113,34 @@ const Predicas = ({ isCarousel = false }) => {
                 </svg>
               </button>
 
-              <div
-                ref={scrollRef}
-                className="flex-1 flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                {predicas.map((predica) => (
-                  <div key={predica._id} className="snap-start flex-shrink-0 py-2">
-                    <a
-                      href={predica.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group w-[190px] sm:w-[230px] md:w-[280px] rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
-                    >
-                      <Thumbnail link={predica.link} title={predica.title} />
-                      <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                        <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
-                      </div>
-                    </a>
-                  </div>
-                ))}
+              <div className="flex-1 overflow-hidden">
+                <div
+                  ref={trackRef}
+                  className="flex gap-4 transition-transform duration-[400ms] ease-in-out"
+                  style={{ transform: `translateX(-${currentIdx * step}px)` }}
+                >
+                  {predicas.map((predica) => (
+                    <div key={predica._id} className="flex-shrink-0 py-2" style={{ width: cardWidth }}>
+                      <a
+                        href={predica.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group w-full rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                      >
+                        <Thumbnail link={predica.link} title={predica.title} fallbacks={fallbacks} />
+                        <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
+                          <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
+                        </div>
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <button
-                onClick={() => scroll('right')}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
+                onClick={() => goTo("right")}
+                disabled={currentIdx >= predicas.length - 1}
+                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200 disabled:opacity-30 disabled:cursor-default"
                 aria-label="Siguiente"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
@@ -156,7 +169,7 @@ const Predicas = ({ isCarousel = false }) => {
                   rel="noopener noreferrer"
                   className="group rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                 >
-                  <Thumbnail link={predica.link} title={predica.title} />
+                  <Thumbnail link={predica.link} title={predica.title} fallbacks={fallbacks} />
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                     <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
                   </div>
