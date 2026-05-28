@@ -10,7 +10,7 @@ const getYoutubeId = (url) => {
   return match ? match[1] : null;
 };
 
-const FALLBACK_THUMB = "/img/iglesia.jpeg";
+const FALLBACK_THUMB = "/img/logo-fondo-negro.jpg";
 
 const Thumbnail = ({ link, title }) => {
   const videoId = getYoutubeId(link);
@@ -63,9 +63,10 @@ const Predicas = ({ isCarousel = false }) => {
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.offsetWidth * 0.8;
+      const card = scrollRef.current.children[0];
+      const step = card ? card.offsetWidth + 16 : 300;
       scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        left: direction === 'left' ? -step : step,
         behavior: 'smooth'
       });
     }
