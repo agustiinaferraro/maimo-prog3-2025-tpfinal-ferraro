@@ -76,3 +76,17 @@ body > div {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
+
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}

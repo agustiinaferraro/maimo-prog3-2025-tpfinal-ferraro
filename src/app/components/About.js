@@ -2,34 +2,42 @@
 
 import Image from "next/image"
 import { useAppContext } from "../context/AppContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const About = () => {
   const { actividades, fetchActividades } = useAppContext();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [prevIdx, setPrevIdx] = useState(null);
+  const [fadeIn, setFadeIn] = useState(false);
+  const idxRef = useRef(0);
 
   useEffect(() => {
-    if (!actividades.length) {
-      fetchActividades();
-    }
+    if (!actividades.length) fetchActividades();
   }, []);
 
   useEffect(() => {
     if (!actividades.length) return;
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % actividades.length);
-    }, 3000);
+      setPrevIdx(idxRef.current);
+      setFadeIn(false);
+      setTimeout(() => {
+        const next = (idxRef.current + 1) % actividades.length;
+        idxRef.current = next;
+        setCurrentIdx(next);
+        setFadeIn(true);
+      }, 400);
+    }, 4000);
     return () => clearInterval(interval);
   }, [actividades.length]);
 
   const currentImage = actividades.length > 0
-    ? actividades[currentImageIndex]?.Portada
+    ? actividades[currentIdx]?.Portada
     : "/img/iglesia.jpeg";
+
+  const prevImage = prevIdx !== null && actividades[prevIdx]?.Portada;
 
   return (
     <div className="relative flex items-center justify-center px-4 sm:px-6 py-16 md:py-20">
-
-      {/* Fondo */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-transparent from-black/40 via-black/80 to-black/90">
         <Image
           src="/background-about.png"
@@ -40,18 +48,26 @@ const About = () => {
       </div>
 
       <div className="relative flex flex-col md:flex-row items-center md:items-center gap-10 w-full max-w-7xl mx-auto text-white">
-
-        {/* Foto */}
         <div className="flex-1 w-full max-w-[600px] min-w-[280px]">
           <div className="group relative overflow-hidden rounded-lg border-x border-b border-gray-500 transition-all duration-300 hover:border-gray-300 hover:scale-105">
             <div className="relative w-full overflow-hidden aspect-[3/2] md:h-[350px] rounded-t-lg">
-              <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-125">
+              {prevImage && (
+                <div className="absolute inset-0 animate-fade-out">
+                  <Image
+                    src={prevImage}
+                    alt=""
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-125"
+                    unoptimized
+                  />
+                </div>
+              )}
+              <div className={`absolute inset-0 ${fadeIn ? "animate-fade-in" : ""}`}>
                 <Image
-                  key={currentImageIndex}
                   src={currentImage}
                   alt="Iglesia"
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-300 group-hover:scale-125"
                   unoptimized
                 />
               </div>
@@ -61,10 +77,9 @@ const About = () => {
               <p className="text-center md:text-left text-base md:text-lg">
                 Almafuerte 4141, Esquina Mitre
               </p>
-
-              <a 
-                href="https://share.google/bZM8f8HgvADwaE4Ql" 
-                target="_blank" 
+              <a
+                href="https://share.google/bZM8f8HgvADwaE4Ql"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 text-white transition-transform duration-300 hover:scale-105 active:scale-95"
               >
@@ -74,7 +89,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* Texto */}
         <div className="flex-1 w-full max-w-[600px] min-w-[280px] md:w-auto md:max-w-none">
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">La Casa del Alfarero</h2>
 
