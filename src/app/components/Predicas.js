@@ -10,14 +10,9 @@ const getYoutubeId = (url) => {
   return match ? match[1] : null;
 };
 
-const Thumbnail = ({ link, title, fallbacks }) => {
+const Thumbnail = ({ link, title, fallback }) => {
   const videoId = getYoutubeId(link);
   const [failed, setFailed] = useState(false);
-  const [fallback] = useState(() =>
-    fallbacks.length > 0
-      ? fallbacks[Math.floor(Math.random() * fallbacks.length)]
-      : "/img/logo-fondo-negro.jpg"
-  );
 
   return (
     <div className="relative w-full h-72 sm:h-80 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden rounded-t-xl">
@@ -55,8 +50,10 @@ const Predicas = ({ isCarousel = false }) => {
   const { predicas, fetchPredicas, actividades, fetchActividades } = useAppContext();
   const [loading, setLoading] = useState(true);
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [noTransition, setNoTransition] = useState(false);
   const trackRef = useRef(null);
-  const totalRef = useRef(0);
+
+  const [shuffledPortadasPortadas, setShuffledPortadas] = useState([]);
 
   useEffect(() => {
     const loadPredicas = async () => {
@@ -67,20 +64,62 @@ const Predicas = ({ isCarousel = false }) => {
     loadPredicas();
   }, []);
 
+  useEffect(() => {
+    if (loading) return;
+    const portadas = actividades.map((a) => a.Portada).filter(Boolean);
+    if (!portadas.length) return;
+    const shuffledPortadas = [...portadas];
+    for (let i = shuffledPortadas.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledPortadas[i], shuffledPortadas[j]] = [shuffledPortadas[j], shuffledPortadas[i]];
+    }
+    setShuffledPortadas(shuffledPortadas);
+  }, [actividades, loading]);
+
+  useEffect(() => {
+    if (currentIdx >= predicas.length) {
+      const timer = setTimeout(() => {
+        setNoTransition(true);
+        setCurrentIdx(0);
+        requestAnimationFrame(() => setNoTransition(false));
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+    if (currentIdx < 0) {
+      const timer = setTimeout(() => {
+        setNoTransition(true);
+        setCurrentIdx(predicas.length - 1);
+        requestAnimationFrame(() => setNoTransition(false));
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIdx, predicas.length]);
+
   if (loading) return <Loading />;
   if (!predicas.length) return <p className="text-center mt-10 text-gray-600">No hay prédicas disponibles.</p>;
 
-  const fallbacks = actividades.map((a) => a.Portada).filter(Boolean);
-
+  const portadas = actividades.map((a) => a.Portada).filter(Boolean);
   const cardWidth = 280;
   const gap = 16;
   const step = cardWidth + gap;
+  const total = predicas.length;
+  const displayData = [...predicas, ...predicas];
 
   const goTo = (dir) => {
+    if (noTransition) return;
     if (dir === "left") {
-      setCurrentIdx((prev) => (prev === 0 ? predicas.length - 1 : prev - 1));
+      if (currentIdx === 0) {
+        setNoTransition(true);
+        setCurrentIdx(total);
+        requestAnimationFrame(() => {
+          setNoTransition(false);
+          setCurrentIdx(total - 1);
+        });
+      } else {
+        setCurrentIdx((prev) => prev - 1);
+      }
     } else {
-      setCurrentIdx((prev) => (prev === predicas.length - 1 ? 0 : prev + 1));
+      setCurrentIdx((prev) => prev + 1);
     }
   };
 
@@ -115,18 +154,22 @@ const Predicas = ({ isCarousel = false }) => {
               <div className="flex-1 overflow-hidden">
                 <div
                   ref={trackRef}
-                  className="flex gap-4 transition-transform duration-[400ms] ease-in-out"
+                  className={`flex gap-4 ${noTransition ? '' : 'transition-transform duration-[400ms] ease-in-out'}`}
                   style={{ transform: `translateX(-${currentIdx * step}px)` }}
                 >
-                  {predicas.map((predica) => (
-                    <div key={predica._id} className="flex-shrink-0 py-2" style={{ width: cardWidth }}>
+                  {displayData.map((predica, i) => (
+                    <div key={`${predica._id}-${i}`} className="flex-shrink-0 py-2" style={{ width: cardWidth }}>
                       <a
                         href={predica.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="group w-full rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                       >
-                        <Thumbnail link={predica.link} title={predica.title} fallbacks={fallbacks} />
+                        <Thumbnail
+                          link={predica.link}
+                          title={predica.title}
+                          fallback={shuffledPortadas[(i % total) % shuffledPortadas.length] || "/img/logo-fondo-negro.jpg"}
+                        />
                         <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                           <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
                         </div>
@@ -159,7 +202,7 @@ const Predicas = ({ isCarousel = false }) => {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {predicas.map((predica) => (
+              {predicas.map((predica, i) => (
                 <a
                   key={predica._id}
                   href={predica.link}
@@ -167,7 +210,11 @@ const Predicas = ({ isCarousel = false }) => {
                   rel="noopener noreferrer"
                   className="group rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
                 >
-                  <Thumbnail link={predica.link} title={predica.title} fallbacks={fallbacks} />
+                  <Thumbnail
+                    link={predica.link}
+                    title={predica.title}
+                    fallback={shuffledPortadas[i % shuffledPortadas.length] || "/img/logo-fondo-negro.jpg"}
+                  />
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                     <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
                   </div>
