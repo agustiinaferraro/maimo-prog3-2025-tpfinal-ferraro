@@ -31,7 +31,7 @@ const SearchResults = () => {
       { title: "Nosotros", href: "/nosotros", keywords: ["nosotros", "quienes somos", "historia", "iglesia"], headings: ["Sobre Nosotros", "Nuestra Historia", "Misión", "Visión"] },
       { title: "Actividades", href: "/#actividades", keywords: ["actividades", "eventos", "reuniones"], headings: ["Actividades", "Próximos Eventos"] },
       { title: "Prédicas", href: "/#predicas", keywords: ["predicas", "predicaciones", "sermones", "mensajes"], headings: ["Prédicas"] },
-      { title: "Videos", href: "/#reels", keywords: ["videos", "reels", "cortos", "instagram", "videos divertidos"], headings: ["Videos"] },
+      { title: "Videos", href: "/reels", keywords: ["videos", "reels", "cortos", "instagram", "videos divertidos"], headings: ["Videos"] },
       { title: "Contactanos", href: "/contactanos", keywords: ["contacto", "contactanos", "mensaje", "ubicacion", "direccion"], headings: ["Contactanos", "Ubicación", "Envíanos un mensaje"] },
       { title: "Calendario", href: "/calendario", keywords: ["calendario", "eventos", "fechas", "agenda"], headings: ["Calendario"] },
     ];
