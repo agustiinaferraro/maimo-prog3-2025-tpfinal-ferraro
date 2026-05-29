@@ -5,8 +5,8 @@ const page = () => {
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
-        <BackButton />
         <div className="flex items-center gap-3 mb-6">
+          <BackButton />
           <div className="w-1.5 h-8 bg-white rounded-full" />
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-10 h-10">
             <circle cx="8" cy="7" r="3.5" fill="white" />
