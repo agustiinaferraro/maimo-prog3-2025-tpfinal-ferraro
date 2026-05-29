@@ -53,7 +53,7 @@ const Predicas = ({ isCarousel = false }) => {
   const [noTransition, setNoTransition] = useState(false);
   const trackRef = useRef(null);
 
-  const [shuffledPortadasPortadas, setShuffledPortadas] = useState([]);
+  const [shuffledPortadas, setShuffledPortadas] = useState([]);
 
   useEffect(() => {
     const loadPredicas = async () => {
