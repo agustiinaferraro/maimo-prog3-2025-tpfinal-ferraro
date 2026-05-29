@@ -17,7 +17,7 @@ const Calendario = () => {
   return (
     <>
       <div className="flex items-start justify-start">
-        <div className="relative max-w-lg w-full m-5 ml-0 group">
+        <div className="relative max-w-lg w-full mt-5 mr-5 mb-2 ml-0 group">
           <img
             src={imgSrc}
             alt="Calendario"
