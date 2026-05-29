@@ -16,8 +16,8 @@ const Calendario = () => {
 
   return (
     <>
-      <div className="flex items-center justify-start min-h-[50vh]">
-        <div className="max-w-[90vw] sm:max-w-[70vw] md:max-w-[50vw] m-5 ml-0">
+      <div className="flex items-start justify-start">
+        <div className="relative max-w-sm w-full m-5 ml-0 group">
           <img
             src={imgSrc}
             alt="Calendario"
@@ -26,6 +26,14 @@ const Calendario = () => {
             onError={() => !loaded && setImgSrc("/img/calendario.jpeg")}
             className="w-full h-auto object-cover transition-transform duration-200 transform hover:scale-105 active:scale-95 rounded-lg cursor-pointer"
           />
+          <div
+            onClick={() => setOpen(true)}
+            className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition-colors duration-200 rounded-lg cursor-pointer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+            </svg>
+          </div>
         </div>
       </div>
 

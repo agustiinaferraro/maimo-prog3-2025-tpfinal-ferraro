@@ -16,7 +16,9 @@ const Page = () => {
         </svg>
         <h3 className="text-4xl sm:text-5xl font-bold text-white">Calendario</h3>
       </div>
-      <Calendario />
+      <div className="px-4 sm:px-6">
+        <Calendario />
+      </div>
     </div>
     </div>
   )
