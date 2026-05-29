@@ -99,7 +99,7 @@ const Contacto = () => {
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
             <div className="bg-white rounded p-6 max-w-sm w-full text-center">
               <p className={`mb-4 ${modal.error ? "text-red-500" : "text-green-500"}`}>{modal.mensaje}</p>
-              <button onClick={() => setModal({ ...modal, open: false })} className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition w-full">
+              <button onClick={() => setModal({ ...modal, open: false })} className="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-gray-800 active:scale-95 transition w-full">
                 Aceptar
               </button>
             </div>
