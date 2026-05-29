@@ -52,6 +52,7 @@ const Predicas = ({ isCarousel = false }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [noTransition, setNoTransition] = useState(false);
   const trackRef = useRef(null);
+  const initialized = useRef(false);
 
   const [shuffledPortadas, setShuffledPortadas] = useState([]);
 
@@ -63,6 +64,12 @@ const Predicas = ({ isCarousel = false }) => {
     };
     loadPredicas();
   }, []);
+
+  useEffect(() => {
+    if (loading || !predicas.length || initialized.current) return;
+    initialized.current = true;
+    setCurrentIdx(predicas.length);
+  }, [loading, predicas.length]);
 
   useEffect(() => {
     if (loading) return;
@@ -77,18 +84,20 @@ const Predicas = ({ isCarousel = false }) => {
   }, [actividades, loading]);
 
   useEffect(() => {
-    if (currentIdx >= predicas.length) {
+    if (!predicas.length) return;
+    const total = predicas.length;
+    if (currentIdx < total) {
       const timer = setTimeout(() => {
         setNoTransition(true);
-        setCurrentIdx(0);
+        setCurrentIdx(currentIdx + total);
         requestAnimationFrame(() => setNoTransition(false));
       }, 400);
       return () => clearTimeout(timer);
     }
-    if (currentIdx < 0) {
+    if (currentIdx >= total * 2) {
       const timer = setTimeout(() => {
         setNoTransition(true);
-        setCurrentIdx(predicas.length - 1);
+        setCurrentIdx(currentIdx - total);
         requestAnimationFrame(() => setNoTransition(false));
       }, 400);
       return () => clearTimeout(timer);
@@ -103,24 +112,11 @@ const Predicas = ({ isCarousel = false }) => {
   const gap = 16;
   const step = cardWidth + gap;
   const total = predicas.length;
-  const displayData = [...predicas, ...predicas];
+  const displayData = [...predicas, ...predicas, ...predicas];
 
   const goTo = (dir) => {
     if (noTransition) return;
-    if (dir === "left") {
-      if (currentIdx === 0) {
-        setNoTransition(true);
-        setCurrentIdx(total);
-        requestAnimationFrame(() => {
-          setNoTransition(false);
-          setCurrentIdx(total - 1);
-        });
-      } else {
-        setCurrentIdx((prev) => prev - 1);
-      }
-    } else {
-      setCurrentIdx((prev) => prev + 1);
-    }
+    setCurrentIdx((prev) => (dir === "left" ? prev - 1 : prev + 1));
   };
 
   return (

@@ -13,7 +13,6 @@ const Actindividual = () => {
   const [leaving, setLeaving] = useState(null);
   const [dir, setDir] = useState(null);
   const busy = useRef(false);
-  const autoRef = useRef(null);
 
   useEffect(() => {
     const loadActividades = async () => {
@@ -23,21 +22,12 @@ const Actindividual = () => {
     loadActividades();
   }, []);
 
-  useEffect(() => {
-    if (loading || !actividades.length) return;
-    autoRef.current = setInterval(() => {
-      if (!busy.current) goTo("right");
-    }, 5000);
-    return () => clearInterval(autoRef.current);
-  }, [loading, actividades.length]);
-
   if (loading) return <Loading />;
   if (!actividades.length) return <p>La actividad no esta disponible</p>;
 
   const actividad = actividades[currentIndex];
 
   const goTo = (direction) => {
-    clearInterval(autoRef.current);
     if (busy.current) return;
     busy.current = true;
     setDir(direction);
