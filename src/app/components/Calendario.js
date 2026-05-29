@@ -16,8 +16,8 @@ const Calendario = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="mx-auto max-w-[90vw] sm:max-w-[70vw] md:max-w-[50vw] m-5">
+      <div className="flex items-center justify-start min-h-[50vh]">
+        <div className="max-w-[90vw] sm:max-w-[70vw] md:max-w-[50vw] m-5 ml-0">
           <img
             src={imgSrc}
             alt="Calendario"

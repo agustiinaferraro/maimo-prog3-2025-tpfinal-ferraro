@@ -65,8 +65,7 @@ const Contacto = () => {
           </svg>
           <h3 className="text-4xl sm:text-5xl font-bold text-white">Contacto</h3>
         </div>
-      </div>
-      <div className="max-w-2xl mx-auto mb-8">
+        <div className="max-w-2xl mb-8">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Campos */}
           <label className="flex flex-col">
@@ -106,6 +105,7 @@ const Contacto = () => {
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   );
