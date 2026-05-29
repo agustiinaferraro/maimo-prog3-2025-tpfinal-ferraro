@@ -90,7 +90,7 @@ const Contacto = () => {
             <textarea name="necesidad" value={formData.necesidad} onChange={handleChange} required placeholder="Describa su necesidad" className="mt-1 p-3 text-gray-600 bg-white border border-gray-300 rounded focus:outline-none focus:ring-2 w-full min-h-[120px]"/>
           </label>
 
-          <button type="submit" disabled={loading} className="bg-black text-white rounded p-3 mt-2 transform transition-transform duration-200 hover:scale-105 active:scale-95 disabled:opacity-50">
+          <button type="submit" disabled={loading} className="cursor-pointer bg-white text-black rounded p-3 mt-2 transform transition-transform duration-200 hover:scale-105 active:scale-95 disabled:opacity-50">
             {loading ? "Enviando..." : "Enviar"}
           </button>
         </form>
