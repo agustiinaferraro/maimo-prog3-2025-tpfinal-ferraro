@@ -6,11 +6,11 @@ import Loading from "./Loading";
 
 const getYoutubeId = (url) => {
   if (!url) return null;
-  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return match ? match[1] : null;
 };
 
-const Thumbnail = ({ link, title, fallback }) => {
+const Thumbnail = ({ link, title, fallbackSeed }) => {
   const videoId = getYoutubeId(link);
   const [failed, setFailed] = useState(false);
 
@@ -19,7 +19,7 @@ const Thumbnail = ({ link, title, fallback }) => {
       {videoId && !failed ? (
         <div className="w-full h-full overflow-hidden">
           <img
-            src={`https://img.youtube.com/vi/${videoId}/0.jpg`}
+            src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
             alt={title}
             className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
             onError={() => setFailed(true)}
@@ -28,7 +28,7 @@ const Thumbnail = ({ link, title, fallback }) => {
       ) : (
         <div className="w-full h-full overflow-hidden">
           <img
-            src={fallback}
+            src={failed && fallbackSeed ? `https://picsum.photos/seed/${fallbackSeed}/800/450` : "/img/logo-fondo-negro.jpg"}
             alt={title}
             className="w-full h-full object-cover transition-all duration-300 group-hover:scale-125"
           />
@@ -151,7 +151,7 @@ const Predicas = ({ isCarousel = false }) => {
                         <Thumbnail
                           link={predica.link}
                           title={predica.title}
-                          fallback="/img/logo-fondo-negro.jpg"
+                          fallbackSeed={predica._id}
                         />
                         <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                           <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
@@ -196,7 +196,7 @@ const Predicas = ({ isCarousel = false }) => {
                   <Thumbnail
                     link={predica.link}
                     title={predica.title}
-                    fallback="/img/logo-fondo-negro.jpg"
+                    fallbackSeed={predica._id}
                   />
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                     <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
