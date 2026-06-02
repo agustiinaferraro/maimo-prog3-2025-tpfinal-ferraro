@@ -36,7 +36,7 @@ const Thumbnail = ({ link, title, fallback }) => {
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity z-10">
+        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 hover:scale-125 active:scale-90 transition-all duration-200 z-10">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-1">
             <path d="M8 5v14l11-7z" />
           </svg>
@@ -54,8 +54,6 @@ const Predicas = ({ isCarousel = false }) => {
   const trackRef = useRef(null);
   const initialized = useRef(false);
 
-  const [shuffledPortadas, setShuffledPortadas] = useState([]);
-
   useEffect(() => {
     const loadPredicas = async () => {
       await fetchPredicas();
@@ -70,18 +68,6 @@ const Predicas = ({ isCarousel = false }) => {
     initialized.current = true;
     setCurrentIdx(predicas.length);
   }, [loading, predicas.length]);
-
-  useEffect(() => {
-    if (loading) return;
-    const portadas = actividades.map((a) => a.Portada).filter(Boolean);
-    if (!portadas.length) return;
-    const shuffledPortadas = [...portadas];
-    for (let i = shuffledPortadas.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledPortadas[i], shuffledPortadas[j]] = [shuffledPortadas[j], shuffledPortadas[i]];
-    }
-    setShuffledPortadas(shuffledPortadas);
-  }, [actividades, loading]);
 
   useEffect(() => {
     if (!predicas.length) return;
@@ -107,7 +93,6 @@ const Predicas = ({ isCarousel = false }) => {
   if (loading) return <Loading />;
   if (!predicas.length) return <p className="text-center mt-10 text-gray-600">No hay prédicas disponibles.</p>;
 
-  const portadas = actividades.map((a) => a.Portada).filter(Boolean);
   const cardWidth = 280;
   const gap = 16;
   const step = cardWidth + gap;
@@ -166,7 +151,7 @@ const Predicas = ({ isCarousel = false }) => {
                         <Thumbnail
                           link={predica.link}
                           title={predica.title}
-                          fallback={shuffledPortadas[(i % total) % shuffledPortadas.length] || "/img/logo-fondo-negro.jpg"}
+                          fallback="/img/logo-fondo-negro.jpg"
                         />
                         <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                           <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
@@ -211,7 +196,7 @@ const Predicas = ({ isCarousel = false }) => {
                   <Thumbnail
                     link={predica.link}
                     title={predica.title}
-                    fallback={shuffledPortadas[i % shuffledPortadas.length] || "/img/logo-fondo-negro.jpg"}
+                    fallback="/img/logo-fondo-negro.jpg"
                   />
                   <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
                     <h3 className="text-sm sm:text-base font-normal leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
