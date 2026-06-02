@@ -36,8 +36,8 @@ const Thumbnail = ({ link, title, fallbackSeed }) => {
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center opacity-90 hover:opacity-100 hover:scale-125 active:scale-90 transition-all duration-200 z-10">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-1">
+        <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 hover:scale-125 active:scale-90 transition-all duration-200 z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-7 h-7 ml-1.5 opacity-80">
             <path d="M8 5v14l11-7z" />
           </svg>
         </div>
