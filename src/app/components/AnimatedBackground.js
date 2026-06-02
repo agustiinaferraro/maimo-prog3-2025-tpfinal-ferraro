@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-const NUM_ORBS = 8;
+const BEAMS = 6;
 
 const AnimatedBackground = () => {
   const canvasRef = useRef(null);
@@ -20,38 +20,49 @@ const AnimatedBackground = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    const orbs = Array.from({ length: NUM_ORBS }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 250 + 150,
-      vx: (Math.random() - 0.5) * 0.8,
-      vy: (Math.random() - 0.5) * 0.8,
-      hue: Math.floor(Math.random() * 60) + 220,
-      sat: 70 + Math.floor(Math.random() * 30),
-      light: 40 + Math.floor(Math.random() * 20),
-      alpha: Math.random() * 0.12 + 0.04,
+    const beams = Array.from({ length: BEAMS }, () => ({
+      points: Array.from({ length: 4 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+      })),
+      vx: (Math.random() - 0.5) * 1.5,
+      vy: (Math.random() - 0.5) * 1.2,
+      hue: Math.floor(Math.random() * 80) + 200,
+      alpha: Math.random() * 0.25 + 0.15,
     }));
+
+    let t = 0;
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      t += 0.008;
 
-      for (const o of orbs) {
-        o.x += o.vx;
-        o.y += o.vy;
+      for (const b of beams) {
+        for (const p of b.points) {
+          p.x += b.vx + Math.sin(t + p.y * 0.005) * 0.5;
+          p.y += b.vy + Math.cos(t + p.x * 0.005) * 0.4;
 
-        if (o.x < -o.r) o.x = canvas.width + o.r;
-        if (o.x > canvas.width + o.r) o.x = -o.r;
-        if (o.y < -o.r) o.y = canvas.height + o.r;
-        if (o.y > canvas.height + o.r) o.y = -o.r;
+          if (p.x < -200) p.x = canvas.width + 200;
+          if (p.x > canvas.width + 200) p.x = -200;
+          if (p.y < -200) p.y = canvas.height + 200;
+          if (p.y > canvas.height + 200) p.y = -200;
+        }
 
-        const gradient = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
-        gradient.addColorStop(0, `hsla(${o.hue}, ${o.sat}%, ${o.light + 10}%, ${o.alpha + 0.06})`);
-        gradient.addColorStop(0.4, `hsla(${o.hue}, ${o.sat}%, ${o.light}%, ${o.alpha})`);
-        gradient.addColorStop(1, `hsla(${o.hue}, ${o.sat}%, ${o.light}%, 0)`);
+        const [p1, p2, p3, p4] = b.points;
+        const midX = (p1.x + p2.x + p3.x + p4.x) / 4;
+        const midY = (p1.y + p2.y + p3.y + p4.y) / 4;
+
+        const grad = ctx.createRadialGradient(midX, midY, 0, midX, midY, 350);
+        grad.addColorStop(0, `hsla(${b.hue}, 80%, 60%, ${b.alpha + 0.1})`);
+        grad.addColorStop(0.3, `hsla(${b.hue + 20}, 70%, 50%, ${b.alpha * 0.6})`);
+        grad.addColorStop(0.6, `hsla(${b.hue + 40}, 60%, 40%, ${b.alpha * 0.3})`);
+        grad.addColorStop(1, `hsla(${b.hue + 60}, 50%, 30%, 0)`);
 
         ctx.beginPath();
-        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
+        ctx.moveTo(p1.x, p1.y);
+        ctx.quadraticCurveTo(p2.x, p2.y, p3.x, p3.y);
+        ctx.quadraticCurveTo(p4.x, p4.y, p1.x, p1.y);
+        ctx.fillStyle = grad;
         ctx.fill();
       }
 
