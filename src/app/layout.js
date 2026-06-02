@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import AnimatedBackground from "./components/AnimatedBackground";
 import { AppProvider } from "./context/AppContext"; // <-- importar el context
 
 const geistSans = Geist({
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <AnimatedBackground />
         <AppProvider>
           <div className="flex flex-col min-h-screen">
             <Navbar />
