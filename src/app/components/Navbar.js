@@ -71,7 +71,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-20 bg-black">
+      <div className="fixed top-0 left-0 w-full z-20 bg-black/60 backdrop-blur-sm">
         <div className="flex items-center justify-between flex-wrap text-white px-6 lg:px-10 h-[72px] relative">
           
           <Link href="/">
@@ -94,7 +94,7 @@ const Navbar = () => {
           <nav
             className={`w-full lg:w-auto ${
               menuOpen ? "block absolute top-[72px] left-0 z-10" : "hidden"
-            } lg:flex lg:items-center lg:gap-6 lg:ml-auto lg:mt-0 bg-black rounded-b-xl p-4 lg:p-0 shadow-lg`}
+            } lg:flex lg:items-center lg:gap-6 lg:ml-auto lg:mt-0 bg-black/60 backdrop-blur-sm rounded-b-xl p-4 lg:p-0 shadow-lg`}
           >
             <ul className="flex flex-col lg:flex-row gap-2 lg:gap-14 text-gray-300 px-2 lg:px-0 items-stretch lg:items-center">
 

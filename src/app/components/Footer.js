@@ -7,13 +7,12 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to from-black to-transparent py-16">
+    <footer className="bg-black/60 backdrop-blur-sm py-10">
       <div className="text-center text-white">
-        <h2 className="text-3xl font-bold mb-6">La Casa del Alfarero</h2>
+        <h2 className="text-3xl font-bold">La Casa del Alfarero</h2>
 
-        {/*redes sociales */}
-        <div className="flex justify-center flex-wrap gap-8 mb-15 mt-15">
-          {redes.map((red) => ( //recorre el objeto y hace todo clickeable 
+        <div className="flex justify-center flex-wrap gap-8 mt-10 mb-10">
+          {redes.map((red) => (
             <a
               key={red.nombre}
               href={red.url}
@@ -28,7 +27,7 @@ const Footer = () => {
                 alt={red.nombre}
                 className="w-12 h-12 mb-2 object-contain"
               />
-              <span className="text-white text-sm font-medium">{red.nombre}</span> {/*nombre de cada app*/}
+              <span className="text-white text-sm font-medium">{red.nombre}</span>
             </a>
           ))}
         </div>
