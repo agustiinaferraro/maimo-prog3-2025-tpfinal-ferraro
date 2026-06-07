@@ -12,6 +12,7 @@ const Actindividual = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [leaving, setLeaving] = useState(null);
   const [dir, setDir] = useState(null);
+  const [prevBg, setPrevBg] = useState(null);
   const busy = useRef(false);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const Actindividual = () => {
     busy.current = true;
     setDir(direction);
     setLeaving(currentIndex);
+    setPrevBg(actividades[currentIndex].Portada);
 
     const nextIdx = direction === "right"
       ? (currentIndex + 1) % actividades.length
@@ -41,6 +43,7 @@ const Actindividual = () => {
       setCurrentIndex(nextIdx);
       setLeaving(null);
       setDir(null);
+      setPrevBg(null);
       busy.current = false;
     }, 400);
   };
@@ -99,13 +102,24 @@ const Actindividual = () => {
   return (
     <div className="relative w-full py-10 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
-        <Image
-          key={currentIndex}
-          src={actividad.Portada}
-          fill
-          className="object-cover blur-sm scale-110"
-          unoptimized
-        />
+        {prevBg && (
+          <div className="absolute inset-0 animate-fade-out">
+            <Image
+              src={prevBg}
+              fill
+              className="object-cover blur-sm scale-110"
+              unoptimized
+            />
+          </div>
+        )}
+        <div className="absolute inset-0">
+          <Image
+            src={actividad.Portada}
+            fill
+            className="object-cover blur-sm scale-110"
+            unoptimized
+          />
+        </div>
         <div className="absolute inset-0 bg-black/70" />
       </div>
 

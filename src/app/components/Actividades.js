@@ -10,6 +10,9 @@ const Actividades = ({ isCarousel = false }) => {
   const { actividades, fetchActividades } = useAppContext();
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [prevBg, setPrevBg] = useState(null);
+  const currentIdxRef = useRef(currentIndex);
+  currentIdxRef.current = currentIndex;
 
   useEffect(() => {
     const loadData = async () => {
@@ -25,7 +28,9 @@ const Actividades = ({ isCarousel = false }) => {
     if (!isCarousel || !actividades.length) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex(prev => (prev + 1) % actividades.length);
+      const oldIdx = currentIdxRef.current;
+      setPrevBg(actividades[oldIdx]?.Portada);
+      setCurrentIndex((oldIdx + 1) % actividades.length);
     }, 4000);
 
     return () => clearInterval(interval);
@@ -44,13 +49,24 @@ const Actividades = ({ isCarousel = false }) => {
     return (
       <div className="relative w-full py-10 overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          <Image
-            key={currentIndex}
-            src={actividades[currentIndex].Portada}
-            fill
-            className="object-cover blur-sm scale-110"
-            unoptimized
-          />
+          {prevBg && (
+            <div className="absolute inset-0 animate-fade-out">
+              <Image
+                src={prevBg}
+                fill
+                className="object-cover blur-sm scale-110"
+                unoptimized
+              />
+            </div>
+          )}
+          <div className="absolute inset-0">
+            <Image
+              src={actividades[currentIndex].Portada}
+              fill
+              className="object-cover blur-sm scale-110"
+              unoptimized
+            />
+          </div>
           <div className="absolute inset-0 bg-black/70" />
         </div>
         <div className="relative z-10 px-4 sm:px-6">
