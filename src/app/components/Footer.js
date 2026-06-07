@@ -7,7 +7,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-black/60 backdrop-blur-sm py-10">
+    <footer className="bg-black/60 backdrop-blur-sm pt-14 pb-10">
       <div className="text-center text-white">
         <h2 className="text-3xl font-bold">La Casa del Alfarero</h2>
 
