@@ -72,7 +72,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-20 bg-black/60 backdrop-blur-sm">
+      <div className="fixed top-0 left-0 w-full z-20">
         <div className="flex items-center justify-between flex-wrap text-white px-6 lg:px-10 h-[72px] relative">
           
           <Link href="/">
@@ -119,42 +119,42 @@ const Navbar = () => {
               <li className={`w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center ${pathname === "/nosotros" ? "text-white" : ""}`}>
                 <Link href="/nosotros" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Nosotros
-                  {pathname === "/nosotros" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/nosotros" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
               <li className={`w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center ${pathname === "/actividades" ? "text-white" : ""}`}>
                 <Link href="/actividades" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Actividades
-                  {pathname === "/actividades" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/actividades" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
               <li className={`w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center ${pathname === "/predicas" ? "text-white" : ""}`}>
                 <Link href="/predicas" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Prédicas
-                  {pathname === "/predicas" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/predicas" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
               <li className={`w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center ${pathname === "/reels" ? "text-white" : ""}`}>
                 <Link href="/reels" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Videos
-                  {pathname === "/reels" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/reels" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
               <li className={`hidden lg:flex w-full lg:w-auto hover:text-white transition-colors duration-200 items-center ${pathname === "/contactanos" ? "text-white" : ""}`}>
                 <Link href="/contactanos" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Contactanos
-                  {pathname === "/contactanos" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/contactanos" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
               <li className={`hidden lg:flex w-full lg:w-auto hover:text-white transition-colors duration-200 items-center ${pathname === "/calendario" ? "text-white" : ""}`}>
                 <Link href="/calendario" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Calendario
-                  {pathname === "/calendario" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/calendario" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
@@ -178,14 +178,14 @@ const Navbar = () => {
               <li className={`lg:hidden w-full hover:text-white transition-colors duration-200 flex items-center ${pathname === "/contactanos" ? "text-white" : ""}`}>
                 <Link href="/contactanos" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Contactanos
-                  {pathname === "/contactanos" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/contactanos" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
               <li className={`lg:hidden w-full hover:text-white transition-colors duration-200 flex items-center ${pathname === "/calendario" ? "text-white" : ""}`}>
                 <Link href="/calendario" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Calendario
-                  {pathname === "/calendario" && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-white rounded-full" />}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/calendario" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
