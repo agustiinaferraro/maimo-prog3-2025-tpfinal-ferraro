@@ -130,17 +130,17 @@ const Navbar = () => {
                 </Link>
               </li>
 
-              <li className={`w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center ${pathname === "/predicas" ? "text-white" : ""}`}>
-                <Link href="/predicas" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
-                  Prédicas
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/predicas" ? "w-8" : "w-0"}`} />
-                </Link>
-              </li>
-
               <li className={`w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center ${pathname === "/reels" ? "text-white" : ""}`}>
                 <Link href="/reels" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
                   Videos
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/reels" ? "w-8" : "w-0"}`} />
+                </Link>
+              </li>
+
+              <li className={`w-full lg:w-auto hover:text-white transition-colors duration-200 flex items-center ${pathname === "/predicas" ? "text-white" : ""}`}>
+                <Link href="/predicas" className="block w-full text-center lg:inline-block lg:w-auto relative py-2">
+                  Prédicas
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-white rounded-full transition-all duration-300 ${pathname === "/predicas" ? "w-8" : "w-0"}`} />
                 </Link>
               </li>
 
