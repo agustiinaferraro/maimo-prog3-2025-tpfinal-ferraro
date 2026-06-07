@@ -95,7 +95,7 @@ const Navbar = () => {
           <nav
             className={`w-full lg:w-auto ${
               menuOpen ? "block absolute top-[72px] left-0 z-10" : "hidden"
-            } lg:flex lg:items-center lg:gap-6 lg:ml-auto lg:mt-0 bg-black/40 backdrop-blur-sm rounded-b-xl p-4 lg:p-0`}
+            } lg:flex lg:items-center lg:gap-6 lg:ml-auto lg:mt-0 p-4 lg:p-0`}
           >
             <ul className="flex flex-col lg:flex-row gap-2 lg:gap-14 text-gray-300 px-2 lg:px-0 items-stretch lg:items-center">
 
