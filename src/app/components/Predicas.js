@@ -49,10 +49,8 @@ const Thumbnail = ({ link, title, fallbackSeed }) => {
 const Predicas = ({ isCarousel = false }) => {
   const { predicas, fetchPredicas, actividades, fetchActividades } = useAppContext();
   const [loading, setLoading] = useState(true);
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [noTransition, setNoTransition] = useState(false);
-  const trackRef = useRef(null);
-  const initialized = useRef(false);
+  const scrollElRef = useRef(null);
+  const rafRef = useRef(null);
 
   useEffect(() => {
     const loadPredicas = async () => {
@@ -64,45 +62,23 @@ const Predicas = ({ isCarousel = false }) => {
   }, []);
 
   useEffect(() => {
-    if (loading || !predicas.length || initialized.current) return;
-    initialized.current = true;
-    setCurrentIdx(predicas.length);
-  }, [loading, predicas.length]);
-
-  useEffect(() => {
-    if (!predicas.length) return;
-    const total = predicas.length;
-    if (currentIdx < total) {
-      const timer = setTimeout(() => {
-        setNoTransition(true);
-        setCurrentIdx(currentIdx + total);
-        requestAnimationFrame(() => setNoTransition(false));
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-    if (currentIdx >= total * 2) {
-      const timer = setTimeout(() => {
-        setNoTransition(true);
-        setCurrentIdx(currentIdx - total);
-        requestAnimationFrame(() => setNoTransition(false));
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [currentIdx, predicas.length]);
+    if (!isCarousel || loading) return;
+    rafRef.current = setInterval(() => {
+      if (scrollElRef.current) {
+        scrollElRef.current.scrollLeft += 2;
+        const maxScroll = scrollElRef.current.scrollWidth / 2;
+        if (scrollElRef.current.scrollLeft >= maxScroll) {
+          scrollElRef.current.scrollLeft = 0;
+        }
+      }
+    }, 30);
+    return () => { if (rafRef.current) { clearInterval(rafRef.current); rafRef.current = null; } };
+  }, [isCarousel, loading]);
 
   if (loading) return <Loading />;
   if (!predicas.length) return <p className="text-center mt-10 text-gray-600">No hay prédicas disponibles.</p>;
 
-  const cardWidth = 280;
-  const gap = 16;
-  const step = cardWidth + gap;
-  const total = predicas.length;
-  const displayData = [...predicas, ...predicas, ...predicas];
-
-  const goTo = (dir) => {
-    if (noTransition) return;
-    setCurrentIdx((prev) => (dir === "left" ? prev - 1 : prev + 1));
-  };
+  const displayData = [...predicas, ...predicas];
 
   return (
     <div className="py-10 px-4 sm:px-6">
@@ -123,54 +99,26 @@ const Predicas = ({ isCarousel = false }) => {
       <div className="max-w-7xl mx-auto">
         {isCarousel ? (
           <>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => goTo("left")}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
-                aria-label="Anterior"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-              </button>
-
-              <div className="flex-1 overflow-hidden">
-                <div
-                  ref={trackRef}
-                  className={`flex gap-4 ${noTransition ? '' : 'transition-transform duration-[400ms] ease-in-out'}`}
-                  style={{ transform: `translateX(-${currentIdx * step}px)` }}
-                >
-                  {displayData.map((predica, i) => (
-                    <div key={`${predica._id}-${i}`} className="flex-shrink-0 py-2" style={{ width: cardWidth }}>
-                      <a
-                        href={predica.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group w-full rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
-                      >
-                        <Thumbnail
-                          link={predica.link}
-                          title={predica.title}
-                          fallbackSeed={predica._id}
-                        />
-                        <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
-                          <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
-                        </div>
-                      </a>
+            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide" ref={scrollElRef} style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {displayData.map((predica, i) => (
+                <div key={`${predica._id}-${i}`} className="flex-shrink-0 py-2" style={{ width: 280 }}>
+                  <a
+                    href={predica.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group w-full rounded-xl shadow-md flex flex-col bg-black/10 backdrop-blur-md border border-white/20 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
+                  >
+                    <Thumbnail
+                      link={predica.link}
+                      title={predica.title}
+                      fallbackSeed={predica._id}
+                    />
+                    <div className="p-3 flex flex-col justify-center flex-1 rounded-b-xl overflow-hidden">
+                      <h3 className="text-xs sm:text-sm font-normal line-clamp-2 leading-tight text-left lowercase [&::first-letter]:uppercase">{predica.title}</h3>
                     </div>
-                  ))}
+                  </a>
                 </div>
-              </div>
-
-              <button
-                onClick={() => goTo("right")}
-                className="flex-shrink-0 cursor-pointer text-white hover:text-gray-300 hover:scale-125 active:scale-90 transition-all duration-200"
-                aria-label="Siguiente"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </button>
+              ))}
             </div>
 
             <div className="flex justify-end mt-8">
