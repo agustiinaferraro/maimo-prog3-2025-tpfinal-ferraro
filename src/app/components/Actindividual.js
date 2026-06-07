@@ -13,6 +13,7 @@ const Actindividual = () => {
   const [leaving, setLeaving] = useState(null);
   const [dir, setDir] = useState(null);
   const [prevBg, setPrevBg] = useState(null);
+  const [fadeIn, setFadeIn] = useState(false);
   const busy = useRef(false);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const Actindividual = () => {
     setDir(direction);
     setLeaving(currentIndex);
     setPrevBg(actividades[currentIndex].Portada);
+    setFadeIn(false);
 
     const nextIdx = direction === "right"
       ? (currentIndex + 1) % actividades.length
@@ -44,6 +46,7 @@ const Actindividual = () => {
       setLeaving(null);
       setDir(null);
       setPrevBg(null);
+      setFadeIn(true);
       busy.current = false;
     }, 400);
   };
@@ -112,7 +115,7 @@ const Actindividual = () => {
             />
           </div>
         )}
-        <div className="absolute inset-0">
+        <div className={`absolute inset-0 ${fadeIn ? "animate-fade-in" : ""}`}>
           <Image
             src={actividad.Portada}
             fill

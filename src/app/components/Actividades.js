@@ -11,6 +11,7 @@ const Actividades = ({ isCarousel = false }) => {
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevBg, setPrevBg] = useState(null);
+  const [fadeIn, setFadeIn] = useState(false);
   const currentIdxRef = useRef(currentIndex);
   currentIdxRef.current = currentIndex;
 
@@ -30,7 +31,11 @@ const Actividades = ({ isCarousel = false }) => {
     const interval = setInterval(() => {
       const oldIdx = currentIdxRef.current;
       setPrevBg(actividades[oldIdx]?.Portada);
-      setCurrentIndex((oldIdx + 1) % actividades.length);
+      setFadeIn(false);
+      setTimeout(() => {
+        setCurrentIndex((oldIdx + 1) % actividades.length);
+        setFadeIn(true);
+      }, 400);
     }, 4000);
 
     return () => clearInterval(interval);
@@ -59,7 +64,7 @@ const Actividades = ({ isCarousel = false }) => {
               />
             </div>
           )}
-          <div className="absolute inset-0">
+          <div className={`absolute inset-0 ${fadeIn ? "animate-fade-in" : ""}`}>
             <Image
               src={actividades[currentIndex].Portada}
               fill
