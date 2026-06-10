@@ -11,7 +11,7 @@ const Actividades = ({ isCarousel = false }) => {
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevBg, setPrevBg] = useState(null);
-  const [fadeIn, setFadeIn] = useState(false);
+  const [nextBg, setNextBg] = useState(null);
   const currentIdxRef = useRef(currentIndex);
   currentIdxRef.current = currentIndex;
 
@@ -30,9 +30,15 @@ const Actividades = ({ isCarousel = false }) => {
 
     const interval = setInterval(() => {
       const oldIdx = currentIdxRef.current;
+      const nextIdx = (oldIdx + 1) % actividades.length;
       setPrevBg(actividades[oldIdx]?.Portada);
-      setCurrentIndex((oldIdx + 1) % actividades.length);
-      setFadeIn(true);
+      setNextBg(actividades[nextIdx]?.Portada);
+      setCurrentIndex(nextIdx);
+
+      setTimeout(() => {
+        setPrevBg(null);
+        setNextBg(null);
+      }, 1200);
     }, 4000);
 
     return () => clearInterval(interval);
@@ -61,14 +67,26 @@ const Actividades = ({ isCarousel = false }) => {
               />
             </div>
           )}
-          <div className={`absolute inset-0 ${fadeIn ? "animate-bg-carousel-in" : ""}`}>
-            <Image
-              src={actividades[currentIndex].Portada}
-              fill
-              className="object-cover blur-sm scale-110"
-              unoptimized
-            />
-          </div>
+          {nextBg && (
+            <div className="absolute inset-0 animate-bg-carousel-in">
+              <Image
+                src={nextBg}
+                fill
+                className="object-cover blur-sm scale-110"
+                unoptimized
+              />
+            </div>
+          )}
+          {!prevBg && !nextBg && (
+            <div className="absolute inset-0">
+              <Image
+                src={actividades[currentIndex].Portada}
+                fill
+                className="object-cover blur-sm scale-110"
+                unoptimized
+              />
+            </div>
+          )}
           <div className="absolute inset-0 bg-black/70" />
         </div>
         <div className="relative z-10 px-4 sm:px-6">

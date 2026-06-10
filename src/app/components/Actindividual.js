@@ -13,7 +13,7 @@ const Actindividual = () => {
   const [leaving, setLeaving] = useState(null);
   const [dir, setDir] = useState(null);
   const [prevBg, setPrevBg] = useState(null);
-  const [fadeIn, setFadeIn] = useState(false);
+  const [nextBg, setNextBg] = useState(null);
   const busy = useRef(false);
   const lastDirRef = useRef(null);
 
@@ -33,22 +33,23 @@ const Actindividual = () => {
   const goTo = (direction) => {
     if (busy.current) return;
     busy.current = true;
-    setDir(direction);
-    setLeaving(currentIndex);
-    setPrevBg(actividades[currentIndex].Portada);
-    setFadeIn(false);
-    lastDirRef.current = direction;
 
     const nextIdx = direction === "right"
       ? (currentIndex + 1) % actividades.length
       : currentIndex === 0 ? actividades.length - 1 : currentIndex - 1;
+
+    lastDirRef.current = direction;
+    setDir(direction);
+    setLeaving(currentIndex);
+    setPrevBg(actividades[currentIndex].Portada);
+    setNextBg(actividades[nextIdx].Portada);
 
     setTimeout(() => {
       setCurrentIndex(nextIdx);
       setLeaving(null);
       setDir(null);
       setPrevBg(null);
-      setFadeIn(true);
+      setNextBg(null);
       busy.current = false;
     }, 400);
   };
@@ -108,7 +109,7 @@ const Actindividual = () => {
     <div className="relative w-full py-10 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         {prevBg && (
-          <div className={`absolute inset-0 ${dir === "right" ? "animate-bg-slide-out-left" : "animate-bg-slide-out-right"}`}>
+          <div className={`absolute inset-0 ${lastDirRef.current === "right" ? "animate-bg-slide-out-left" : "animate-bg-slide-out-right"}`}>
             <Image
               src={prevBg}
               fill
@@ -117,14 +118,26 @@ const Actindividual = () => {
             />
           </div>
         )}
-        <div className={`absolute inset-0 ${fadeIn ? (lastDirRef.current === "right" ? "animate-bg-slide-in-right" : "animate-bg-slide-in-left") : ""}`}>
-          <Image
-            src={actividad.Portada}
-            fill
-            className="object-cover blur-sm scale-110"
-            unoptimized
-          />
-        </div>
+        {nextBg && (
+          <div className={`absolute inset-0 ${lastDirRef.current === "right" ? "animate-bg-slide-in-right" : "animate-bg-slide-in-left"}`}>
+            <Image
+              src={nextBg}
+              fill
+              className="object-cover blur-sm scale-110"
+              unoptimized
+            />
+          </div>
+        )}
+        {!prevBg && !nextBg && (
+          <div className="absolute inset-0">
+            <Image
+              src={actividad.Portada}
+              fill
+              className="object-cover blur-sm scale-110"
+              unoptimized
+            />
+          </div>
+        )}
         <div className="absolute inset-0 bg-black/70" />
       </div>
 
