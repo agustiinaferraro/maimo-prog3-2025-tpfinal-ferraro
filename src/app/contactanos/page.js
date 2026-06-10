@@ -96,10 +96,27 @@ const Contacto = () => {
         </form>
 
         {modal.open && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
-            <div className="bg-white rounded p-6 max-w-sm w-full text-center">
-              <p className={`mb-4 ${modal.error ? "text-red-500" : "text-green-500"}`}>{modal.mensaje}</p>
-              <button onClick={() => setModal({ ...modal, open: false })} className="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-gray-800 active:scale-95 transition w-full">
+          <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 p-4">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl">
+              <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${modal.error ? "bg-red-500/20" : "bg-green-500/20"}`}>
+                {modal.error ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-8 h-8 text-red-400">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="15" y1="9" x2="9" y2="15" />
+                    <line x1="9" y1="9" x2="15" y2="15" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-8 h-8 text-green-400">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="9,12 11,14 15,10" />
+                  </svg>
+                )}
+              </div>
+              <h3 className={`text-xl font-bold mb-2 ${modal.error ? "text-red-300" : "text-green-300"}`}>
+                {modal.error ? "Error" : "Mensaje enviado"}
+              </h3>
+              <p className="text-gray-200 mb-6">{modal.mensaje}</p>
+              <button onClick={() => setModal({ ...modal, open: false })} className="cursor-pointer px-6 py-2.5 bg-white text-black font-semibold rounded-lg hover:scale-105 active:scale-95 transition-transform duration-200 w-full">
                 Aceptar
               </button>
             </div>
