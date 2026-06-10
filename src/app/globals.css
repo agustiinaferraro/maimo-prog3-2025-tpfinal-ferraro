@@ -131,16 +131,16 @@ body > div {
 
 /* Background slide para Actindividual */
 .animate-bg-slide-out-left {
-  animation: bgSlideOutLeft 0.4s ease-in-out forwards;
+  animation: bgSlideOutLeft 0.4s ease-in forwards;
 }
 .animate-bg-slide-out-right {
-  animation: bgSlideOutRight 0.4s ease-in-out forwards;
+  animation: bgSlideOutRight 0.4s ease-in forwards;
 }
 .animate-bg-slide-in-left {
-  animation: bgSlideInLeft 0.4s ease-in-out forwards;
+  animation: bgSlideInLeft 0.4s ease-out forwards;
 }
 .animate-bg-slide-in-right {
-  animation: bgSlideInRight 0.4s ease-in-out forwards;
+  animation: bgSlideInRight 0.4s ease-out forwards;
 }
 @keyframes bgSlideOutLeft {
   from { transform: translateX(0); }

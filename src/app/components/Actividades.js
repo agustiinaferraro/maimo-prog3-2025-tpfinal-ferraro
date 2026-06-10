@@ -31,11 +31,8 @@ const Actividades = ({ isCarousel = false }) => {
     const interval = setInterval(() => {
       const oldIdx = currentIdxRef.current;
       setPrevBg(actividades[oldIdx]?.Portada);
-      setFadeIn(false);
-      setTimeout(() => {
-        setCurrentIndex((oldIdx + 1) % actividades.length);
-        setFadeIn(true);
-      }, 400);
+      setCurrentIndex((oldIdx + 1) % actividades.length);
+      setFadeIn(true);
     }, 4000);
 
     return () => clearInterval(interval);
