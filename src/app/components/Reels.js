@@ -134,8 +134,8 @@ const Reels = ({ isCarousel = false }) => {
         )}
         {!showVideo && showThumb && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="hover:scale-110 active:scale-95 transition-all duration-200 z-10">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-12 h-12 opacity-85 drop-shadow-lg">
+            <div className="flex items-center justify-center px-5 py-3 rounded-lg bg-black/30 backdrop-blur-md hover:scale-110 active:scale-95 transition-all duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-8 h-8">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
