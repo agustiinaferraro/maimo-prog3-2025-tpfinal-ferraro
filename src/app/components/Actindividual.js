@@ -15,6 +15,7 @@ const Actindividual = () => {
   const [prevBg, setPrevBg] = useState(null);
   const [fadeIn, setFadeIn] = useState(false);
   const busy = useRef(false);
+  const lastDirRef = useRef(null);
 
   useEffect(() => {
     const loadActividades = async () => {
@@ -36,6 +37,7 @@ const Actindividual = () => {
     setLeaving(currentIndex);
     setPrevBg(actividades[currentIndex].Portada);
     setFadeIn(false);
+    lastDirRef.current = direction;
 
     const nextIdx = direction === "right"
       ? (currentIndex + 1) % actividades.length
@@ -106,7 +108,7 @@ const Actindividual = () => {
     <div className="relative w-full py-10 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         {prevBg && (
-          <div className="absolute inset-0 animate-fade-out">
+          <div className={`absolute inset-0 ${dir === "right" ? "animate-bg-slide-out-left" : "animate-bg-slide-out-right"}`}>
             <Image
               src={prevBg}
               fill
@@ -115,7 +117,7 @@ const Actindividual = () => {
             />
           </div>
         )}
-        <div className={`absolute inset-0 ${fadeIn ? "animate-fade-in" : ""}`}>
+        <div className={`absolute inset-0 ${fadeIn ? (lastDirRef.current === "right" ? "animate-bg-slide-in-right" : "animate-bg-slide-in-left") : ""}`}>
           <Image
             src={actividad.Portada}
             fill

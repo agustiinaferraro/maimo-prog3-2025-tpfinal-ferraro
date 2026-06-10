@@ -55,7 +55,7 @@ const Actividades = ({ isCarousel = false }) => {
       <div className="relative w-full py-10 overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
           {prevBg && (
-            <div className="absolute inset-0 animate-fade-out">
+            <div className="absolute inset-0 animate-bg-carousel-out">
               <Image
                 src={prevBg}
                 fill
@@ -64,7 +64,7 @@ const Actividades = ({ isCarousel = false }) => {
               />
             </div>
           )}
-          <div className={`absolute inset-0 ${fadeIn ? "animate-fade-in" : ""}`}>
+          <div className={`absolute inset-0 ${fadeIn ? "animate-bg-carousel-in" : ""}`}>
             <Image
               src={actividades[currentIndex].Portada}
               fill

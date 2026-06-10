@@ -128,3 +128,41 @@ body > div {
 .animate-fade-in {
   animation: fadeIn 0.5s ease-in-out forwards;
 }
+
+/* Background slide para Actindividual */
+.animate-bg-slide-out-left {
+  animation: bgSlideOutLeft 0.4s ease-in-out forwards;
+}
+.animate-bg-slide-out-right {
+  animation: bgSlideOutRight 0.4s ease-in-out forwards;
+}
+.animate-bg-slide-in-left {
+  animation: bgSlideInLeft 0.4s ease-in-out forwards;
+}
+.animate-bg-slide-in-right {
+  animation: bgSlideInRight 0.4s ease-in-out forwards;
+}
+@keyframes bgSlideOutLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@keyframes bgSlideOutRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes bgSlideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes bgSlideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Background slide para Actividades carrusel (1.2s) */
+.animate-bg-carousel-out {
+  animation: bgSlideOutLeft 1.2s ease-in-out forwards;
+}
+.animate-bg-carousel-in {
+  animation: bgSlideInRight 1.2s ease-in-out forwards;
+}
